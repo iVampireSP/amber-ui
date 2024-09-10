@@ -7,7 +7,9 @@
 <script async setup lang="ts">
 import config from "../../config/config";
 import axios from "axios";
+import { useUserStore } from "../../stores/user";
 import router from "../../plugins/router";
+const userStore = useUserStore();
 
 function generateRandomString(length: number) {
   let text = "";
@@ -34,6 +36,7 @@ async function generateCodeChallenge(codeVerifier: string) {
 }
 
 async function go() {
+  userStore.logout();
   const codeVerifier = generateRandomString(128);
   const codeChallenge = await generateCodeChallenge(codeVerifier);
   localStorage.setItem(config.oauth_storage_key, codeVerifier);
