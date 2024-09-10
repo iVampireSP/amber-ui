@@ -2,8 +2,8 @@ const config = {
   app_name: "Amber",
   oauth_discovery_url:
     "https://auth.leaflow.cn/.well-known/openid-configuration",
-  oauth_client_id: "90020",
-  oauth_callback_url: "amber-desktop://auth_callback",
+  oauth_client_id: "60021",
+  oauth_callback_url: "http://localhost:5173/auth/callback",
   oauth_storage_key: "code_verifier",
   oauth_scope: "openid profile",
   backend: "http://localhost:8080",

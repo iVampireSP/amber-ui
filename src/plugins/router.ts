@@ -1,9 +1,9 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 import { routes } from 'vue-router/auto-routes'
 import { setupLayouts } from 'virtual:generated-layouts'
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: setupLayouts(routes)
 })
 

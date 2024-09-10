@@ -2,7 +2,6 @@ const meta = document.createElement("meta");
 meta.name = "naive-ui-style";
 document.head.appendChild(meta);
 
-
 import "./style.css";
 
 import { createApp } from "vue";
@@ -14,11 +13,8 @@ import "vfonts/Lato.css";
 // 等宽字体
 import "vfonts/FiraCode.css";
 
-
 import App from "./App.vue";
 import router from "./plugins/router";
-
-
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
