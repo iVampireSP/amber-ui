@@ -19,9 +19,9 @@ const menuCollapsed = ref({
 </script>
 
 <template>
-  <n-layout :position="isMobile ? 'static' : 'absolute'" :has-sider="true">
+  <n-layout position="absolute" :has-sider="true">
     <n-layout-sider
-      v-if="userStore.logined"
+      v-if="userStore.logined && !isMobile"
       :collapsed-width="0"
       :native-scrollbar="false"
       :show-collapsed-content="false"
@@ -33,7 +33,7 @@ const menuCollapsed = ref({
       @collapse="menuCollapsed.left = true"
       @expand="menuCollapsed.left = false"
     >
-      <Menu></Menu>
+      <Menu v-show="!isMobile"></Menu>
     </n-layout-sider>
     <n-layout-content>
       <!-- <Guest v-if="!userStore.logined && currentRoute != '/auth/login'" />

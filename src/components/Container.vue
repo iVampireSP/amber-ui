@@ -8,15 +8,20 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <Header v-show="userStore.logined" style="min-height: var(--header-height)"></Header>
+  <Header
+    v-show="userStore.logined"
+    style="min-height: var(--header-height)"
+  ></Header>
 
-  <router-view v-slot="{ Component }">
-    <transition mode="out-in" name="fade">
-      <div>
-        <component :is="Component" />
-      </div>
-    </transition>
-  </router-view>
+  <div class="p-4">
+    <router-view v-slot="{ Component }">
+      <transition mode="out-in" name="fade">
+        <div>
+          <component :is="Component" />
+        </div>
+      </transition>
+    </router-view>
+  </div>
 
   <!-- <router-view></router-view> -->
 </template>

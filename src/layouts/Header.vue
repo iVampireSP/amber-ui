@@ -4,7 +4,14 @@
       <n-grid cols="2" class="header-height">
         <n-grid-item class="flex items-center justify-start mr-1.5">
           <!-- 左侧 -->
-           <p>你好, {{ userStore.user.name }}。</p>
+          <n-popover placement="bottom" trigger="click" style="padding: 0; width: 288px" v-if="isMobile">
+            <template #trigger>
+              <n-icon size="20" style="margin-left: 12px">
+                <menu-outline />
+              </n-icon>
+            </template>
+            <Menu></Menu>
+          </n-popover>
         </n-grid-item>
 
         <n-grid-item class="flex items-center justify-end mr-1.5">
@@ -17,7 +24,9 @@
 
 <script setup lang="ts">
 import { useUserStore } from "../stores/user";
-
+import { useIsMobile, useIsTablet } from "../utils/composables";
+import {MenuOutline} from "@vicons/ionicons5"
 const userStore = useUserStore();
+const isMobile = useIsMobile();
+const isTablet = useIsTablet();
 </script>
-
