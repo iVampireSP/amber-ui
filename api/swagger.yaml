@@ -1,0 +1,2171 @@
+definitions:
+  entity.Assistant:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      disable_default_prompt:
+        type: boolean
+      disable_memory:
+        type: boolean
+      enable_memory_for_assistant_share:
+        type: boolean
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      library:
+        $ref: '#/definitions/entity.Library'
+      library_id:
+        type: integer
+      name:
+        type: string
+      prompt:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.AssistantShare:
+    properties:
+      assistant:
+        $ref: '#/definitions/entity.Assistant'
+      assistant_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      token:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  entity.AssistantTool:
+    properties:
+      assistant:
+        $ref: '#/definitions/entity.Assistant'
+      assistant_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      tool:
+        $ref: '#/definitions/entity.Tool'
+      tool_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  entity.Chat:
+    properties:
+      assistant_id:
+        type: integer
+      created_at:
+        type: string
+      expired_at:
+        type: string
+      guest_id:
+        type: string
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      name:
+        type: string
+      owner:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.ChatMessage:
+    properties:
+      assistant_id:
+        type: integer
+      completion_tokens:
+        type: integer
+      content:
+        type: string
+      created_at:
+        type: string
+      file:
+        $ref: '#/definitions/entity.File'
+      file_id:
+        description: |-
+          FileId
+          虽然有了 UserFileId， 但是 File Id 还是应该保留，因为这个是针对访客用户的
+        type: integer
+      hidden:
+        type: boolean
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      prompt_tokens:
+        type: integer
+      role:
+        type: string
+      total_tokens:
+        type: integer
+      updated_at:
+        type: string
+      user_file:
+        $ref: '#/definitions/entity.UserFile'
+      user_file_id:
+        type: integer
+    type: object
+  entity.Document:
+    properties:
+      chunked:
+        type: boolean
+      created_at:
+        type: string
+      file:
+        $ref: '#/definitions/entity.File'
+      file_hash:
+        description: |-
+          FileHash 是 File 结构体的 hash，用于判断文件内容是否发生变化
+          只不过一般情况也不会改变，因为 File 就不会变
+        type: string
+      file_id:
+        type: integer
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      library:
+        $ref: '#/definitions/entity.Library'
+      library_id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  entity.File:
+    properties:
+      created_at:
+        type: string
+      expired_at:
+        description: |-
+          TODO: 移除 file 的到期时间，如果当 file 没有任何引用的时候再删除
+          因为有外键，所以直接删除是删不掉的，必须删除消息
+        type: string
+      file_hash:
+        type: string
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      mime_type:
+        type: string
+      path:
+        type: string
+      public:
+        description: 是否公开，访客上传的文件应始终公开，或归属于所有者
+        type: boolean
+      size:
+        type: integer
+      updated_at:
+        type: string
+      url:
+        type: string
+      url_hash:
+        type: string
+    type: object
+  entity.Library:
+    properties:
+      created_at:
+        type: string
+      default:
+        type: boolean
+      description:
+        type: string
+      documents:
+        items:
+          $ref: '#/definitions/entity.Document'
+        type: array
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.Memory:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.Tool:
+    properties:
+      api_key:
+        type: string
+      created_at:
+        type: string
+      data:
+        $ref: '#/definitions/schema.ToolDiscoveryOutput'
+      description:
+        type: string
+      discovery_url:
+        type: string
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.UserFile:
+    properties:
+      created_at:
+        type: string
+      file:
+        $ref: '#/definitions/entity.File'
+      file_id:
+        type: integer
+      id:
+        description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  schema.AddPublicChatMessageRequest:
+    properties:
+      assistant_token:
+        type: string
+      guest_id:
+        type: string
+      message:
+        type: string
+      role:
+        enum:
+        - user
+        - user_hide
+        - system
+        - system_hide
+        - assistant
+        type: string
+    required:
+    - assistant_token
+    - guest_id
+    - message
+    - role
+    type: object
+  schema.AssistantCreateRequest:
+    properties:
+      description:
+        maxLength: 255
+        type: string
+      disable_default_prompt:
+        enum:
+        - true
+        - false
+        type: boolean
+      name:
+        maxLength: 255
+        type: string
+      prompt:
+        maxLength: 512
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  schema.AssistantLibraryRequest:
+    properties:
+      library_id:
+        type: integer
+    required:
+    - library_id
+    type: object
+  schema.AssistantUpdateRequest:
+    properties:
+      description:
+        maxLength: 255
+        type: string
+      disable_default_prompt:
+        enum:
+        - true
+        - false
+        type: boolean
+      disable_memory:
+        enum:
+        - true
+        - false
+        type: boolean
+      enable_memory_for_assistant_share:
+        enum:
+        - true
+        - false
+        type: boolean
+      name:
+        maxLength: 255
+        type: string
+      prompt:
+        maxLength: 512
+        type: string
+    type: object
+  schema.ChatCreateRequest:
+    properties:
+      assistant_id:
+        type: integer
+      expired_at:
+        $ref: '#/definitions/schema.CustomTime'
+      name:
+        maxLength: 30
+        type: string
+    required:
+    - assistant_id
+    - name
+    type: object
+  schema.ChatMessageAddRequest:
+    properties:
+      message:
+        maxLength: 255
+        type: string
+      role:
+        enum:
+        - user
+        - user_hide
+        - system
+        - system_hide
+        - assistant
+        - image
+        type: string
+    required:
+    - message
+    - role
+    type: object
+  schema.ChatMessageResponse:
+    properties:
+      stream:
+        type: boolean
+      stream_id:
+        type: string
+    type: object
+  schema.ChatPublicListRequest:
+    properties:
+      guest_id:
+        type: string
+    required:
+    - guest_id
+    type: object
+  schema.ChatPublicRequest:
+    properties:
+      assistant_token:
+        type: string
+      guest_id:
+        type: string
+      name:
+        maxLength: 32
+        type: string
+    required:
+    - assistant_token
+    - guest_id
+    - name
+    type: object
+  schema.CurrentUserResponse:
+    properties:
+      ip:
+        type: string
+      userEmail:
+        type: string
+      userId:
+        type: string
+      userName:
+        type: string
+      valid:
+        type: boolean
+    type: object
+  schema.CustomTime:
+    properties:
+      time.Time:
+        type: string
+    type: object
+  schema.FunctionsInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      parameters:
+        $ref: '#/definitions/schema.ToolDiscoveryOutputFunctionParameters'
+    required:
+    - description
+    - name
+    - parameters
+    type: object
+  schema.GetPublicChatMessageRequest:
+    properties:
+      assistant_token:
+        type: string
+      guest_id:
+        type: string
+    required:
+    - assistant_token
+    - guest_id
+    type: object
+  schema.LibraryCreateRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  schema.LibraryUpdateRequest:
+    properties:
+      default:
+        type: boolean
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  schema.OpenAIChatCompletionRequest:
+    properties:
+      max_tokens:
+        description: Optional
+        type: integer
+      messages:
+        description: Required
+        items:
+          $ref: '#/definitions/schema.OpenAIChatCompletionRequestMessage'
+        type: array
+      model:
+        description: Required
+        type: string
+      "n":
+        description: Optional
+        type: integer
+      stream:
+        description: Optional
+        type: boolean
+      temperature:
+        description: Optional
+        type: number
+      top_p:
+        description: Optional
+        type: number
+    type: object
+  schema.OpenAIChatCompletionRequestMessage:
+    properties:
+      content:
+        description: Required
+      image_url:
+        $ref: '#/definitions/schema.OpenAIImageUrl'
+      role:
+        description: Required
+        type: string
+    type: object
+  schema.OpenAIChatCompletionResponse:
+    properties:
+      choices:
+        items:
+          $ref: '#/definitions/schema.OpenAIChatCompletionResponseChoice'
+        type: array
+      created:
+        type: integer
+      id:
+        type: string
+      model:
+        type: string
+      object:
+        type: string
+      usage:
+        $ref: '#/definitions/schema.TokenUsage'
+    type: object
+  schema.OpenAIChatCompletionResponseChoice:
+    properties:
+      index:
+        type: integer
+      message:
+        $ref: '#/definitions/schema.OpenAIChatCompletionRequestMessage'
+    type: object
+  schema.OpenAIImageUrl:
+    properties:
+      detail:
+        type: string
+      url:
+        type: string
+    type: object
+  schema.ResponseBody:
+    properties:
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  schema.TokenUsage:
+    properties:
+      completion_tokens:
+        type: integer
+      prompt_tokens:
+        type: integer
+      total_tokens:
+        type: integer
+    type: object
+  schema.ToolCreateRequest:
+    properties:
+      api_key:
+        maxLength: 255
+        type: string
+      description:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 255
+        type: string
+      url:
+        maxLength: 255
+        type: string
+    required:
+    - description
+    - name
+    - url
+    type: object
+  schema.ToolDiscoveryInput:
+    properties:
+      callback_url:
+        type: string
+      description:
+        type: string
+      functions:
+        items:
+          $ref: '#/definitions/schema.FunctionsInput'
+        type: array
+      homepage_url:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  schema.ToolDiscoveryOutput:
+    properties:
+      callback_url:
+        type: string
+      description:
+        type: string
+      function:
+        items:
+          $ref: '#/definitions/schema.ToolDiscoveryOutputFunctions'
+        type: array
+      homepage_url:
+        type: string
+      name:
+        type: string
+    type: object
+  schema.ToolDiscoveryOutputFunction:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      parameters:
+        $ref: '#/definitions/schema.ToolDiscoveryOutputFunctionParameters'
+    type: object
+  schema.ToolDiscoveryOutputFunctionParameters:
+    properties:
+      properties: {}
+      required:
+        items:
+          type: string
+        type: array
+      type:
+        type: string
+    required:
+    - properties
+    - required
+    - type
+    type: object
+  schema.ToolDiscoveryOutputFunctions:
+    properties:
+      functions:
+        items:
+          $ref: '#/definitions/schema.ToolDiscoveryOutputFunction'
+        type: array
+      type:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Leaflow Amber
+  version: "1.0"
+paths:
+  /api/openai-compatible/v1/chat/completions:
+    post:
+      consumes:
+      - application/json
+      description: 兼容 OpenAI Chat Completion 接口，认证需要使用 Assistant Share Token
+      parameters:
+      - description: 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带
+          Prompt 选项
+        in: header
+        name: X-User-IP
+        type: string
+      - description: Chat
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/schema.OpenAIChatCompletionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.OpenAIChatCompletionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: OpenAI Chat Completion
+      tags:
+      - chat
+  /api/v1/assistants:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Assistant'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取 Assistant 列表
+      tags:
+      - assistant
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant
+        in: body
+        name: assistant
+        required: true
+        schema:
+          $ref: '#/definitions/schema.AssistantCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Assistant'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建 Assistant
+      tags:
+      - assistant
+  /api/v1/assistants/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除 Assistant
+      tags:
+      - assistant
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Assistant'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取指定的 Assistant
+      tags:
+      - assistant
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Assistant Update
+        in: body
+        name: assistantUpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.AssistantUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Assistant'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新 Assistant
+      tags:
+      - assistant
+  /api/v1/assistants/{id}/library:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 解绑资料库
+      tags:
+      - assistant
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      - description: AssistantLibraryRequest
+        in: body
+        name: AssistantLibraryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.AssistantLibraryRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 绑定资料库
+      tags:
+      - assistant
+  /api/v1/assistants/{id}/shares:
+    get:
+      consumes:
+      - application/json
+      description: 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.AssistantShare'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取 Assistant 共享列表
+      tags:
+      - assistant
+    post:
+      consumes:
+      - application/json
+      description: 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.AssistantShare'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建 Assistant 共享
+      tags:
+      - assistant
+  /api/v1/assistants/{id}/shares/{share_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 此方法将会删除共享，删除后，共享将会立即失效。
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      - in: path
+        name: share_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除 Assistant 共享
+      tags:
+      - assistant
+  /api/v1/assistants/{id}/tools:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.AssistantTool'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取 Assistant 所绑定的 Tool
+      tags:
+      - assistant
+  /api/v1/assistants/{id}/tools/{tool_id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Tool ID
+        in: path
+        name: tool_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.AssistantTool'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 解绑 Tool
+      tags:
+      - assistant
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assistant ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Tool ID
+        in: path
+        name: tool_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.AssistantTool'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 绑定 Tool
+      tags:
+      - assistant
+  /api/v1/chat_public:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ChatPublicListRequest
+        in: body
+        name: schema.ChatPublicListRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ChatPublicListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Chat'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      summary: 获取公开对话
+      tags:
+      - chat_public
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ChatPublicRequest
+        in: body
+        name: schema.ChatPublicRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ChatPublicRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Chat'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      summary: 通过 API 创建一个公开的对话记录
+      tags:
+      - chat_public
+  /api/v1/chat_public/{chat_id}/clear:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        type: integer
+      - description: GetPublicChatMessageRequest
+        in: body
+        name: schema.GetPublicChatMessageRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.GetPublicChatMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      summary: 清空公开对话的聊天记录
+      tags:
+      - chat_public
+  /api/v1/chat_public/{chat_id}/images:
+    post:
+      consumes:
+      - application/json
+      description: 将一个图片添加到聊天记录中
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        type: integer
+      - in: formData
+        name: assistant_token
+        required: true
+        type: string
+      - in: formData
+        name: guest_id
+        required: true
+        type: string
+      - in: formData
+        name: url
+        required: true
+        type: string
+      - description: 图片
+        in: formData
+        name: image
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      summary: 添加图片
+      tags:
+      - chat_public
+  /api/v1/chat_public/{chat_id}/messages:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        type: integer
+      - in: query
+        name: assistant_token
+        required: true
+        type: string
+      - in: query
+        name: guest_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.ChatMessage'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      summary: 获取公开对话的聊天记录
+      tags:
+      - chat_public
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        type: integer
+      - description: AddPublicChatMessageRequest
+        in: body
+        name: schema.AddPublicChatMessageRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.AddPublicChatMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      summary: 增加公开对话的聊天记录
+      tags:
+      - chat_public
+  /api/v1/chats:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Assistant ID
+        in: query
+        name: assistant_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Chat'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有 Chat
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Chat
+        in: body
+        name: chat
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ChatCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Chat'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Chat
+      tags:
+      - chat
+  /api/v1/chats/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Chat ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Chat
+      tags:
+      - chat
+  /api/v1/chats/{id}/clear:
+    post:
+      consumes:
+      - application/json
+      description: 清空当前聊天记录
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 清空聊天记录
+      tags:
+      - chat_message
+  /api/v1/chats/{id}/files:
+    post:
+      consumes:
+      - application/json
+      description: 将一个文件添加到聊天记录中
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      - in: formData
+        name: url
+        required: true
+        type: string
+      - description: 文件
+        in: formData
+        name: file
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加文件
+      tags:
+      - chat_message
+  /api/v1/chats/{id}/messages:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.ChatMessage'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 查看聊天记录
+      tags:
+      - chat_message
+    post:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      - description: Message
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ChatMessageAddRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加聊天记录
+      tags:
+      - chat_message
+  /api/v1/files/{id}/download:
+    get:
+      consumes:
+      - application/json
+      description: 根据 File ID 下载文件。如果文件是私有的，将无法下载
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      summary: 下载公开文件
+      tags:
+      - file
+  /api/v1/files/user/{id}/download:
+    get:
+      consumes:
+      - application/json
+      description: 根据 File ID 下载文件。如果文件是私有的，将无法下载
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      - in: query
+        name: id_token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      summary: 下载用户开文件
+      tags:
+      - file
+  /api/v1/libraries:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Library'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有的资料库
+      tags:
+      - libraries
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: schema.LibraryCreateRequest
+        in: body
+        name: schema.LibraryCreateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.LibraryCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Library'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建一个资料库
+      tags:
+      - libraries
+  /api/v1/libraries/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除资料库
+      tags:
+      - libraries
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Library'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取一个资料库
+      tags:
+      - libraries
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: integer
+      - description: schema.LibraryUpdateRequest
+        in: body
+        name: schema.LibraryUpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/schema.LibraryUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新资料库
+      tags:
+      - libraries
+  /api/v1/libraries/{id}/documents:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Document'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 列出资料库以及资料库下的文档
+      tags:
+      - libraries
+  /api/v1/libraries/{id}/documents/{document_id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: document_id
+        type: integer
+      - in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除指定的文档
+      tags:
+      - libraries
+  /api/v1/memories:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Memory'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有的记忆
+      tags:
+      - memoires
+  /api/v1/memories/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除指定的记忆
+      tags:
+      - memoires
+  /api/v1/memories/purge:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除全部记忆
+      tags:
+      - memoires
+  /api/v1/ping:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.CurrentUserResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: Greet
+      tags:
+      - ping
+  /api/v1/stream/{stream_id}:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带
+          Prompt 选项
+        in: header
+        name: X-User-IP
+        type: string
+      - description: Chat stream id
+        in: path
+        name: stream_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "409":
+          description: Conflict
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.ChatMessageResponse'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - none: []
+      summary: 流式传输聊天内容
+      tags:
+      - chat_message
+  /api/v1/tools:
+    get:
+      consumes:
+      - application/json
+      description: List tools
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.Tool'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: List Tool
+      tags:
+      - tool
+    post:
+      consumes:
+      - application/json
+      description: Create tool
+      parameters:
+      - description: Tool
+        in: body
+        name: tool
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ToolCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Tool'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Tool
+      tags:
+      - tool
+  /api/v1/tools/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteTool
+      parameters:
+      - description: Tool ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteTool
+      tags:
+      - tool
+    get:
+      consumes:
+      - application/json
+      description: Get tool
+      parameters:
+      - description: Tool ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Tool'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Tool
+      tags:
+      - tool
+  /api/v1/tools/{id}/update:
+    post:
+      consumes:
+      - application/json
+      description: 如果你的 Tool Discovery 内容改变了，你需要调用此接口更新数据
+      parameters:
+      - description: Tool ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Tool'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新 Tool 的数据
+      tags:
+      - tool
+  /api/v1/tools/syntax:
+    post:
+      consumes:
+      - application/json
+      description: 如果你的 Tool Discovery 内容改变了，你需要调用此接口更新数据
+      parameters:
+      - description: ToolDiscoveryInput
+        in: body
+        name: toolDiscoveryInput
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ToolDiscoveryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 校验 Discovery 语法
+      tags:
+      - tool
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
