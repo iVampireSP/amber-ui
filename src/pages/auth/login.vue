@@ -24,7 +24,7 @@ function generateRandomString(length: number) {
 async function generateCodeChallenge(codeVerifier: string) {
   const digest = await crypto.subtle.digest(
     "SHA-256",
-    new TextEncoder().encode(codeVerifier),
+    new TextEncoder().encode(codeVerifier)
   );
 
   return btoa(String.fromCharCode(...new Uint8Array(digest)))
@@ -49,10 +49,9 @@ async function go() {
 
   const discovery = await axios.get(config.oauth_discovery_url);
 
-  const a = document.createElement('a')
-  a.href = discovery.data.authorization_endpoint + '?' + query
-  a.click()
-
+  const a = document.createElement("a");
+  a.href = discovery.data.authorization_endpoint + "?" + query;
+  a.click();
 }
 
 go();
