@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 body {
-  --header-height: 32px;
+  --header-height: 48px;
+}
+
+.header-height {
+  min-height: var(--header-height);
 }

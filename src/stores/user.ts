@@ -17,6 +17,7 @@ export const useUserStore = defineStore("user", {
       id: 0,
       name: "",
       email: "",
+      avatar: "",
     },
     timer: 0,
   }),
@@ -25,7 +26,7 @@ export const useUserStore = defineStore("user", {
       idToken: string,
       accessToken: string,
       refreshToken: string,
-      expiredAt: number,
+      expiredAt: number
     ) {
       const idTokenParts = idToken.split(".");
 
@@ -38,9 +39,7 @@ export const useUserStore = defineStore("user", {
       this.access_token = accessToken;
 
       this.id_token = idToken;
-      this.user.email = idTokenPayload.email;
-      this.user.name = idTokenPayload.name;
-      this.user.id = idTokenPayload.sub;
+      this.user = { ...idTokenPayload };
       this.logined = true;
     },
     checkAndRefresh() {
@@ -74,7 +73,7 @@ export const useUserStore = defineStore("user", {
             response.data.id_token,
             response.data.access_token,
             response.data.refresh_token,
-            response.data.expires_in,
+            response.data.expires_in
           );
         })
         .catch((error) => {
@@ -88,15 +87,10 @@ export const useUserStore = defineStore("user", {
         });
     },
     logout() {
-      this.user = {
-        id: 0,
-        name: "",
-        email: "",
-      };
-
-      this.id_token = "";
-      this.logined = false;
-    }
+      this.$reset();
+      this.user = this.$state.user;
+      this.id_token = this.$state.id_token;
+      this.logined = this.$state.logined;
+    },
   },
 });
-
