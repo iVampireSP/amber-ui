@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '/auth/callback': RouteRecordInfo<'/auth/callback', '/auth/callback', Record<never, never>, Record<never, never>>,
     '/auth/continue': RouteRecordInfo<'/auth/continue', '/auth/continue', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
+    '/auth/logout': RouteRecordInfo<'/auth/logout', '/auth/logout', Record<never, never>, Record<never, never>>,
     '/guest/': RouteRecordInfo<'/guest/', '/guest', Record<never, never>, Record<never, never>>,
     '/test': RouteRecordInfo<'/test', '/test', Record<never, never>, Record<never, never>>,
     '/test2': RouteRecordInfo<'/test2', '/test2', Record<never, never>, Record<never, never>>,
