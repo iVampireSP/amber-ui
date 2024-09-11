@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { useUserStore } from "../../stores/user";
-import router from "../../plugins/router";
+import router from "../../router";
 import config from "../../config/config";
 
 const userStore = useUserStore();

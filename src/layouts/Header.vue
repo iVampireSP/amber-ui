@@ -17,10 +17,28 @@
             </template>
             <Menu></Menu>
           </n-popover>
+
+          <!-- 更新状态 -->
+          <div v-show="appStore.updating">正在更新数据</div>
         </n-grid-item>
 
         <n-grid-item class="flex items-center justify-end mr-1.5">
           <!-- 右侧 -->
+          <!-- 助理选择 -->
+          <n-popover
+            :placement="userPlacement"
+            class="w-full"
+            trigger="click"
+            style="padding: 0"
+          >
+            <template #trigger>
+              <n-icon class="text-2xl mr-4">
+                <PersonOutline />
+              </n-icon>
+            </template>
+            <AssistantMenu class="select-none" />
+          </n-popover>
+          <!-- 用户弹出 -->
           <n-popover
             :placement="userPlacement"
             class="w-full"
@@ -45,16 +63,18 @@
 
 <script setup lang="ts">
 import UserMenu from "../components/UserMenu.vue";
+import AssistantMenu from "../components/AssistantMenu.vue";
+import { useAppStore } from "../stores/app";
 import { useUserStore } from "../stores/user";
 import { useIsMobile, useIsTablet } from "../utils/composables";
-import { MenuOutline } from "@vicons/ionicons5";
+import { MenuOutline, PersonOutline } from "@vicons/ionicons5";
 const userStore = useUserStore();
 const isMobile = useIsMobile();
 const isTablet = useIsTablet();
+const appStore = useAppStore();
 
 const userPlacement = ref("bottom");
 if (isMobile.value) {
   userPlacement.value = "bottom";
 }
-
 </script>

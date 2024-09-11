@@ -1,36 +1,57 @@
-// import {
-//   AssistantApi,
-//   ChatApi,
-//   ChatMessageApi,
-//   ChatPublicApi,
-//   Configuration,
-//   PingApi,
-//   ToolApi,
-// } from "@/api";
-// import config from "@/config/config";
-// import { useUserStore } from "@/stores/user";
-//
-// const userStore = useUserStore();
-//
-// const conf = new Configuration();
-//
-// conf.basePath = config.backend;
-// conf.apiKey = () => {
-//   return "Bearer " + userStore.id_token;
-// };
+import {
+  AssistantApi,
+  ChatApi,
+  ChatMessageApi,
+  ChatPublicApi,
+  Configuration,
+  PingApi,
+  ToolApi,
+} from "../api";
+import config from "../config/config";
 
-// userStore.$subscribe((mutation, state) => {
-//   console.log(mutation);
-//   conf.apiKey = "Bearer " + state.id_token;
-// });
+import { useUserStore } from "../stores/user";
+import axios from "./axios";
 
-// const api = {
-//   Chat: new ChatApi(conf),
-//   Assistant: new AssistantApi(conf),
-//   Ping: new PingApi(conf),
-//   Tool: new ToolApi(conf),
-//   ChatMessage: new ChatMessageApi(conf),
-//   ChatPublic: new ChatPublicApi(conf),
-// };
-//
-// export { api, conf };
+// 定义 Api 类型
+interface Api {
+  Chat: ChatApi;
+  Assistant: AssistantApi;
+  Ping: PingApi;
+  Tool: ToolApi;
+  ChatMessage: ChatMessageApi;
+  ChatPublic: ChatPublicApi;
+}
+
+let api: Api | null = null; // 使用联合类型来表示初始状态可能是 null
+
+const getApi = () => {
+  if (api) {
+    return api;
+  }
+
+  const userStore = useUserStore();
+
+  const conf = new Configuration();
+
+  conf.basePath = config.backend;
+  conf.apiKey = () => {
+    return "Bearer " + userStore.id_token;
+  };
+
+  userStore.$subscribe((mutation, state) => {
+    conf.apiKey = "Bearer " + state.id_token;
+  });
+
+  api = {
+    Chat: new ChatApi(conf, undefined, axios),
+    Assistant: new AssistantApi(conf, undefined, axios),
+    Ping: new PingApi(conf, undefined, axios),
+    Tool: new ToolApi(conf, undefined, axios),
+    ChatMessage: new ChatMessageApi(conf, undefined, axios),
+    ChatPublic: new ChatPublicApi(conf, undefined, axios),
+  };
+
+  return api;
+};
+
+export default getApi;

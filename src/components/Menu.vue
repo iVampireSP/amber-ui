@@ -8,8 +8,10 @@
   /> -->
   <n-list hoverable clickable>
     <template #header>
-      <!-- <n-icon :component="ChatboxOutline" /> -->
-      <span>对话列表</span>
+      <div class="text-xl">
+        <n-icon :component="ChatboxOutline" class="align-middle" />
+        <span class="font-xl ml-2">对话列表</span>
+      </div>
     </template>
     <n-list-item v-for="i in 10" :key="i">
       <n-thing> 对话 </n-thing>

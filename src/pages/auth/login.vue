@@ -8,7 +8,7 @@
 import config from "../../config/config";
 import axios from "axios";
 import { useUserStore } from "../../stores/user";
-import router from "../../plugins/router";
+import router from "../../router";
 const userStore = useUserStore();
 
 function generateRandomString(length: number) {

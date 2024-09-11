@@ -5,7 +5,7 @@ import { useIsMobile } from "../utils/composables.js";
 import Menu from "../components/Menu.vue";
 import { useUserStore } from "../stores/user";
 import Guest from "../pages/guest/index.vue";
-import router from "../plugins/router";
+import router from "../router";
 const currentRoute = computed(() => router.currentRoute.value.name);
 
 const userStore = useUserStore();

@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import router from "../../plugins/router";
+import router from "../../router";
 import { useUserStore } from "../../stores/user";
 const userStore = useUserStore();
 

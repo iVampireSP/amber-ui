@@ -1,29 +1,22 @@
+console.log("load")
 const meta = document.createElement("meta");
 meta.name = "naive-ui-style";
 document.head.appendChild(meta);
 
 import "./style.css";
+import { registerPlugins } from "./plugins";
+import router from "./router";
 
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import naive from "naive-ui";
-// 通用字体
-import "vfonts/Lato.css";
-// 等宽字体
-import "vfonts/FiraCode.css";
 
 import App from "./App.vue";
-import router from "./plugins/router";
-
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
+import { createApp } from "vue";
 
 const app = createApp(App);
 
-app.use(pinia);
-app.use(naive);
+
+registerPlugins(app);
 app.use(router);
+
 
 // @ts-ignore ...
 if (process.env.NODE_ENV === "production") {

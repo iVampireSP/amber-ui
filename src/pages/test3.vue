@@ -15,7 +15,6 @@
         :text="text"
         @input="handleInput"
         height="500px"
-        
       ></v-md-preview>
     </div>
   </div>
@@ -24,19 +23,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 
-
-import VMdPreview from '@kangc/v-md-editor/lib/preview';
-import '@kangc/v-md-editor/lib/style/preview.css';
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
+import VMdPreview from "@kangc/v-md-editor/lib/preview";
+import "@kangc/v-md-editor/lib/style/preview.css";
+import githubTheme from "@kangc/v-md-editor/lib/theme/github.js";
+import "@kangc/v-md-editor/lib/theme/style/github.css";
 
 // highlightjs
-import hljs from 'highlight.js';
+import hljs from "highlight.js";
 
 VMdPreview.use(githubTheme, {
   Hljs: hljs,
 });
-
 
 const text = ref("text");
 const textLength = 10; // 每次生成的文本长度
@@ -59,10 +56,10 @@ onMounted(() => {
   updateTextParts();
 
   // 随机生成字符串到 text.value
-//   setInterval(() => {
-//     const randomString = Math.random().toString(36).substring(2, 2 + textLength);
-//     text.value += randomString;
-//   }, 1000);
+  //   setInterval(() => {
+  //     const randomString = Math.random().toString(36).substring(2, 2 + textLength);
+  //     text.value += randomString;
+  //   }, 1000);
 });
 
 onUnmounted(() => {

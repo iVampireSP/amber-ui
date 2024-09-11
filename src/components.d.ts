@@ -7,14 +7,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AssistantMenu: typeof import('./components/AssistantMenu.vue')['default']
     Chat: typeof import('./components/chat/chat.vue')['default']
     ChatMenu: typeof import('./components/ChatMenu.vue')['default']
     Container: typeof import('./components/Container.vue')['default']
-    copy: typeof import('./components/Menu copy.vue')['default']
+    copy: typeof import('./components/AssistantMenu.vue')['default']
     Menu: typeof import('./components/Menu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Test: typeof import('./components/chat/test.vue')['default']
     UserMenu: typeof import('./components/UserMenu.vue')['default']
   }
 }
