@@ -1,23 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh" class="light-theme">
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>amber-wails</title>
+    <style>
+      /* 检测当前主题 */
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #000;
+          color: #fff;
+        }
+
+        #default-loader svg path {
+          fill: #fff;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="app" style="opacity: 1; transition: opacity 0.5s ease-in-out">
-      <div id="default-loader" style="position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 999999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        transition: all 0.3s ease-in-out;">
+      <div
+        id="default-loader"
+        style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 999999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          transition: all 0.3s ease-in-out;
+        "
+      >
         <div>
           <svg
             version="1.1"
