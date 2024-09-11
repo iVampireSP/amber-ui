@@ -3,7 +3,7 @@
     class="relative flex flex-col h-[calc(100vh-var(--header-height)*1.9)]"
   >
     <div class="flex-grow mt-3 mb-1 text-5xl">
-      <n-gradient-text type="info" class="pr-3">
+      <n-gradient-text type="info" class="pr-3 pb-2 pt-2">
         你好，{{ userStore.user.name }}
       </n-gradient-text>
       <br />
