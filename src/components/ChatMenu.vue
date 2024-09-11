@@ -1,27 +1,17 @@
 <template>
-  <!-- <n-menu
+  <n-menu
     :value="currentRoute"
     :collapsed="collapsed"
     :collapsed-width="64"
     :collapsed-icon-size="22"
     :options="leftMenuOptions"
-  /> -->
-  <n-list hoverable clickable>
-    <template #header>
-      <!-- <n-icon :component="ChatboxOutline" /> -->
-      <span>对话列表</span>
-    </template>
-    <n-list-item v-for="i in 10" :key="i">
-      <n-thing> 对话 </n-thing>
-    </n-list-item>
-  </n-list>
+  />
 </template>
 
 <script setup lang="ts">
 import { NMenu } from "naive-ui";
 import { useRoute } from "vue-router";
 import { leftMenuOptions } from "../plugins/menus/left";
-import { ChatboxOutline } from "@vicons/ionicons5";
 
 const route = useRoute();
 

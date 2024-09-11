@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Chat: typeof import('./components/chat/chat.vue')['default']
+    ChatMenu: typeof import('./components/ChatMenu.vue')['default']
     Container: typeof import('./components/Container.vue')['default']
     copy: typeof import('./components/Menu copy.vue')['default']
     Menu: typeof import('./components/Menu.vue')['default']
