@@ -1,7 +1,6 @@
 <template>
   <div
     class="relative flex flex-col h-[calc(100vh-var(--header-height)*1.9)]"
-    style="--header-height: 48px"
   >
     <div class="flex-grow mt-3 mb-1 text-5xl">
       <n-gradient-text type="info" class="pr-3">
@@ -74,8 +73,8 @@ const inputText: InputHTMLAttributes | null = ref(null);
 const actionContainer: any = ref(null);
 const isPlaceholderVisible = ref(true);
 const triggerTimes = ref(0);
-const showSendBtn = ref(false)
-const content = ref("")
+const showSendBtn = ref(false);
+const content = ref("");
 
 function updateInputHeight() {
   if (!inputText?.value || !inputContainer.value || !actionContainer.value) {
@@ -121,7 +120,7 @@ function updateInputHeight() {
     action.classList.add("pt-4");
     action.classList.add("pb-0");
     action.classList.add("mt-2");
-    showSendBtn.value = true
+    showSendBtn.value = true;
   } else {
     container.classList.remove("rounded-lg");
     container.classList.add("rounded-full");
@@ -134,7 +133,7 @@ function updateInputHeight() {
     action.classList.remove("pt-4");
     action.classList.remove("pt-0");
     action.classList.remove("mt-2");
-    showSendBtn.value = false
+    showSendBtn.value = false;
   }
 }
 
