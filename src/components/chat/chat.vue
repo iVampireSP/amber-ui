@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="relative flex flex-col h-[calc(100vh-var(--header-height)*1.9)]"
-  >
+  <div class="relative flex flex-col h-[calc(100vh-var(--header-height)*1.9)]">
     <div class="flex-grow mt-3 mb-1 text-5xl">
       <n-gradient-text type="info" class="pr-3 pb-2 pt-2">
         你好，{{ userStore.user.name }}
@@ -15,7 +13,9 @@
     <div class="absolute bottom-0 left-0 right-0 pb-5">
       <div
         ref="inputContainer"
-        class="mx-auto w-2xl max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4"
+        class="mx-auto w-2xl max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
+        @focusin="onFocused"
+        @focusout="onBlurred"
       >
         <div class="overflow-x-hidden h-full w-full flex items-center">
           <n-scrollbar class="max-h-96">
@@ -135,6 +135,26 @@ function updateInputHeight() {
     action.classList.remove("mt-2");
     showSendBtn.value = false;
   }
+}
+
+function onFocused() {
+  if (!inputContainer.value) {
+    return;
+  }
+
+  const container = inputContainer.value;
+  container.classList.remove("max-w-2xl");
+  container.classList.add("max-w-full");
+}
+
+function onBlurred() {
+  if (!inputContainer.value) {
+    return;
+  }
+
+  const container = inputContainer.value;
+  container.classList.remove("max-w-full");
+  container.classList.add("max-w-2xl");
 }
 
 onMounted(() => {
