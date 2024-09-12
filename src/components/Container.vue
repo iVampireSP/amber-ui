@@ -2,7 +2,8 @@
 // import router from '../plugins/router';
 import Header from "../layouts/Header.vue";
 import { useUserStore } from "../stores/user";
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 const userStore = useUserStore();
 // const currentRoute = computed(() => router.currentRoute.value.name)
 </script>
@@ -14,7 +15,7 @@ const userStore = useUserStore();
   ></Header>
 
   <div class="p-4">
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" :key="route.path">
       <transition mode="out-in" name="fade">
         <div>
           <component :is="Component" />

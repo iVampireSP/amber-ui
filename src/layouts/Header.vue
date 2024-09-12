@@ -4,7 +4,7 @@
       <n-grid cols="2" class="header-height">
         <n-grid-item class="flex items-center justify-start mr-1.5">
           <!-- 左侧 -->
-          <n-popover
+          <!-- <n-popover
             placement="bottom"
             trigger="click"
             style="padding: 0; width: 288px"
@@ -16,7 +16,25 @@
               </n-icon>
             </template>
             <Menu></Menu>
-          </n-popover>
+          </n-popover> -->
+
+          <n-drawer
+            v-model:show="showDrawer"
+            resizable
+            :default-width="width"
+            placement="left"
+          >
+            <n-drawer-content>
+              <LeftSettings></LeftSettings>
+            </n-drawer-content>
+          </n-drawer>
+          <n-icon
+            size="20"
+            style="margin-left: 12px"
+            @click="showDrawer = true"
+          >
+            <menu-outline />
+          </n-icon>
 
           <!-- 更新状态 -->
           <div v-show="appStore.updating">正在更新数据</div>
@@ -72,6 +90,16 @@ const userStore = useUserStore();
 const isMobile = useIsMobile();
 const isTablet = useIsTablet();
 const appStore = useAppStore();
+const showDrawer = ref(false);
+const width = ref(200);
+
+// 如果是手机，则 width 为全屏
+if (isMobile.value) {
+  // 获取屏幕宽度
+  width.value = window.innerWidth - 100;
+} else {
+  width.value = "40%";
+}
 
 const userPlacement = ref("bottom");
 if (isMobile.value) {

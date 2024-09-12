@@ -20,6 +20,7 @@ interface Api {
   Tool: ToolApi;
   ChatMessage: ChatMessageApi;
   ChatPublic: ChatPublicApi;
+  conf: Configuration
 }
 
 let api: Api | null = null; // 使用联合类型来表示初始状态可能是 null
@@ -49,6 +50,7 @@ const getApi = () => {
     Tool: new ToolApi(conf, undefined, axios),
     ChatMessage: new ChatMessageApi(conf, undefined, axios),
     ChatPublic: new ChatPublicApi(conf, undefined, axios),
+    conf: conf
   };
 
   return api;

@@ -20,7 +20,7 @@ const menuCollapsed = ref({
 
 <template>
   <n-layout position="absolute" :has-sider="true">
-    <n-layout-sider
+    <!-- <n-layout-sider
       v-if="userStore.logined && !isMobile"
       :collapsed-width="0"
       :native-scrollbar="false"
@@ -34,7 +34,7 @@ const menuCollapsed = ref({
       @expand="menuCollapsed.left = false"
     >
       <Menu v-show="!isMobile"></Menu>
-    </n-layout-sider>
+    </n-layout-sider> -->
     <n-layout-content>
       <!-- <Guest v-if="!userStore.logined && currentRoute != '/auth/login'" />
         <Container v-else /> -->

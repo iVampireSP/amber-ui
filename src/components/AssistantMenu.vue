@@ -1,5 +1,6 @@
 <template>
-  <n-list hoverable clickable>
+  <div v-show="!loaded">正在载入</div>
+  <n-list hoverable clickable v-show="loaded" class="select-none">
     <template #header>
       <div>
         <span class="text-xl">切换助理</span>
@@ -14,14 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
 import { useUserStore } from "../stores/user";
 import { updateAll } from "../plugins/update/update";
 import { useAssistantStore } from "../stores/assistants";
 
-const route = useRoute();
-const currentRoute: any = computed(() => route.name);
-const collapsed = ref(false);
+const loaded = ref(false);
 const userStore = useUserStore();
 const assistantStore = useAssistantStore();
 
@@ -35,6 +33,7 @@ watch(
 );
 function update() {
   updateAll();
+  loaded.value = true
 }
 
 update();

@@ -1,17 +1,16 @@
 /* eslint-env node */
-require('@rushstack/eslint-patch/modern-module-resolution')
+require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
   extends: [
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-    '@electron-toolkit',
-    '@electron-toolkit/eslint-config-ts/eslint-recommended',
-    '@vue/eslint-config-typescript/recommended',
-    '@vue/eslint-config-prettier'
+    "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "@vue/eslint-config-typescript/recommended",
+    "@vue/eslint-config-prettier",
   ],
   rules: {
-    'vue/require-default-prop': 'off',
-    'vue/multi-word-component-names': 'off'
-  }
-}
+    "vue/require-default-prop": "off",
+    "vue/multi-word-component-names": "off",
+  },
+  ignores: ["src/typed-router.d.ts", "node_modules", "dist", "out", ".gitignore"],
+};

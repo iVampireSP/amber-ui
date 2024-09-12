@@ -12,6 +12,8 @@ declare module 'vue' {
     ChatMenu: typeof import('./components/ChatMenu.vue')['default']
     Container: typeof import('./components/Container.vue')['default']
     copy: typeof import('./components/AssistantMenu.vue')['default']
+    LeftSetting: typeof import('./components/LeftSetting.vue')['default']
+    LeftSettings: typeof import('./components/LeftSettings.vue')['default']
     Menu: typeof import('./components/Menu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

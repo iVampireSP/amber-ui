@@ -13,8 +13,8 @@
         <span class="font-xl ml-2">对话列表</span>
       </div>
     </template>
-    <n-list-item v-for="i in 10" :key="i">
-      <n-thing> 对话 </n-thing>
+    <n-list-item v-for="c in chatStore.chats" :key="c.id">
+      <n-thing> {{ c.name }} </n-thing>
     </n-list-item>
   </n-list>
 </template>
@@ -24,10 +24,20 @@ import { NMenu } from "naive-ui";
 import { useRoute } from "vue-router";
 import { leftMenuOptions } from "../plugins/menus/left";
 import { ChatboxOutline } from "@vicons/ionicons5";
+import getApi from "../plugins/api";
+import { useChatStore } from "../stores/chat";
 
 const route = useRoute();
 
 const currentRoute: any = computed(() => route.name);
 
 const collapsed = ref(false);
+
+const chatStore = useChatStore();
+
+async function getChats() {
+  chatStore.chats = (await getApi().Chat.apiV1ChatsGet()).data.data;
+}
+
+getChats();
 </script>

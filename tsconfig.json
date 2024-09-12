@@ -17,7 +17,16 @@
     "skipLibCheck": true,
     "types": [
       "unplugin-vue-router/client"
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "allowJs": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "forceConsistentCasingInFileNames": true,
   },
   "include": [
     "src/**/*.ts",

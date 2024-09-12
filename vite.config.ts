@@ -1,13 +1,13 @@
-import { defineConfig } from "vite"
-import vue from "@vitejs/plugin-vue"
-import VueRouter from "unplugin-vue-router/vite"
-import Layouts from "vite-plugin-vue-layouts"
-import Components from "unplugin-vue-components/vite"
-import AutoImport from "unplugin-auto-import/vite"
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import VueRouter from "unplugin-vue-router/vite";
+import Layouts from "vite-plugin-vue-layouts";
+import Components from "unplugin-vue-components/vite";
+import AutoImport from "unplugin-auto-import/vite";
 // import { resolve } from "path";
 // const rootPath = new URL(".", import.meta.url).pathname;
 
-import { fileURLToPath, URL } from "node:url"
+import { fileURLToPath, URL } from "node:url";
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -54,4 +54,4 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
   },
-})
+});
