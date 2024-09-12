@@ -98,7 +98,8 @@ if (isMobile.value) {
   // 获取屏幕宽度
   width.value = window.innerWidth - 100;
 } else {
-  width.value = "40%";
+  // 获取当前屏幕宽度 40% 的宽度
+  width.value = window.innerWidth * 0.4
 }
 
 const userPlacement = ref("bottom");
