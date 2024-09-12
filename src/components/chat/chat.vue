@@ -352,25 +352,25 @@ async function sendMessage(
     });
 }
 
-function onFocused() {
-  if (!inputContainer.value) {
-    return;
-  }
+// function onFocused() {
+//   if (!inputContainer.value) {
+//     return;
+//   }
 
-  const container = inputContainer.value;
-  container.classList.remove("max-w-2xl");
-  container.classList.add("max-w-full");
-}
+//   const container = inputContainer.value;
+//   container.classList.remove("max-w-2xl");
+//   container.classList.add("max-w-full");
+// }
 
-function onBlurred() {
-  if (!inputContainer.value) {
-    return;
-  }
+// function onBlurred() {
+//   if (!inputContainer.value) {
+//     return;
+//   }
 
-  const container = inputContainer.value;
-  container.classList.remove("max-w-full");
-  container.classList.add("max-w-2xl");
-}
+//   const container = inputContainer.value;
+//   container.classList.remove("max-w-full");
+//   container.classList.add("max-w-2xl");
+// }
 
 async function getChatMessages() {
   // 获取当前聊天记录
