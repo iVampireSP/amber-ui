@@ -54,7 +54,7 @@
                 <PersonOutline />
               </n-icon>
             </template>
-            <AssistantMenu class="select-none" />
+            <AssistantMenu />
           </n-popover>
           <!-- 用户弹出 -->
           <n-popover

@@ -33,7 +33,7 @@ watch(
 );
 function update() {
   updateAll();
-  loaded.value = true
+  loaded.value = true;
 }
 
 update();
