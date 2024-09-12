@@ -1399,7 +1399,7 @@ export interface SchemaChatCreateRequest {
      * @type {number}
      * @memberof SchemaChatCreateRequest
      */
-    'assistant_id': number;
+    'assistant_id'?: number;
     /**
      * 
      * @type {SchemaCustomTime}

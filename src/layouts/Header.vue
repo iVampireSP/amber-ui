@@ -23,8 +23,9 @@
             resizable
             :default-width="width"
             placement="left"
+            class="select-none"
           >
-            <n-drawer-content title="有什么我可以帮您的吗" closable>
+            <n-drawer-content title="有什么我可以帮您的吗" closable :native-scrollbar="false">
               <LeftSettings></LeftSettings>
             </n-drawer-content>
           </n-drawer>
@@ -44,9 +45,15 @@
         <n-grid-item class="flex items-center justify-end mr-1.5">
           <!-- 右侧 -->
           <!-- 新对话 -->
-          <n-icon class="text-2xl mr-4 cursor-pointer" @click="backToHome">
-            <AddOutline />
-          </n-icon>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-icon class="text-2xl mr-4 cursor-pointer" @click="backToHome">
+                <AddOutline />
+              </n-icon>
+            </template>
+            <span> 新对话 </span>
+          </n-tooltip>
+
           <!-- 助理选择 -->
           <n-popover
             :placement="userPlacement"
@@ -73,7 +80,7 @@
                 round
                 size="medium"
                 :src="userStore.user.avatar"
-                class="mr-2"
+                class="mr-2 cursor-pointer"
               />
             </template>
             <UserMenu class="select-none" />
@@ -89,17 +96,24 @@ import UserMenu from "../components/UserMenu.vue";
 import AssistantMenu from "../components/AssistantMenu.vue";
 import { useAppStore } from "../stores/app";
 import { useUserStore } from "../stores/user";
-import { useIsMobile, useIsTablet } from "../utils/composables";
-import { MenuOutline, PersonOutline, AddOutline } from "@vicons/ionicons5";
+import { useIsMobile } from "../utils/composables";
+import {
+  MenuOutline,
+  PersonOutline,
+  AddOutline,
+  TrashOutline,
+} from "@vicons/ionicons5";
 import router from "@/router";
-
+import { useChatStore } from "@/stores/chat";
+import getApi from "@/plugins/api";
 
 const userStore = useUserStore();
 const isMobile = useIsMobile();
-const isTablet = useIsTablet();
+// const isTablet = useIsTablet();
 const appStore = useAppStore();
 const showDrawer = ref(false);
 const width = ref(200);
+const chatStore = useChatStore();
 
 // 如果是手机，则 width 为全屏
 if (isMobile.value) {
@@ -115,9 +129,11 @@ if (isMobile.value) {
   userPlacement.value = "bottom";
 }
 
+const clearChatHistory = async () => {
+  await getApi().ChatMessage.apiV1ChatsIdClearPost(chatStore.currentChatId);
+};
+
 const backToHome = () => {
   router.push("/");
 };
-
-
 </script>

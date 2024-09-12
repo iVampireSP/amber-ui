@@ -3,6 +3,7 @@ meta.name = "naive-ui-style";
 document.head.appendChild(meta);
 
 import "./style.css";
+import "animate.css";
 import { registerPlugins } from "./plugins";
 import router from "./router";
 

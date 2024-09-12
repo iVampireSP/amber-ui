@@ -14,7 +14,6 @@
     :locale="zhCN"
     :theme="theme"
     :theme-overrides="themeOverrides"
-    preflight-style-disabled
   >
     <n-global-style />
     <n-loading-bar-provider>

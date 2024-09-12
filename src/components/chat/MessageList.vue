@@ -1,6 +1,6 @@
 <template>
   <div class="text-base">
-    <n-divider> <small>这是聊天的开头</small> </n-divider>
+    <n-divider> <small class="select-none">这是聊天的开头</small> </n-divider>
 
     <div v-for="(message, index) in chat_messages" :key="index">
       <div v-if="message.role === 'user' && message.content">
@@ -18,12 +18,15 @@
           <n-avatar round size="large" :src="userStore.user.avatar" />
         </n-flex>
       </div>
-      <div v-else-if="message.role === 'assistant' && message.content" class="mt-3">
+      <div
+        v-else-if="message.role === 'assistant' && message.content"
+        class="mt-10 mb-10"
+      >
         <!-- 助理消息 -->
         <n-flex justify="start">
           <n-avatar round size="large" :src="leaflowPng" />
 
-          <div class="align-middle">
+          <div class="flex items-center">
             <!-- <vue-markdown-it
             :source="message.content"
             :options="markdownOptions"
@@ -51,11 +54,8 @@ import { useUserStore } from "@/stores/user";
 import leaflowPng from "@/assets/images/leaflow.png";
 import markdownKatex from "@traptitech/markdown-it-katex";
 import markdownIt from "markdown-it";
-import markdownLatex from "markdown-it-latex2img";
 // highlightjs
 import hljs from "highlight.js";
-
-import { VueMarkdownIt } from "@f3ve/vue-markdown-it";
 
 const mdIt = markdownIt();
 
@@ -72,15 +72,6 @@ mdIt.use(markdownKatex, {
   errorColor: "#cc0000",
   output: "html",
 });
-
-mdIt.use(markdownKatex)
-mdIt.use(markdownLatex);
-
-const markdownOptions = {
-  html: true,
-  linkify: true,
-};
-const markdownPlugins = [markdownKatex];
 
 const userStore = useUserStore();
 

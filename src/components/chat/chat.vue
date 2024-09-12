@@ -1,10 +1,11 @@
 <template>
-  <div
-    class="relative flex flex-col h-[calc(100vh-var(--header-height)*1.9)] lg:items-center"
-  >
+  <div class="relative flex flex-col lg:items-center">
     <div class="w-4/5">
       <div>
-        <div class="flex-grow mt-3 mb-1 text-5xl" v-if="!chatMessages?.length">
+        <div
+          class="flex-grow mt-3 mb-1 text-5xl select-none"
+          v-if="!chatMessages?.length"
+        >
           <n-gradient-text type="info" class="pr-3 pb-2 pt-2">
             你好，{{ userStore.user.name }}
           </n-gradient-text>
@@ -20,6 +21,14 @@
       </div>
 
       <div class="fixed bottom-0 left-0 right-0 pb-10">
+        <div
+          class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
+          v-if="toolCalling"
+        >
+          <n-gradient-text type="info">
+            {{ toolName }}
+          </n-gradient-text>
+        </div>
         <div
           ref="inputContainer"
           class="mx-auto w-2xl max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
@@ -39,43 +48,86 @@
               ></div>
             </n-scrollbar>
           </div>
-          <div
-            ref="actionContainer"
-            class="flex [&>button]:ml-2 pr-4 justify-end"
-          >
-            <n-button tertiary circle size="large">
-              <template #icon>
-                <n-icon><DocumentAttachOutline /></n-icon>
-              </template>
-            </n-button>
-            <n-button tertiary circle size="large">
-              <template #icon>
-                <n-icon><MicOutline /></n-icon>
-              </template>
-            </n-button>
-            <n-button tertiary circle size="large" v-show="showSendBtn">
-              <template #icon>
-                <n-icon><SendOutline /></n-icon>
-              </template>
-            </n-button>
-          </div>
+          <n-spin :show="processing">
+            <div
+              ref="actionContainer"
+              class="flex [&>button]:ml-2 pr-4 justify-end"
+            >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button tertiary circle size="large">
+                    <template #icon>
+                      <n-icon><DocumentAttachOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 在做了在做了 </span>
+              </n-tooltip>
+
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button tertiary circle size="large">
+                    <template #icon>
+                      <n-icon><MicOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 在做了在做了 </span>
+              </n-tooltip>
+
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    tertiary
+                    circle
+                    size="large"
+                    v-show="chatMessages?.length"
+                    @click="clearChatHistory"
+                  >
+                    <template #icon>
+                      <n-icon><TrashBinOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 清空历史 </span>
+              </n-tooltip>
+
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    tertiary
+                    circle
+                    size="large"
+                    v-show="showSendBtn"
+                    @click="sendText"
+                  >
+                    <template #icon>
+                      <n-icon><SendOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 发送 </span>
+              </n-tooltip>
+            </div>
+          </n-spin>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useMessage } from "naive-ui";
 import { useUserStore } from "../../stores/user";
 import { onMounted, ref } from "vue";
 import {
   SendOutline,
   MicOutline,
   DocumentAttachOutline,
+  TrashBinOutline,
 } from "@vicons/ionicons5";
-import { EntityChatMessage } from "@/api";
+import { EntityChatMessage, SchemaChatMessageAddRequestRoleEnum } from "@/api";
 import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
+import { useChatStore } from "@/stores/chat";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -93,11 +145,8 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  chatId.value = props.chatId;
-});
-
 const userStore = useUserStore();
+const chatStore = useChatStore();
 const compositionStart = ref(false);
 const inputContainer: any = ref(null);
 const inputText: any = ref(null);
@@ -108,6 +157,13 @@ const showSendBtn = ref(false);
 const content = ref("");
 const inputExpanded = ref(false);
 const chatMessages: Ref<EntityChatMessage[] | undefined> = ref([]);
+const processing = ref(false);
+const toolName = ref("");
+const toolError = ref(false);
+const toolCalling = ref(false);
+const fileUpload = ref();
+const uploading = ref(false);
+const autoScroll = ref(true);
 
 function onKeydown(e: KeyboardEvent) {
   // 带 shift 不触发
@@ -215,24 +271,79 @@ function sendText() {
   }
 
   // 发送文本到服务器
-  sendMessage(textContent);
+  sendMessage("user", textContent);
 
   // 清空输入框
   input.innerText = "";
 
   updateInputHeight();
-
-  chatMessages.value?.push({
-    content: textContent,
-    role: "user",
-  });
 }
 
-function sendMessage(text: string) {
-  console.log("发送文本:", text);
+async function sendMessage(
+  role: SchemaChatMessageAddRequestRoleEnum,
+  text: string
+) {
+  if (processing.value) {
+    return;
+  }
+  if (role.trim() === "") {
+    role = "user";
+  }
+  if (text.trim() === "") {
+    return;
+  }
 
-  chatMessages.value?.push({ content: text, role: "user" });
-  // 实际发送文本到服务器的逻辑
+  if (!chatId.value) {
+    getApi()
+      .Chat.apiV1ChatsPost({
+        name: text.slice(0, 10),
+      })
+      .then(async (res) => {
+        chatId.value = res.data.data?.id;
+        await getChatMessages();
+      });
+
+    return;
+  }
+
+  toolError.value = false;
+  getApi()
+    .ChatMessage.apiV1ChatsIdMessagesPost(Number(chatId.value), {
+      message: text,
+      role: role,
+    })
+    .then(async (res) => {
+      // const newMessage = {
+      //   content: text,
+      //   role: role,
+      // };
+
+      // if (chatMessages.value) {
+      //   chatMessages.value = [newMessage];
+      // }
+
+      // if (chatMessages.value && chatMessages.value.length) {
+      //   chatMessages.value?.push(newMessage);
+      // }
+
+      const streamId = res.data.data?.stream_id;
+
+      if (streamId) {
+        await getChatMessages();
+        streamChat(streamId);
+      }
+    })
+    .catch(async (err) => {
+      // if 409
+      if (err.response.status === 409) {
+        const streamId = err.response.data.data?.stream_id;
+
+        if (streamId) {
+          await getChatMessages();
+          streamChat(streamId);
+        }
+      }
+    });
 }
 
 function onFocused() {
@@ -263,12 +374,111 @@ async function getChatMessages() {
     );
 
     chatMessages.value = cm.data.data;
+
+    // 完成
+    return true;
   }
+
+  return false;
 }
 
+function streamChat(streamId: String) {
+  const url = getApi().conf.basePath + "/api/v1/stream/" + streamId;
+
+  const evtSource = new EventSource(url);
+
+  let messageAdded = false;
+
+  let i = 0;
+  processing.value = true;
+
+  evtSource.addEventListener("data", (e) => {
+    if (e.data === "[DONE]") {
+      evtSource.close();
+      processing.value = false;
+
+      return;
+    }
+
+    const data = JSON.parse(e.data);
+
+    let append = true;
+
+    switch (data.state) {
+      case "tool_calling":
+        toolCalling.value = true;
+        toolName.value =
+          data.tool_call_message.tool_name +
+          " 中的 " +
+          data.tool_call_message.function_name;
+        break;
+      case "tool_response":
+        setTimeout(() => {
+          toolName.value = "";
+          toolCalling.value = false;
+        }, 300);
+        break;
+      case "tool_failed":
+        toolName.value =
+          data.tool_response_message.tool_name +
+          " 中的 " +
+          data.tool_response_message.function_name;
+        toolError.value = true;
+        append = false;
+        setTimeout(() => {
+          toolCalling.value = false;
+        }, 300);
+        break;
+      case "chunk":
+        if (!messageAdded) {
+          const newMessage = {
+            content: "",
+            role: "assistant",
+          };
+
+          if (!chatMessages.value) {
+            chatMessages.value = [newMessage];
+          } else {
+            chatMessages.value?.push(newMessage);
+          }
+
+          messageAdded = true;
+          append = true;
+          i = (chatMessages.value?.length ?? 1) - 1;
+        }
+
+        if (autoScroll.value) {
+          // 滚动到
+        }
+    }
+
+    if (append && messageAdded && chatMessages.value?.length) {
+      chatMessages.value[i].content += data.content;
+    }
+  });
+
+  // close
+  evtSource.addEventListener("close", () => {
+    evtSource.close();
+  });
+}
+
+const clearChatHistory = async () => {
+  processing.value = true;
+  await getApi().ChatMessage.apiV1ChatsIdClearPost(chatStore.currentChatId);
+  chatMessages.value = [];
+  processing.value = false;
+};
+
 onMounted(() => {
+  chatId.value = props.chatId;
+  chatStore.currentChatId = Number(chatId.value);
   updateInputHeight();
   getChatMessages();
+});
+
+onUnmounted(() => {
+  chatStore.currentChatId = 0;
 });
 </script>
 
