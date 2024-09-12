@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col lg:items-center">
+  <div class="relative flex flex-col items-center">
     <div class="w-4/5">
       <div>
         <div
@@ -31,7 +31,7 @@
         </div>
         <div
           ref="inputContainer"
-          class="mx-auto w-2xl max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
+          class="mx-auto w-2xl max-w-xs lg:max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
         >
           <div class="overflow-x-hidden h-full w-full flex items-center">
             <n-scrollbar class="max-h-96">
