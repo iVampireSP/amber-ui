@@ -128,6 +128,7 @@ import { EntityChatMessage, SchemaChatMessageAddRequestRoleEnum } from "@/api";
 import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
 import { useChatStore } from "@/stores/chat";
+import router from "@/router";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -293,17 +294,22 @@ async function sendMessage(
     return;
   }
 
+  let redirect = false;
+
   if (!chatId.value) {
-    getApi()
+    await getApi()
       .Chat.apiV1ChatsPost({
         name: text.slice(0, 10),
       })
       .then(async (res) => {
         chatId.value = res.data.data?.id;
+
+        if (chatId.value) {
+          chatStore.currentChatId = chatId.value;
+          redirect = true;
+        }
         await getChatMessages();
       });
-
-    return;
   }
 
   toolError.value = false;
@@ -330,7 +336,7 @@ async function sendMessage(
 
       if (streamId) {
         await getChatMessages();
-        streamChat(streamId);
+        streamChat(streamId, redirect);
       }
     })
     .catch(async (err) => {
@@ -340,7 +346,7 @@ async function sendMessage(
 
         if (streamId) {
           await getChatMessages();
-          streamChat(streamId);
+          streamChat(streamId, redirect);
         }
       }
     });
@@ -382,7 +388,7 @@ async function getChatMessages() {
   return false;
 }
 
-function streamChat(streamId: String) {
+function streamChat(streamId: String, redirect = false) {
   const url = getApi().conf.basePath + "/api/v1/stream/" + streamId;
 
   const evtSource = new EventSource(url);
@@ -396,6 +402,16 @@ function streamChat(streamId: String) {
     if (e.data === "[DONE]") {
       evtSource.close();
       processing.value = false;
+
+      if (redirect && chatId.value != undefined) {
+        // 改变 URL
+        router.replace({
+          name: "/chat/[id]/",
+          params: {
+            id: chatId.value,
+          },
+        });
+      }
 
       return;
     }
