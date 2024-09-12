@@ -15,7 +15,7 @@
         </div>
 
         <div v-else>
-            <MessageList :chat_messages="chatMessages" />
+          <MessageList :chat_messages="chatMessages" />
         </div>
       </div>
 
@@ -23,7 +23,6 @@
         <div
           ref="inputContainer"
           class="mx-auto w-2xl max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
-          @keyup.enter="sendText"
         >
           <div class="overflow-x-hidden h-full w-full flex items-center">
             <n-scrollbar class="max-h-96">
@@ -33,7 +32,10 @@
                 contenteditable="true"
                 placeholder="请输入文本..."
                 class="input-text max-w-full outline-none text-lg text-pretty pl-2 min-h-6"
+                @keydown="onKeydown"
                 @input="updateInputHeight"
+                @compositionstart="handleCompositionStart"
+                @compositionend="handleCompositionEnd"
               ></div>
             </n-scrollbar>
           </div>
@@ -73,6 +75,7 @@ import {
 } from "@vicons/ionicons5";
 import { EntityChatMessage } from "@/api";
 import getApi from "@/plugins/api";
+import MessageList from "./MessageList.vue";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -103,7 +106,27 @@ const isPlaceholderVisible = ref(true);
 const triggerTimes = ref(0);
 const showSendBtn = ref(false);
 const content = ref("");
+const inputExpanded = ref(false);
 const chatMessages: Ref<EntityChatMessage[] | undefined> = ref([]);
+
+function onKeydown(e: KeyboardEvent) {
+  // 带 shift 不触发
+  if (e.shiftKey || inputExpanded.value) {
+    return;
+  }
+
+  // 如果 content.value 是空的，但是同时按了 Shift 和 Enter，则阻止
+  if (content.value.trim() === "" && e.code === "Enter") {
+    e.preventDefault();
+    return;
+  }
+
+  // 禁止换行起手
+  if (!compositionStart.value && e.code === "Enter") {
+    e.preventDefault();
+    sendText();
+  }
+}
 
 function updateInputHeight() {
   if (!inputText?.value || !inputContainer.value || !actionContainer.value) {
@@ -132,7 +155,10 @@ function updateInputHeight() {
 
   const lines = input.innerText.split("\n").length;
 
-  if (lines > 3 || height > 50) {
+  if (lines > 1) {
+    triggerTimes.value += 8;
+  }
+  if (height > 50) {
     triggerTimes.value += 1;
   } else {
     triggerTimes.value -= 1;
@@ -141,28 +167,30 @@ function updateInputHeight() {
   if (triggerTimes.value > 8) {
     container.classList.add("rounded-lg");
     container.classList.remove("rounded-full");
-    container.classList.remove("max-w-2xl");
-    container.classList.remove("w-2xl");
+    // container.classList.remove("max-w-2xl");
+    // container.classList.remove("w-2xl");
     container.classList.add("flex-col");
-    action.classList.add("w-full");
+    // action.classList.add("w-full");
     action.classList.add("text-right");
     action.classList.add("pt-4");
     action.classList.add("pb-0");
     action.classList.add("mt-2");
     showSendBtn.value = true;
+    inputExpanded.value = true;
   } else {
     container.classList.remove("rounded-lg");
     container.classList.add("rounded-full");
     container.classList.remove("flex-col");
-    container.classList.add("w-2xl");
-    container.classList.add("max-w-2xl");
+    // container.classList.add("w-2xl");
+    // container.classList.add("max-w-2xl");
 
-    action.classList.remove("w-full");
+    // action.classList.remove("w-full");
     action.classList.remove("text-right");
     action.classList.remove("pt-4");
     action.classList.remove("pt-0");
     action.classList.remove("mt-2");
     showSendBtn.value = false;
+    inputExpanded.value = false;
   }
 }
 
@@ -193,7 +221,7 @@ function sendText() {
   input.innerText = "";
 
   updateInputHeight();
-  
+
   chatMessages.value?.push({
     content: textContent,
     role: "user",
@@ -202,6 +230,8 @@ function sendText() {
 
 function sendMessage(text: string) {
   console.log("发送文本:", text);
+
+  chatMessages.value?.push({ content: text, role: "user" });
   // 实际发送文本到服务器的逻辑
 }
 
