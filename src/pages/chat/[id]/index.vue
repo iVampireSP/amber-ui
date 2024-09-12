@@ -1,9 +1,14 @@
 <template>
-  <div>聊天记录 {{ chatId }}</div>
+  <div>
+    <Chat :chat-id="chatId" />
+  </div>
 </template>
 
 <script lang="ts" setup>
+import { useChatStore } from "@/stores/chat";
+
+const chatStore = useChatStore();
 // @ts-ignore
 const chatId = useRoute().params.id as number;
-// chatStore.currentChatId = chatId;
+chatStore.currentChatId = chatId;
 </script>

@@ -15,13 +15,16 @@ const userStore = useUserStore();
   ></Header>
 
   <div class="p-4">
-    <router-view v-slot="{ Component }" :key="route.path">
+     <n-scrollbar >
+  <router-view v-slot="{ Component }" :key="route.path">
       <transition mode="out-in" name="fade">
         <div>
           <component :is="Component" />
         </div>
       </transition>
     </router-view>
+     </n-scrollbar>
+  
   </div>
 
   <!-- <router-view></router-view> -->

@@ -24,14 +24,15 @@
             :default-width="width"
             placement="left"
           >
-            <n-drawer-content>
+            <n-drawer-content title="有什么我可以帮您的吗" closable>
               <LeftSettings></LeftSettings>
             </n-drawer-content>
           </n-drawer>
           <n-icon
-            size="20"
+            size="24"
             style="margin-left: 12px"
             @click="showDrawer = true"
+            class="cursor-pointer"
           >
             <menu-outline />
           </n-icon>
@@ -42,6 +43,10 @@
 
         <n-grid-item class="flex items-center justify-end mr-1.5">
           <!-- 右侧 -->
+          <!-- 新对话 -->
+          <n-icon class="text-2xl mr-4 cursor-pointer" @click="backToHome">
+            <AddOutline />
+          </n-icon>
           <!-- 助理选择 -->
           <n-popover
             :placement="userPlacement"
@@ -50,7 +55,7 @@
             style="padding: 0"
           >
             <template #trigger>
-              <n-icon class="text-2xl mr-4">
+              <n-icon class="text-2xl mr-4 cursor-pointer">
                 <PersonOutline />
               </n-icon>
             </template>
@@ -85,7 +90,10 @@ import AssistantMenu from "../components/AssistantMenu.vue";
 import { useAppStore } from "../stores/app";
 import { useUserStore } from "../stores/user";
 import { useIsMobile, useIsTablet } from "../utils/composables";
-import { MenuOutline, PersonOutline } from "@vicons/ionicons5";
+import { MenuOutline, PersonOutline, AddOutline } from "@vicons/ionicons5";
+import router from "@/router";
+
+
 const userStore = useUserStore();
 const isMobile = useIsMobile();
 const isTablet = useIsTablet();
@@ -99,11 +107,17 @@ if (isMobile.value) {
   width.value = window.innerWidth - 100;
 } else {
   // 获取当前屏幕宽度 40% 的宽度
-  width.value = window.innerWidth * 0.4
+  width.value = window.innerWidth * 0.4;
 }
 
 const userPlacement = ref("bottom");
 if (isMobile.value) {
   userPlacement.value = "bottom";
 }
+
+const backToHome = () => {
+  router.push("/");
+};
+
+
 </script>

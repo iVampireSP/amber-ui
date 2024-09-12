@@ -16,8 +16,6 @@ if (process.env.NODE_ENV === "production") {
   config.oauth_client_id = "16";
 }
 
-config.backend = "https://amber-api.leaflow.cn";
-
 // config.backend = "https://amber-api.leaflow.cn";
 
 // console.log("api endpoint: " + config.backend);

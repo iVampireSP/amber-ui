@@ -6,6 +6,7 @@ import Menu from "../components/Menu.vue";
 import { useUserStore } from "../stores/user";
 import Guest from "../pages/guest/index.vue";
 import router from "../router";
+import Header from "./Header.vue";
 const currentRoute = computed(() => router.currentRoute.value.name);
 
 const userStore = useUserStore();
@@ -19,7 +20,7 @@ const menuCollapsed = ref({
 </script>
 
 <template>
-  <n-layout position="absolute" :has-sider="true">
+  <n-layout position="absolute" :has-sider="false">
     <!-- <n-layout-sider
       v-if="userStore.logined && !isMobile"
       :collapsed-width="0"
@@ -35,7 +36,7 @@ const menuCollapsed = ref({
     >
       <Menu v-show="!isMobile"></Menu>
     </n-layout-sider> -->
-    <n-layout-content>
+    <n-layout-content :native-scrollbar="false">
       <!-- <Guest v-if="!userStore.logined && currentRoute != '/auth/login'" />
         <Container v-else /> -->
       <Guest v-if="!userStore.logined && !currentRoute?.startsWith('/auth')" />

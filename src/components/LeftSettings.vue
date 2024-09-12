@@ -1,11 +1,13 @@
 <template>
-  <n-tabs type="segment" animated>
+  <n-tabs type="segment" animated class="select-none">
     <n-tab-pane name="chap1" tab="对话">
       <n-list hoverable clickable>
         <n-list-item
           v-for="c in chatStore.chats"
           :key="c.id"
-          :class="c.id == chatStore.currentChatId ? 'text-primary' : ''"
+          :class="
+            c.id === chatStore.currentChatId ? ' bg-gray-100' : 'text-red-50'
+          "
           @click="viewChat(c.id ?? 0)"
         >
           <n-thing> {{ c.name }} </n-thing>
