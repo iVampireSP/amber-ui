@@ -179,7 +179,6 @@ const uploading = ref(false);
 const autoScroll = ref(true);
 const onBottom = ref(false);
 
-
 function onKeydown(e: KeyboardEvent) {
   // 带 shift 不触发
   if (e.shiftKey || inputExpanded.value) {
@@ -292,6 +291,13 @@ function sendText() {
   input.innerText = "";
 
   updateInputHeight();
+
+  // 滚动
+  // @ts-ignore ignore
+  element.mainContainer?.scrollTo({
+    top: "999999",
+    behavior: "smooth",
+  });
 }
 
 async function sendMessage(
@@ -395,6 +401,14 @@ async function getChatMessages() {
 
     chatMessages.value = cm.data.data;
 
+    // 滚动
+    setTimeout(() => {
+      // @ts-ignore ignore
+      element.mainContainer?.scrollTo({
+        top: "999999",
+        behavior: "smooth",
+      });
+    }, 400);
     // 完成
     return true;
   }
@@ -478,6 +492,7 @@ function streamChat(streamId: String, redirect = false) {
         }
 
         if (autoScroll.value) {
+          // @ts-ignore ignore
           element.mainContainer?.scrollTo({
             top: "999999",
             behavior: "smooth",
@@ -515,14 +530,14 @@ onUnmounted(() => {
 });
 
 const uploadFile = () => {
-  if (!fileUpload.value) {
+  if (!fileUpload.value || !chatId.value) {
     return;
   }
 
   uploading.value = true;
   getApi()
     .ChatMessage.apiV1ChatsIdFilesPost(
-      chatId,
+      Number(chatId.value),
       {
         file: fileUpload.value,
         url: "",

@@ -40,7 +40,7 @@
             <n-icon size="24">
               <menu-outline />
             </n-icon>
-            <span class="ml-1.5"> Leaflow 利飞 </span>
+            <span class="ml-1.5 mt-0.5"> Leaflow 利飞 </span>
           </div>
 
           <!-- 更新状态 -->

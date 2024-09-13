@@ -839,11 +839,17 @@ export interface EntityChat {
  */
 export interface EntityChatMessage {
     /**
-     * 
+     * AssistantId 可以让同一个对话中，使用不同的助手来处理消息
      * @type {number}
      * @memberof EntityChatMessage
      */
     'assistant_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessage
+     */
+    'chat_id'?: number;
     /**
      * 
      * @type {number}
@@ -941,24 +947,6 @@ export interface EntityDocument {
      * @memberof EntityDocument
      */
     'created_at'?: string;
-    /**
-     * 
-     * @type {EntityFile}
-     * @memberof EntityDocument
-     */
-    'file'?: EntityFile;
-    /**
-     * FileHash 是 File 结构体的 hash，用于判断文件内容是否发生变化 只不过一般情况也不会改变，因为 File 就不会变
-     * @type {string}
-     * @memberof EntityDocument
-     */
-    'file_hash'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntityDocument
-     */
-    'file_id'?: number;
     /**
      * Id        schema.EntityId `gorm:\"primarykey\" json:\"id,string\"`
      * @type {number}
@@ -1421,6 +1409,12 @@ export interface SchemaChatCreateRequest {
 export interface SchemaChatMessageAddRequest {
     /**
      * 
+     * @type {number}
+     * @memberof SchemaChatMessageAddRequest
+     */
+    'assistant_id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof SchemaChatMessageAddRequest
      */
@@ -1504,6 +1498,31 @@ export interface SchemaChatPublicRequest {
 /**
  * 
  * @export
+ * @interface SchemaChatUpdateRequest
+ */
+export interface SchemaChatUpdateRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemaChatUpdateRequest
+     */
+    'assistant_id'?: number;
+    /**
+     * 
+     * @type {SchemaCustomTime}
+     * @memberof SchemaChatUpdateRequest
+     */
+    'expired_at'?: SchemaCustomTime;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaChatUpdateRequest
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
  * @interface SchemaCurrentUserResponse
  */
 export interface SchemaCurrentUserResponse {
@@ -1550,6 +1569,25 @@ export interface SchemaCustomTime {
      * @memberof SchemaCustomTime
      */
     'time.Time'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SchemaDocumentCreateRequest
+ */
+export interface SchemaDocumentCreateRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaDocumentCreateRequest
+     */
+    'content': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaDocumentCreateRequest
+     */
+    'name': string;
 }
 /**
  * 
@@ -3160,6 +3198,86 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * 将返回一个实体
+         * @summary 显示一个对话的数据
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1ChatsIdGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1ChatsIdGet', 'id', id)
+            const localVarPath = `/api/v1/chats/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 可以重新设置对话的一些信息
+         * @summary 更新对话
+         * @param {number} id 
+         * @param {SchemaChatUpdateRequest} schemaChatUpdateRequest ChatUpdateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1ChatsIdPut: async (id: number, schemaChatUpdateRequest: SchemaChatUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1ChatsIdPut', 'id', id)
+            // verify required parameter 'schemaChatUpdateRequest' is not null or undefined
+            assertParamExists('apiV1ChatsIdPut', 'schemaChatUpdateRequest', schemaChatUpdateRequest)
+            const localVarPath = `/api/v1/chats/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(schemaChatUpdateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * get string by ID
          * @summary Create Chat
          * @param {SchemaChatCreateRequest} chat Chat
@@ -3249,6 +3367,33 @@ export const ChatApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 将返回一个实体
+         * @summary 显示一个对话的数据
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1ChatsIdGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatPublicPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ChatsIdGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ChatApi.apiV1ChatsIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 可以重新设置对话的一些信息
+         * @summary 更新对话
+         * @param {number} id 
+         * @param {SchemaChatUpdateRequest} schemaChatUpdateRequest ChatUpdateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1ChatsIdPut(id: number, schemaChatUpdateRequest: SchemaChatUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatPublicPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ChatsIdPut(id, schemaChatUpdateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ChatApi.apiV1ChatsIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * get string by ID
          * @summary Create Chat
          * @param {SchemaChatCreateRequest} chat Chat
@@ -3301,6 +3446,27 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
          */
         apiV1ChatsIdDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<SchemaResponseBody> {
             return localVarFp.apiV1ChatsIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 将返回一个实体
+         * @summary 显示一个对话的数据
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1ChatsIdGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatPublicPost200Response> {
+            return localVarFp.apiV1ChatsIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 可以重新设置对话的一些信息
+         * @summary 更新对话
+         * @param {number} id 
+         * @param {SchemaChatUpdateRequest} schemaChatUpdateRequest ChatUpdateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1ChatsIdPut(id: number, schemaChatUpdateRequest: SchemaChatUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatPublicPost200Response> {
+            return localVarFp.apiV1ChatsIdPut(id, schemaChatUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * get string by ID
@@ -3357,6 +3523,31 @@ export class ChatApi extends BaseAPI {
      */
     public apiV1ChatsIdDelete(id: number, options?: RawAxiosRequestConfig) {
         return ChatApiFp(this.configuration).apiV1ChatsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 将返回一个实体
+     * @summary 显示一个对话的数据
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChatApi
+     */
+    public apiV1ChatsIdGet(id: number, options?: RawAxiosRequestConfig) {
+        return ChatApiFp(this.configuration).apiV1ChatsIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 可以重新设置对话的一些信息
+     * @summary 更新对话
+     * @param {number} id 
+     * @param {SchemaChatUpdateRequest} schemaChatUpdateRequest ChatUpdateRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChatApi
+     */
+    public apiV1ChatsIdPut(id: number, schemaChatUpdateRequest: SchemaChatUpdateRequest, options?: RawAxiosRequestConfig) {
+        return ChatApiFp(this.configuration).apiV1ChatsIdPut(id, schemaChatUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4641,6 +4832,49 @@ export const LibrariesApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary 创建文档
+         * @param {number} id 
+         * @param {SchemaDocumentCreateRequest} schemaDocumentCreateRequest schema.DocumentCreateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1LibrariesIdDocumentsPost: async (id: number, schemaDocumentCreateRequest: SchemaDocumentCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1LibrariesIdDocumentsPost', 'id', id)
+            // verify required parameter 'schemaDocumentCreateRequest' is not null or undefined
+            assertParamExists('apiV1LibrariesIdDocumentsPost', 'schemaDocumentCreateRequest', schemaDocumentCreateRequest)
+            const localVarPath = `/api/v1/libraries/{id}/documents`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(schemaDocumentCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 获取一个资料库
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -4822,6 +5056,20 @@ export const LibrariesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 创建文档
+         * @param {number} id 
+         * @param {SchemaDocumentCreateRequest} schemaDocumentCreateRequest schema.DocumentCreateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1LibrariesIdDocumentsPost(id: number, schemaDocumentCreateRequest: SchemaDocumentCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1LibrariesIdDocumentsPost(id, schemaDocumentCreateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LibrariesApi.apiV1LibrariesIdDocumentsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary 获取一个资料库
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -4912,6 +5160,17 @@ export const LibrariesApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary 创建文档
+         * @param {number} id 
+         * @param {SchemaDocumentCreateRequest} schemaDocumentCreateRequest schema.DocumentCreateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1LibrariesIdDocumentsPost(id: number, schemaDocumentCreateRequest: SchemaDocumentCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiV1LibrariesIdDocumentsPost(id, schemaDocumentCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取一个资料库
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -4997,6 +5256,19 @@ export class LibrariesApi extends BaseAPI {
      */
     public apiV1LibrariesIdDocumentsGet(id: number, options?: RawAxiosRequestConfig) {
         return LibrariesApiFp(this.configuration).apiV1LibrariesIdDocumentsGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 创建文档
+     * @param {number} id 
+     * @param {SchemaDocumentCreateRequest} schemaDocumentCreateRequest schema.DocumentCreateRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LibrariesApi
+     */
+    public apiV1LibrariesIdDocumentsPost(id: number, schemaDocumentCreateRequest: SchemaDocumentCreateRequest, options?: RawAxiosRequestConfig) {
+        return LibrariesApiFp(this.configuration).apiV1LibrariesIdDocumentsPost(id, schemaDocumentCreateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

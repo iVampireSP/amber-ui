@@ -1,9 +1,14 @@
 <template>
-    <div>
-        正在退出
-    </div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import router from "@/router";
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
+
+userStore.logout();
+
+router.push("/");
 </script>

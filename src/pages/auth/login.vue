@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <h1>请稍后...</h1>
+  <div class="flex items-center align-center justify-center h-screen">
+    <div class="text-center">
+      <div class="mt-5 !ml-2">
+        <n-h1>“生成式 AI 的颠覆性只会越来越大”</n-h1>
+        <n-text italic> 全球第三大富豪Gautam Adani（高塔姆·阿达尼） </n-text>
+      </div>
+      <br />
+      <n-p>正在载入</n-p>
+    </div>
   </div>
 </template>
 
@@ -8,7 +15,7 @@
 import config from "../../config/config";
 import axios from "axios";
 import { useUserStore } from "../../stores/user";
-import router from "../../router";
+
 const userStore = useUserStore();
 
 function generateRandomString(length: number) {

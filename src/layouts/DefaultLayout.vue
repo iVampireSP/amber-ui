@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
   <Header
-    v-show="userStore.logined"
+    v-if="userStore.logined"
     style="
       min-height: var(--header-height);
       position: fixed;
@@ -36,7 +36,7 @@ onMounted(() => {
   <n-layout
     :native-scrollbar="isMobile"
     position="absolute"
-    style="margin-top: var(--header-height)"
+    :style="userStore.logined ? 'margin-top: var(--header-height)' : ''"
     ref="mainContainer"
   >
     <!-- <n-layout-sider
@@ -59,11 +59,8 @@ onMounted(() => {
     <n-layout :native-scrollbar="isMobile">
       <!-- <Guest v-if="!userStore.logined && currentRoute != '/auth/login'" />
         <Container v-else /> -->
-      <Guest
-        v-if="!userStore.logined && !currentRoute?.startsWith('/auth')"
-        style="min-height: 85vh"
-      />
-      <div v-else class="pt-2">
+      <Guest v-if="!userStore.logined && !currentRoute?.startsWith('/auth')" />
+      <div v-else :class="userStore.logined ? 'pt-2' : ''">
         <!-- <div style="height: calc(var(--header-height)*2)"></div> -->
 
         <router-view :key="route.path"> </router-view>

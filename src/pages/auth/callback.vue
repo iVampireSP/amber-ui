@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <h1>请稍等片刻</h1>
+  <div class="flex items-center align-center justify-center h-screen">
+    <div class="text-center">
+      <div class="mt-5 !ml-2">
+        <n-h1>正在验证 Token</n-h1>
+        <n-text italic></n-text>
+      </div>
+      <br />
+      <n-p></n-p>
+    </div>
   </div>
 </template>
 
