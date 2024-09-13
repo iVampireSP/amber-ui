@@ -4,10 +4,21 @@ import { useUserStore } from "../stores/user";
 import Guest from "../pages/guest/index.vue";
 import router from "../router";
 import Header from "./Header.vue";
+import { useAppStore } from "@/stores/app";
+import element from "@/config/element";
+import { useIsMobile } from "@/utils/composables";
 const currentRoute = computed(() => router.currentRoute.value.name);
 
 const userStore = useUserStore();
 const route = useRoute();
+
+const isMobile = useIsMobile();
+
+const mainContainer = ref();
+
+onMounted(() => {
+  element.mainContainer = mainContainer.value;
+});
 </script>
 
 <template>
@@ -23,9 +34,10 @@ const route = useRoute();
   ></Header>
 
   <n-layout
-    :native-scrollbar="false"
+    :native-scrollbar="isMobile"
     position="absolute"
     style="margin-top: var(--header-height)"
+    ref="mainContainer"
   >
     <!-- <n-layout-sider
       v-if="userStore.logined && !isMobile"
@@ -42,12 +54,16 @@ const route = useRoute();
     >
       <Menu v-show="!isMobile"></Menu>
     </n-layout-sider> -->
+    <n-back-top v-if="!isMobile" :right="100" />
 
-    <n-layout :native-scrollbar="false">
+    <n-layout :native-scrollbar="isMobile">
       <!-- <Guest v-if="!userStore.logined && currentRoute != '/auth/login'" />
         <Container v-else /> -->
-      <Guest v-if="!userStore.logined && !currentRoute?.startsWith('/auth')" />
-      <div v-else>
+      <Guest
+        v-if="!userStore.logined && !currentRoute?.startsWith('/auth')"
+        style="min-height: 85vh"
+      />
+      <div v-else class="pt-2">
         <!-- <div style="height: calc(var(--header-height)*2)"></div> -->
 
         <router-view :key="route.path"> </router-view>

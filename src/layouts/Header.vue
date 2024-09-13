@@ -26,38 +26,41 @@
             class="select-none"
           >
             <n-drawer-content
-              title="有什么我可以帮您的吗"
+              title="Amberlet"
               closable
               :native-scrollbar="false"
             >
               <LeftSettings></LeftSettings>
             </n-drawer-content>
           </n-drawer>
-          <n-icon
-            size="24"
-            style="margin-left: 12px"
+          <div
             @click="showDrawer = true"
-            class="cursor-pointer"
+            class="cursor-pointer ml-3 flex justify-center items-center"
           >
-            <menu-outline />
-          </n-icon>
+            <n-icon size="24">
+              <menu-outline />
+            </n-icon>
+            <span class="ml-1.5"> Leaflow 利飞 </span>
+          </div>
 
           <!-- 更新状态 -->
-          <div v-show="appStore.updating">正在更新数据</div>
+          <!-- <div v-show="appStore.updating">正在更新数据</div> -->
         </n-grid-item>
 
-        <n-grid-item class="flex items-center justify-center">
-          <!-- 中间部分 -->
-          <n-popover trigger="hover">
-            <template #trigger>
-              <img
-                :src="leaflowpng"
-                class="w-10 cursor-pointer hidden lg:block"
-                @click="backToHome"
-              />
-            </template>
-            <span> Leaflow 利飞 </span>
-          </n-popover>
+        <n-grid-item class="flex items-center justify-center select-none">
+          <div v-show="!isMobile">
+            <!-- 中间部分 -->
+            <n-popover trigger="hover">
+              <template #trigger>
+                <img
+                  :src="leaflowpng"
+                  class="w-10 cursor-pointer block select-none"
+                  @click="backToHome"
+                />
+              </template>
+              <span> Leaflow 利飞 </span>
+            </n-popover>
+          </div>
         </n-grid-item>
 
         <n-grid-item class="flex items-center justify-end mr-1.5">
@@ -114,7 +117,7 @@ import UserMenu from "../components/UserMenu.vue";
 import AssistantMenu from "../components/AssistantMenu.vue";
 import { useAppStore } from "../stores/app";
 import { useUserStore } from "../stores/user";
-import { useIsMobile } from "../utils/composables";
+import { useIsMobile, useIsTablet } from "../utils/composables";
 import {
   MenuOutline,
   PersonOutline,
@@ -128,8 +131,6 @@ import leaflowpng from "@/assets/images/leaflow.png";
 
 const userStore = useUserStore();
 const isMobile = useIsMobile();
-// const isTablet = useIsTablet();
-const appStore = useAppStore();
 const showDrawer = ref(false);
 const width = ref(200);
 // const chatStore = useChatStore();

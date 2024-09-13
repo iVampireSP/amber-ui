@@ -20,7 +20,10 @@
         </div>
       </div>
 
-      <div class="fixed bottom-0 left-0 right-0 pb-10">
+      <div
+        class="fixed bottom-0 left-0 right-0"
+        :class="onBottom ? 'hidden' : 'mb-6'"
+      >
         <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
           v-if="toolCalling"
@@ -111,13 +114,20 @@
             </div>
           </n-spin>
         </div>
+        <n-text
+          depth="3"
+          class="text-center block mt-2 mb-2 text-sm select-none"
+          v-show="onBottom"
+        >
+          AI 也有可能犯错误，请在使用之前核查信息。
+        </n-text>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useUserStore } from "../../stores/user";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, Ref, ref } from "vue";
 import {
   SendOutline,
   MicOutline,
@@ -129,6 +139,8 @@ import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
 import { useChatStore } from "@/stores/chat";
 import router from "@/router";
+import { useAppStore } from "@/stores/app";
+import element from "@/config/element";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -165,6 +177,8 @@ const toolCalling = ref(false);
 const fileUpload = ref();
 const uploading = ref(false);
 const autoScroll = ref(true);
+const onBottom = ref(false);
+
 
 function onKeydown(e: KeyboardEvent) {
   // 带 shift 不触发
@@ -464,7 +478,10 @@ function streamChat(streamId: String, redirect = false) {
         }
 
         if (autoScroll.value) {
-          // 滚动到
+          element.mainContainer?.scrollTo({
+            top: "999999",
+            behavior: "smooth",
+          });
         }
     }
 
@@ -496,6 +513,40 @@ onMounted(() => {
 onUnmounted(() => {
   chatStore.currentChatId = 0;
 });
+
+const uploadFile = () => {
+  if (!fileUpload.value) {
+    return;
+  }
+
+  uploading.value = true;
+  getApi()
+    .ChatMessage.apiV1ChatsIdFilesPost(
+      chatId,
+      {
+        file: fileUpload.value,
+        url: "",
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((r) => {
+      // 如果成功
+      if (r.status === 200 || r.status === 201) {
+        fileUpload.value = null;
+        getChatMessages();
+      }
+    })
+    .catch((err) => {
+      alert(err.response.data.message);
+    })
+    .finally(() => {
+      uploading.value = false;
+    });
+};
 </script>
 
 <style scoped>
