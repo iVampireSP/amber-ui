@@ -9,7 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AssistantMenu: typeof import('./components/AssistantMenu.vue')['default']
     Assistants: typeof import('./components/assistants/index.vue')['default']
-    Chat: typeof import('./components/chat/chat.vue')['default']
+    Chat: typeof import('./components/chat/Chat.vue')['default']
     ChatMenu: typeof import('./components/ChatMenu.vue')['default']
     ChatSettings: typeof import('./components/ChatSettings.vue')['default']
     LeftSettings: typeof import('./components/LeftSettings.vue')['default']
