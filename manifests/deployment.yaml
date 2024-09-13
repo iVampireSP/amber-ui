@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amber-ui
+  namespace: amber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amber-ui
+  template:
+    metadata:
+      labels:
+        app: amber-ui
+    spec:
+      imagePullSecrets:
+        - name: leaf
+      containers:
+        - name: amber
+          image: leafdev.top/leaf/amber-ui:d034653
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http-80
