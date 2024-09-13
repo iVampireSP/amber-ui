@@ -40,7 +40,7 @@
       <div v-else-if="message.role === 'assistant' && message.content">
         <!-- 助理消息 -->
         <n-flex justify="start" class="!flex-nowrap">
-          <n-avatar round size="large" :src="leaflowPng" class="min-w-10 min-h-10"/>
+          <n-avatar round size="large" :src="leaflowPng" class="min-w-10 min-h-10 p-1.5"/>
 
           <div class="flex items-center flex-nowrap">
             <!-- <vue-markdown-it
