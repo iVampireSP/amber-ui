@@ -26,9 +26,5 @@ declare module 'vue-router/auto-routes' {
     '/chat/[id]/': RouteRecordInfo<'/chat/[id]/', '/chat/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/chat/[id]/index copy': RouteRecordInfo<'/chat/[id]/index copy', '/chat/:id/index copy', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/guest/': RouteRecordInfo<'/guest/', '/guest', Record<never, never>, Record<never, never>>,
-    '/test': RouteRecordInfo<'/test', '/test', Record<never, never>, Record<never, never>>,
-    '/test2': RouteRecordInfo<'/test2', '/test2', Record<never, never>, Record<never, never>>,
-    '/test3': RouteRecordInfo<'/test3', '/test3', Record<never, never>, Record<never, never>>,
-    '/test4': RouteRecordInfo<'/test4', '/test4', Record<never, never>, Record<never, never>>,
   }
 }
