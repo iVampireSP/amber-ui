@@ -1,6 +1,6 @@
 <template>
   <n-list hoverable clickable v-if="assistants.length">
-    <n-list-item v-for="c in assistants" :key="c.id" @click="currentAssistantId = c.id">
+    <n-list-item v-for="c in assistants" :key="c.id" @click="showEditAssistant(c.id ?? 0)">
       <n-thing>
         <div class="flex justify-between items-center">
           <div>
@@ -11,18 +11,6 @@
               <template #icon>
                 <n-icon size="16" class="cursor-pointer">
                   <SettingsOutline />
-                </n-icon>
-              </template>
-            </n-button>
-            <n-button
-              quaternary
-              circle
-              type="warning"
-              @click.stop="deleteAssistant(c.id ?? 0)"
-            >
-              <template #icon>
-                <n-icon size="16" class="cursor-pointer">
-                  <TrashBinOutline />
                 </n-icon>
               </template>
             </n-button>
@@ -105,7 +93,7 @@ const showEditAssistant = async (id: number) => {
 };
 
 const editAssistant = async () => {
-  await getApi().Assistant.apiV1AssistantsIdPatch(
+  await getApi().Assistant.apiV1AssistantsIdPut(
     currentAssistantId.value,
     currentAssistant.value
   );

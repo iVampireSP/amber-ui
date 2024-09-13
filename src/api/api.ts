@@ -1365,6 +1365,12 @@ export interface SchemaAssistantUpdateRequest {
     'enable_memory_for_assistant_share'?: boolean;
     /**
      * 
+     * @type {number}
+     * @memberof SchemaAssistantUpdateRequest
+     */
+    'library_id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof SchemaAssistantUpdateRequest
      */
@@ -2264,11 +2270,11 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1AssistantsIdPatch: async (id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiV1AssistantsIdPut: async (id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1AssistantsIdPatch', 'id', id)
+            assertParamExists('apiV1AssistantsIdPut', 'id', id)
             // verify required parameter 'assistantUpdateRequest' is not null or undefined
-            assertParamExists('apiV1AssistantsIdPatch', 'assistantUpdateRequest', assistantUpdateRequest)
+            assertParamExists('apiV1AssistantsIdPut', 'assistantUpdateRequest', assistantUpdateRequest)
             const localVarPath = `/api/v1/assistants/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2278,7 +2284,7 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -2655,10 +2661,10 @@ export const AssistantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1AssistantsIdPatch(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsPost200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdPatch(id, assistantUpdateRequest, options);
+        async apiV1AssistantsIdPut(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdPut(id, assistantUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdPatch']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2823,8 +2829,8 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1AssistantsIdPatch(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsPost200Response> {
-            return localVarFp.apiV1AssistantsIdPatch(id, assistantUpdateRequest, options).then((request) => request(axios, basePath));
+        apiV1AssistantsIdPut(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsPost200Response> {
+            return localVarFp.apiV1AssistantsIdPut(id, assistantUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
@@ -2978,8 +2984,8 @@ export class AssistantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AssistantApi
      */
-    public apiV1AssistantsIdPatch(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig) {
-        return AssistantApiFp(this.configuration).apiV1AssistantsIdPatch(id, assistantUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    public apiV1AssistantsIdPut(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdPut(id, assistantUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4918,11 +4924,11 @@ export const LibrariesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1LibrariesIdPatch: async (id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiV1LibrariesIdPut: async (id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1LibrariesIdPatch', 'id', id)
+            assertParamExists('apiV1LibrariesIdPut', 'id', id)
             // verify required parameter 'schemaLibraryUpdateRequest' is not null or undefined
-            assertParamExists('apiV1LibrariesIdPatch', 'schemaLibraryUpdateRequest', schemaLibraryUpdateRequest)
+            assertParamExists('apiV1LibrariesIdPut', 'schemaLibraryUpdateRequest', schemaLibraryUpdateRequest)
             const localVarPath = `/api/v1/libraries/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -4932,7 +4938,7 @@ export const LibrariesApiAxiosParamCreator = function (configuration?: Configura
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -5089,10 +5095,10 @@ export const LibrariesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1LibrariesIdPatch(id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1LibrariesIdPatch(id, schemaLibraryUpdateRequest, options);
+        async apiV1LibrariesIdPut(id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1LibrariesIdPut(id, schemaLibraryUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['LibrariesApi.apiV1LibrariesIdPatch']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LibrariesApi.apiV1LibrariesIdPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -5187,8 +5193,8 @@ export const LibrariesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1LibrariesIdPatch(id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiV1LibrariesIdPatch(id, schemaLibraryUpdateRequest, options).then((request) => request(axios, basePath));
+        apiV1LibrariesIdPut(id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiV1LibrariesIdPut(id, schemaLibraryUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5292,8 +5298,8 @@ export class LibrariesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof LibrariesApi
      */
-    public apiV1LibrariesIdPatch(id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options?: RawAxiosRequestConfig) {
-        return LibrariesApiFp(this.configuration).apiV1LibrariesIdPatch(id, schemaLibraryUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    public apiV1LibrariesIdPut(id: number, schemaLibraryUpdateRequest: SchemaLibraryUpdateRequest, options?: RawAxiosRequestConfig) {
+        return LibrariesApiFp(this.configuration).apiV1LibrariesIdPut(id, schemaLibraryUpdateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
