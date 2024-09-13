@@ -4,7 +4,7 @@
       <ChatSettings />
     </n-tab-pane>
     <n-tab-pane name="chap2" tab="助理">
-      <Assistants />
+      <AssistantSettings />
     </n-tab-pane>
     <n-tab-pane name="chap3" tab="工具">
       “威尔！着火了！快来帮忙！”我听到女朋友大喊。现在一个难题在我面前——是恢复一个重要的

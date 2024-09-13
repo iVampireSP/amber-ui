@@ -56,7 +56,10 @@
               ref="actionContainer"
               class="flex [&>button]:ml-2 pr-4 justify-end"
             >
-              <n-tooltip trigger="hover">
+              <n-tooltip
+                trigger="hover"
+                v-if="chatId !== null && chatData.assistant_id !== null"
+              >
                 <template #trigger>
                   <n-button tertiary circle size="large">
                     <template #icon>
@@ -134,7 +137,11 @@ import {
   DocumentAttachOutline,
   TrashBinOutline,
 } from "@vicons/ionicons5";
-import { EntityChatMessage, SchemaChatMessageAddRequestRoleEnum } from "@/api";
+import {
+  EntityChatMessage,
+  SchemaChatMessageAddRequestRoleEnum,
+  EntityChat,
+} from "@/api";
 import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
 import { useChatStore } from "@/stores/chat";
@@ -178,7 +185,6 @@ const fileUpload = ref();
 const uploading = ref(false);
 const autoScroll = ref(true);
 const onBottom = ref(false);
-
 
 function onKeydown(e: KeyboardEvent) {
   // 带 shift 不触发
@@ -519,11 +525,22 @@ const clearChatHistory = async () => {
   processing.value = false;
 };
 
+const chatData: Ref<EntityChat> = ref({});
+const getChat = async () => {
+  chatData.value = (
+    await getApi().Chat.apiV1ChatsIdGet(chatStore.currentChatId)
+  ).data.data;
+};
+
 onMounted(() => {
   chatId.value = props.chatId;
   chatStore.currentChatId = Number(chatId.value);
   updateInputHeight();
   getChatMessages();
+
+  if (chatId.value) {
+    getChat();
+  }
 });
 
 onUnmounted(() => {

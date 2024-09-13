@@ -4,6 +4,7 @@ import {
   ChatMessageApi,
   ChatPublicApi,
   Configuration,
+  LibrariesApi,
   PingApi,
   ToolApi,
 } from "../api";
@@ -20,6 +21,7 @@ interface Api {
   Tool: ToolApi;
   ChatMessage: ChatMessageApi;
   ChatPublic: ChatPublicApi;
+  Library: LibrariesApi;
   conf: Configuration
 }
 
@@ -50,6 +52,7 @@ const getApi = () => {
     Tool: new ToolApi(conf, undefined, axios),
     ChatMessage: new ChatMessageApi(conf, undefined, axios),
     ChatPublic: new ChatPublicApi(conf, undefined, axios),
+    Library: new LibrariesApi(conf, undefined, axios),
     conf: conf
   };
 
