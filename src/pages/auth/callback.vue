@@ -2,8 +2,7 @@
   <div class="flex items-center align-center justify-center h-screen">
     <div class="text-center">
       <div class="mt-5 !ml-2">
-        <n-h1>正在验证 Token</n-h1>
-        <n-text italic></n-text>
+        <n-h1>你正在进入全新的生产力世界</n-h1>
       </div>
       <br />
       <n-p></n-p>
