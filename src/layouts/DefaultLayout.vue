@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Container from "../components/Container.vue";
-import { NLayout, NLayoutContent, NLayoutSider } from "naive-ui";
-import { useIsMobile } from "../utils/composables.js";
-import Menu from "../components/Menu.vue";
+import { NLayout } from "naive-ui";
 import { useUserStore } from "../stores/user";
 import Guest from "../pages/guest/index.vue";
 import router from "../router";
@@ -11,12 +8,6 @@ const currentRoute = computed(() => router.currentRoute.value.name);
 
 const userStore = useUserStore();
 const route = useRoute();
-// import Header from './Header.vue'
-const isMobile = useIsMobile();
-// const isTablet = useIsTablet()
-const menuCollapsed = ref({
-  left: false,
-});
 </script>
 
 <template>

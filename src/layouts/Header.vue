@@ -1,7 +1,7 @@
 <template>
   <n-layout class="select-none">
     <n-layout-header bordered class="layout-header header-height">
-      <n-grid cols="2" class="header-height">
+      <n-grid cols="3" class="header-height">
         <n-grid-item class="flex items-center justify-start mr-1.5">
           <!-- 左侧 -->
           <!-- <n-popover
@@ -25,7 +25,11 @@
             placement="left"
             class="select-none"
           >
-            <n-drawer-content title="有什么我可以帮您的吗" closable :native-scrollbar="false">
+            <n-drawer-content
+              title="有什么我可以帮您的吗"
+              closable
+              :native-scrollbar="false"
+            >
               <LeftSettings></LeftSettings>
             </n-drawer-content>
           </n-drawer>
@@ -40,6 +44,20 @@
 
           <!-- 更新状态 -->
           <div v-show="appStore.updating">正在更新数据</div>
+        </n-grid-item>
+
+        <n-grid-item class="flex items-center justify-center">
+          <!-- 中间部分 -->
+          <n-popover trigger="hover">
+            <template #trigger>
+              <img
+                :src="leaflowpng"
+                class="w-10 cursor-pointer hidden lg:block"
+                @click="backToHome"
+              />
+            </template>
+            <span> Leaflow 利飞 </span>
+          </n-popover>
         </n-grid-item>
 
         <n-grid-item class="flex items-center justify-end mr-1.5">
@@ -101,11 +119,12 @@ import {
   MenuOutline,
   PersonOutline,
   AddOutline,
-  TrashOutline,
+  // TrashOutline,
 } from "@vicons/ionicons5";
 import router from "@/router";
-import { useChatStore } from "@/stores/chat";
-import getApi from "@/plugins/api";
+// import { useChatStore } from "@/stores/chat";
+// import getApi from "@/plugins/api";
+import leaflowpng from "@/assets/images/leaflow.png";
 
 const userStore = useUserStore();
 const isMobile = useIsMobile();
@@ -113,7 +132,7 @@ const isMobile = useIsMobile();
 const appStore = useAppStore();
 const showDrawer = ref(false);
 const width = ref(200);
-const chatStore = useChatStore();
+// const chatStore = useChatStore();
 
 // 如果是手机，则 width 为全屏
 if (isMobile.value) {
@@ -129,9 +148,9 @@ if (isMobile.value) {
   userPlacement.value = "bottom";
 }
 
-const clearChatHistory = async () => {
-  await getApi().ChatMessage.apiV1ChatsIdClearPost(chatStore.currentChatId);
-};
+// const clearChatHistory = async () => {
+//   await getApi().ChatMessage.apiV1ChatsIdClearPost(chatStore.currentChatId);
+// };
 
 const backToHome = () => {
   router.push("/");
