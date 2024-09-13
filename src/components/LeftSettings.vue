@@ -13,25 +13,24 @@
           @click="viewChat(c.id ?? 0)"
         >
           <n-thing>
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
               <div>
                 {{ c.name }}
               </div>
-              <div class="flex items-center">
-                <n-button
-                  quaternary
-                  circle
-                  type="warning"
-                  @click.stop="deleteChat(c.id ?? 0)"
-                >
-                  <template #icon>
-                    <n-icon size="16" class="cursor-pointer">
-                      <TrashBinOutline />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </div></div
-          ></n-thing>
+              <n-button
+                quaternary
+                circle
+                type="warning"
+                @click.stop="deleteChat(c.id ?? 0)"
+              >
+                <template #icon>
+                  <n-icon size="16" class="cursor-pointer">
+                    <TrashBinOutline />
+                  </n-icon>
+                </template>
+              </n-button>
+            </div>
+          </n-thing>
         </n-list-item>
       </n-list>
       <div v-else>
