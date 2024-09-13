@@ -54,7 +54,7 @@
               <template #trigger>
                 <img
                   :src="leaflowpng"
-                  class="w-10 cursor-pointer block select-none"
+                  class="w-8 cursor-pointer block select-none"
                   @click="backToHome"
                 />
               </template>
