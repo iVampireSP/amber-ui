@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMessage } from "naive-ui";
 import { useUserStore } from "../stores/user";
-import chat from "../components/chat/chat.vue";
+import chat from "../components/chat/Chat.vue";
 const message = useMessage();
 const userStore = useUserStore();
 
