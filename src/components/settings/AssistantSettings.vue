@@ -98,11 +98,52 @@
         <n-divider />
         <div>
           <div class="flex justify-between align-middle items-center">
-            <n-h3>助理共享</n-h3>
-            <n-button tertiary @click="showCreateDialog = true">
-              新建助理
-            </n-button>
+            <n-h3>应用对接（原助理共享）</n-h3>
+            <n-popconfirm @positive-click="createAssistantShare">
+              <template #trigger>
+                <n-button tertiary> 新建对接 </n-button>
+              </template>
+              <div>
+                API Key 默认是没有请求限制的。为了防止 API Key
+                滥用，对外发布时，我们建议您包装一个 UI 界面（比如使用 PHP
+                等做一个请求限制），来防止 API Key 滥用。
+                <br />
+                当然，如果您在自己的私有应用中使用，可以忽略此建议。
+              </div>
+            </n-popconfirm>
           </div>
+
+          <n-list hoverable clickable v-if="assistantShares.length">
+            <n-list-item v-for="c in assistantShares" :key="c.id">
+              <n-thing>
+                <div class="flex justify-between items-center">
+                  <div>
+                    {{ c.token }}
+                  </div>
+                  <div>
+                    <n-popconfirm @positive-click="deleteAssistantShare(c.id ?? 0)">
+                      <template #trigger>
+                        <n-button
+                          quaternary
+                          circle
+                          type="warning"
+                        >
+                          <template #icon>
+                            <n-icon size="16" class="cursor-pointer">
+                              <TrashBinOutline />
+                            </n-icon>
+                          </template>
+                        </n-button>
+                      </template>
+                      <div>
+                       删除后，应用将无法访问此助理。
+                      </div>
+                    </n-popconfirm>
+                  </div>
+                </div>
+              </n-thing>
+            </n-list-item>
+          </n-list>
         </div>
       </n-drawer-content>
     </n-drawer>
@@ -194,9 +235,8 @@ const showEditAssistant = async (id: number) => {
   currentAssistantId.value = id;
   currentAssistant.value =
     (await getApi().Assistant.apiV1AssistantsIdGet(id)).data.data ?? {};
+  await getAssistantsShares();
 
-  assistantShares.value =
-    (await getApi().Assistant.apiV1AssistantsIdSharesGet(id)).data.data ?? [];
   getTools();
 };
 
@@ -206,6 +246,7 @@ const editAssistant = async () => {
     currentAssistant.value
   );
   await getAssistants();
+  await getAssistantsShares();
 };
 
 const getTools = async () => {
@@ -254,6 +295,30 @@ const getLibraries = async () => {
 const getAssistants = async () => {
   assistants.value =
     (await getApi().Assistant.apiV1AssistantsGet()).data.data ?? [];
+};
+
+const getAssistantsShares = async () => {
+  assistantShares.value =
+    (
+      await getApi().Assistant.apiV1AssistantsIdSharesGet(
+        currentAssistantId.value
+      )
+    ).data.data ?? [];
+};
+
+const createAssistantShare = async () => {
+  await getApi().Assistant.apiV1AssistantsIdSharesPost(
+    currentAssistantId.value
+  );
+  await getAssistantsShares();
+};
+
+const deleteAssistantShare = async (id: number) => {
+  await getApi().Assistant.apiV1AssistantsIdSharesShareIdDelete(
+    currentAssistantId.value,
+    id
+  );
+  await getAssistantsShares();
 };
 
 getChats();
