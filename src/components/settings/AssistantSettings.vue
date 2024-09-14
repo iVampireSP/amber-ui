@@ -132,8 +132,8 @@
 <script lang="ts" setup>
 import { useDialog } from "naive-ui";
 import { TrashBinOutline, SettingsOutline } from "@vicons/ionicons5";
-import getApi from "../plugins/api";
-import { useChatStore } from "../stores/chat";
+import getApi from "@/plugins/api";
+import { useChatStore } from "@/stores/chat";
 import router from "@/router";
 import { ref } from "vue";
 import {

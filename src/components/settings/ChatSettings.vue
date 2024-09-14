@@ -78,14 +78,14 @@
 <script lang="ts" setup>
 import { NMenu, useDialog } from "naive-ui";
 import { useRoute } from "vue-router";
-import { leftMenuOptions } from "../plugins/menus/left";
+import { leftMenuOptions } from "../../plugins/menus/left";
 import {
   ChatboxOutline,
   TrashBinOutline,
   SettingsOutline,
 } from "@vicons/ionicons5";
-import getApi from "../plugins/api";
-import { useChatStore } from "../stores/chat";
+import getApi from "../../plugins/api";
+import { useChatStore } from "../../stores/chat";
 import router from "@/router";
 import { ref } from "vue";
 import { EntityAssistant, EntityChat } from "@/api";
