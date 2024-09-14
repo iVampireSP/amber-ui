@@ -33,7 +33,7 @@
           /> -->
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
             <div v-html="mdIt.render(message.content)"></div>
-            <n-avatar round size="large" :src="userStore.user.avatar" class="ml-3" />
+            <n-avatar round size="large" :src="userStore.user.avatar" class="ml-3 min-w-10" />
           </div>
         </n-flex>
       </div>
