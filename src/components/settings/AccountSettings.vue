@@ -4,7 +4,7 @@
       <AtCircleOutline />
     </n-icon>
     <p>如果需要更新你的账户，请前往 UserLand</p>
-    <div  class="mt-3">
+    <div  class="mt-3 mb-2">
       <n-button tag="a" href="https://auth.leaflow.cn" target="_blank">UserLand</n-button>
     </div>
   </div>

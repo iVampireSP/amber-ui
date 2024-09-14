@@ -4,7 +4,7 @@
       <GiftSharp />
     </n-icon>
     <p>Amber 会根据您的对话更加了解你</p>
-    <div  class="mt-3">
+    <div class="mt-3 mb-2">
       <n-button>创建</n-button>
     </div>
   </div>

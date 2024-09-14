@@ -4,7 +4,7 @@
       <DocumentOutline />
     </n-icon>
     <p>Amber 可以索引您的文档中的内容</p>
-    <div  class="mt-3">
+    <div  class="mt-3 mb-2">
       <n-button>创建</n-button>
     </div>
   </div>
