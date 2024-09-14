@@ -76,20 +76,32 @@
                 :options="librarySelects"
               />
             </n-form-item>
-
-            <n-button type="primary" @click="editAssistant"> 更新 </n-button>
+            <n-space>
+              <n-button type="primary" @click="editAssistant"> 更新 </n-button>
+              <n-button type="error" @click="deleteAssistant" class="ml-2">
+                删除
+              </n-button>
+            </n-space>
           </n-form>
 
           <div class="mt-3" v-if="userTools.length">
             <n-h3>工具</n-h3>
-            <div class="flex justify-between items-center" >
-              <div>
-                工具 1
-              </div>
+            <div class="flex justify-between items-center">
+              <div>工具 1</div>
               <div>
                 <n-switch />
               </div>
             </div>
+          </div>
+        </div>
+
+        <n-divider />
+        <div>
+          <div class="flex justify-between align-middle items-center">
+            <n-h3>助理共享</n-h3>
+            <n-button tertiary @click="showCreateDialog = true">
+              新建助理
+            </n-button>
           </div>
         </div>
       </n-drawer-content>
@@ -138,6 +150,7 @@ import router from "@/router";
 import { ref } from "vue";
 import {
   EntityAssistant,
+  EntityAssistantShare,
   EntityAssistantTool,
   EntityLibrary,
   EntityTool,
@@ -154,19 +167,24 @@ const currentAssistant: Ref<EntityAssistant> = ref({});
 const assistants: Ref<EntityAssistant[]> = ref([]);
 const librarySelects: any = ref([]);
 const libraries: Ref<EntityLibrary[]> = ref([]);
+const assistantShares: Ref<EntityAssistantShare[]> = ref([]);
+
 async function getChats() {
   chatStore.chats = (await getApi().Chat.apiV1ChatsGet()).data.data;
 }
 
-const deleteAssistant = async (id: number) => {
+const deleteAssistant = async () => {
   dialog.warning({
     title: "删除助理",
     content: "删除后，将不能恢复",
     positiveText: "确定",
     negativeText: "取消",
     onPositiveClick: async () => {
-      await getApi().Assistant.apiV1AssistantsIdDelete(id);
+      await getApi().Assistant.apiV1AssistantsIdDelete(
+        currentAssistantId.value
+      );
       await getAssistants();
+      showSettingsDialog.value = false;
     },
   });
 };
@@ -177,6 +195,8 @@ const showEditAssistant = async (id: number) => {
   currentAssistant.value =
     (await getApi().Assistant.apiV1AssistantsIdGet(id)).data.data ?? {};
 
+  assistantShares.value =
+    (await getApi().Assistant.apiV1AssistantsIdSharesGet(id)).data.data ?? [];
   getTools();
 };
 
@@ -207,6 +227,7 @@ const createAssistant = async () => {
       currentAssistant.value.description ?? currentAssistant.value.name ?? "",
   });
   await getAssistants();
+  showCreateDialog.value = false;
 };
 
 const getLibraries = async () => {
