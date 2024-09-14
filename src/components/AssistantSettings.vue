@@ -1,13 +1,25 @@
 <template>
+  <div class="mb-3">
+    <n-button tertiary @click="showCreateDialog = true"> 新建助理 </n-button>
+  </div>
   <n-list hoverable clickable v-if="assistants.length">
-    <n-list-item v-for="c in assistants" :key="c.id" @click="showEditAssistant(c.id ?? 0)">
+    <n-list-item
+      v-for="c in assistants"
+      :key="c.id"
+      @click="showEditAssistant(c.id ?? 0)"
+    >
       <n-thing>
         <div class="flex justify-between items-center">
           <div>
             {{ c.name }}
           </div>
           <div>
-            <n-button quaternary circle type="info" @click.stop="showEditAssistant(c.id ?? 0)">
+            <n-button
+              quaternary
+              circle
+              type="info"
+              @click.stop="showEditAssistant(c.id ?? 0)"
+            >
               <template #icon>
                 <n-icon size="16" class="cursor-pointer">
                   <SettingsOutline />
@@ -19,8 +31,15 @@
       </n-thing>
     </n-list-item>
   </n-list>
-  <div v-else>
-    <n-result status="404" title="还没有助理" description="助理可以整合一系列工具，也可以指定人设和自定义提示词">
+  <div v-else class="text-center">
+    <n-result
+      status="404"
+      title="还没有助理"
+      description="助理可以整合一系列工具，也可以指定人设和自定义提示词"
+    >
+      <n-button type="primary" @click="showCreateDialog = true">
+        新建助理
+      </n-button>
     </n-result>
   </div>
   <div>
@@ -35,6 +54,21 @@
               />
             </n-form-item>
 
+            <n-form-item label="描述">
+              <n-input
+                v-model:value="currentAssistant.description"
+                @keydown.enter.prevent
+              />
+            </n-form-item>
+
+            <n-form-item label="提示词">
+              <n-input
+                type="textarea"
+                v-model:value="currentAssistant.prompt"
+                @keydown.enter.prevent
+              />
+            </n-form-item>
+
             <n-form-item label="资料库选择">
               <n-select
                 :style="{ width: '33%' }"
@@ -44,6 +78,50 @@
             </n-form-item>
 
             <n-button type="primary" @click="editAssistant"> 更新 </n-button>
+          </n-form>
+
+          <div class="mt-3" v-if="userTools.length">
+            <n-h3>工具</n-h3>
+            <div class="flex justify-between items-center" >
+              <div>
+                工具 1
+              </div>
+              <div>
+                <n-switch />
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-drawer-content>
+    </n-drawer>
+
+    <n-drawer placement="left" v-model:show="showCreateDialog" :width="600">
+      <n-drawer-content closable title="新建助理">
+        <div v-if="currentAssistant">
+          <n-form>
+            <n-form-item label="助理名称">
+              <n-input
+                v-model:value="currentAssistant.name"
+                @keydown.enter.prevent
+              />
+            </n-form-item>
+
+            <n-form-item label="描述">
+              <n-input
+                v-model:value="currentAssistant.description"
+                @keydown.enter.prevent
+              />
+            </n-form-item>
+
+            <n-form-item label="提示词">
+              <n-input
+                type="textarea"
+                v-model:value="currentAssistant.prompt"
+                @keydown.enter.prevent
+              />
+            </n-form-item>
+
+            <n-button type="primary" @click="createAssistant"> 新建 </n-button>
           </n-form>
         </div>
       </n-drawer-content>
@@ -58,11 +136,19 @@ import getApi from "../plugins/api";
 import { useChatStore } from "../stores/chat";
 import router from "@/router";
 import { ref } from "vue";
-import { EntityAssistant, EntityLibrary } from "@/api";
+import {
+  EntityAssistant,
+  EntityAssistantTool,
+  EntityLibrary,
+  EntityTool,
+} from "@/api";
 
 const dialog = useDialog();
 const chatStore = useChatStore();
 const showSettingsDialog = ref(false);
+const showCreateDialog = ref(false);
+const currentAssistantTools: Ref<EntityAssistantTool[]> = ref([]);
+const userTools: Ref<EntityTool[]> = ref([]);
 const currentAssistantId = ref();
 const currentAssistant: Ref<EntityAssistant> = ref({});
 const assistants: Ref<EntityAssistant[]> = ref([]);
@@ -90,6 +176,8 @@ const showEditAssistant = async (id: number) => {
   currentAssistantId.value = id;
   currentAssistant.value =
     (await getApi().Assistant.apiV1AssistantsIdGet(id)).data.data ?? {};
+
+  getTools();
 };
 
 const editAssistant = async () => {
@@ -97,6 +185,27 @@ const editAssistant = async () => {
     currentAssistantId.value,
     currentAssistant.value
   );
+  await getAssistants();
+};
+
+const getTools = async () => {
+  currentAssistantTools.value =
+    (
+      await getApi().Assistant.apiV1AssistantsIdToolsGet(
+        currentAssistantId.value
+      )
+    ).data.data ?? [];
+
+  userTools.value = (await getApi().Tool.apiV1ToolsGet()).data.data ?? [];
+};
+
+const createAssistant = async () => {
+  await getApi().Assistant.apiV1AssistantsPost({
+    name: currentAssistant.value.name ?? "",
+    prompt: currentAssistant.value.prompt ?? "",
+    description:
+      currentAssistant.value.description ?? currentAssistant.value.name ?? "",
+  });
   await getAssistants();
 };
 
