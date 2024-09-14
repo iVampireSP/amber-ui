@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap");
 
 :root {
   --header-height: 50px;
@@ -22,4 +23,17 @@ body {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.noto-sans-sc-g {
+  font-family: "Noto Sans SC", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "Jetbrains Mono";
+  src: url("/src/assets/fonts/JetBrainsMono-Medium.woff2") format("woff2");
 }

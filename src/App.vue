@@ -105,7 +105,12 @@ hljs.registerLanguage('ini', ini)
 //
 // }
 
-const themeOverrides = {}
+const themeOverrides = {
+  common: {
+    fontFamily: "Noto Sans SC, sans-serif",
+    fontFamilyMono: "JetBrains Mono, monospace",
+  }
+}
 
 
 
