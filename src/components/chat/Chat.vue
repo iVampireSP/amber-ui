@@ -147,7 +147,6 @@ import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
 import { useChatStore } from "@/stores/chat";
 import router from "@/router";
-import { useAppStore } from "@/stores/app";
 import element from "@/config/element";
 
 // 获取组件传入的 chatId
@@ -331,9 +330,9 @@ async function sendMessage(
       })
       .then(async (res) => {
         chatId.value = res.data.data?.id;
+        chatStore.currentChat = res.data.data;
 
         if (chatId.value) {
-          chatStore.currentChatId = chatId.value;
           redirect = true;
         }
         await getChatMessages();
@@ -529,21 +528,27 @@ function streamChat(streamId: String, redirect = false) {
 
 const clearChatHistory = async () => {
   processing.value = true;
-  await getApi().ChatMessage.apiV1ChatsIdClearPost(chatStore.currentChatId);
+  await getApi().ChatMessage.apiV1ChatsIdClearPost(
+    chatStore.currentChat?.id ?? 0
+  );
   chatMessages.value = [];
   processing.value = false;
 };
 
 const chatData: Ref<EntityChat> = ref({});
 const getChat = async () => {
-  chatData.value = (
-    await getApi().Chat.apiV1ChatsIdGet(chatStore.currentChatId)
-  ).data.data ?? {};
+  chatData.value =
+    (await getApi().Chat.apiV1ChatsIdGet(chatStore.currentChat?.id ?? 0)).data
+      .data ?? {};
+
+  chatStore.currentChat = chatData.value;
 };
 
 onMounted(() => {
   chatId.value = props.chatId;
-  chatStore.currentChatId = Number(chatId.value);
+  chatStore.currentChat = {
+    id: Number(chatId.value),
+  };
   updateInputHeight();
   getChatMessages();
 
@@ -553,7 +558,9 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  chatStore.currentChatId = 0;
+  chatStore.currentChat = {
+    id: 0,
+  };
 });
 
 const uploadFile = () => {

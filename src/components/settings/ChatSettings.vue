@@ -4,7 +4,7 @@
       v-for="c in chatStore.chats"
       :key="c.id"
       :class="
-        c.id === chatStore.currentChatId ? ' bg-gray-100 dark:bg-gray-700' : ''
+        c.id === chatStore.currentChat?.id ? ' bg-gray-100 dark:bg-gray-700' : ''
       "
       @click="viewChat(c.id ?? 0)"
     >

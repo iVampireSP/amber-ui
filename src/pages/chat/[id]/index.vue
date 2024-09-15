@@ -10,5 +10,7 @@ import { useChatStore } from "@/stores/chat";
 const chatStore = useChatStore();
 // @ts-ignore
 const chatId = useRoute().params.id as number;
-chatStore.currentChatId = chatId;
+chatStore.currentChat = {
+  id: chatId
+};
 </script>

@@ -54,7 +54,7 @@
         <n-grid-item class="flex items-center justify-center select-none">
           <div v-show="!isMobile">
             <!-- 中间部分 -->
-            <n-popover trigger="hover">
+            <n-popover trigger="hover" v-if="!chatStore.currentChat?.id && !chatStore.currentChat?.name">
               <template #trigger>
                 <img
                   :src="leaflowpng"
@@ -64,6 +64,9 @@
               </template>
               <span> Leaflow 利飞 </span>
             </n-popover>
+            <div v-else>
+              <span>{{ chatStore.currentChat?.name }}</span>
+            </div>
           </div>
         </n-grid-item>
 
@@ -131,8 +134,10 @@ import router from "@/router";
 // import { useChatStore } from "@/stores/chat";
 // import getApi from "@/plugins/api";
 import leaflowpng from "@/assets/images/leaflow.png";
+import { useChatStore } from "@/stores/chat";
 
 const userStore = useUserStore();
+const chatStore = useChatStore();
 const isMobile = useIsMobile();
 const showDrawer = ref(false);
 const width = computed(() => {
@@ -141,7 +146,7 @@ const width = computed(() => {
   } else {
     return window.innerWidth * 0.4;
   }
-})
+});
 
 const userPlacement = ref("bottom");
 if (isMobile.value) {
