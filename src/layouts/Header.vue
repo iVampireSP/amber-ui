@@ -40,7 +40,11 @@
             <n-icon size="24">
               <menu-outline />
             </n-icon>
-            <span class="ml-1.5"> Leaflow 利飞 </span>
+            <span class="ml-1.5">
+              <span v-if="!isMobile"> Leaflow </span>
+
+              <span> 利飞 </span>
+            </span>
           </div>
 
           <!-- 更新状态 -->
@@ -115,9 +119,8 @@
 <script setup lang="ts">
 import UserMenu from "../components/UserMenu.vue";
 import AssistantMenu from "../components/AssistantMenu.vue";
-import { useAppStore } from "../stores/app";
 import { useUserStore } from "../stores/user";
-import { useIsMobile, useIsTablet } from "../utils/composables";
+import { useIsMobile } from "../utils/composables";
 import {
   MenuOutline,
   PersonOutline,
