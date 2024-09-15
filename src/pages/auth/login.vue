@@ -3,7 +3,7 @@
     <div class="text-center">
       <div class="mt-5 !ml-2">
         <n-h1>“生成式 AI 的颠覆性只会越来越大”</n-h1>
-        <n-text italic> 全球第三大富豪Gautam Adani（高塔姆·阿达尼） </n-text>
+        <n-text italic> 全球第三大富豪 Gautam Adani（高塔姆·阿达尼） </n-text>
       </div>
       <br />
       <n-p>正在载入</n-p>
