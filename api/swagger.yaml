@@ -9,13 +9,11 @@ definitions:
         type: boolean
       disable_memory:
         type: boolean
-      enable_memory_for_assistant_share:
+      enable_memory_for_assistant_api:
         type: boolean
       id:
         description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
         type: integer
-      library:
-        $ref: '#/definitions/entity.Library'
       library_id:
         type: integer
       name:
@@ -27,7 +25,7 @@ definitions:
       user_id:
         type: string
     type: object
-  entity.AssistantShare:
+  entity.AssistantKey:
     properties:
       assistant:
         $ref: '#/definitions/entity.Assistant'
@@ -38,7 +36,7 @@ definitions:
       id:
         description: Id        schema.EntityId `gorm:"primarykey" json:"id,string"`
         type: integer
-      token:
+      secret:
         type: string
       updated_at:
         type: string
@@ -245,7 +243,7 @@ definitions:
     type: object
   schema.AddPublicChatMessageRequest:
     properties:
-      assistant_token:
+      assistant_key:
         type: string
       guest_id:
         type: string
@@ -260,7 +258,7 @@ definitions:
         - assistant
         type: string
     required:
-    - assistant_token
+    - assistant_key
     - guest_id
     - message
     - role
@@ -307,7 +305,7 @@ definitions:
         - true
         - false
         type: boolean
-      enable_memory_for_assistant_share:
+      enable_memory_for_assistant_api:
         enum:
         - true
         - false
@@ -369,7 +367,7 @@ definitions:
     type: object
   schema.ChatPublicRequest:
     properties:
-      assistant_token:
+      assistant_key:
         type: string
       guest_id:
         type: string
@@ -377,7 +375,7 @@ definitions:
         maxLength: 32
         type: string
     required:
-    - assistant_token
+    - assistant_key
     - guest_id
     - name
     type: object
@@ -436,12 +434,12 @@ definitions:
     type: object
   schema.GetPublicChatMessageRequest:
     properties:
-      assistant_token:
+      assistant_key:
         type: string
       guest_id:
         type: string
     required:
-    - assistant_token
+    - assistant_key
     - guest_id
     type: object
   schema.LibraryCreateRequest:
@@ -558,16 +556,16 @@ definitions:
       description:
         maxLength: 255
         type: string
-      name:
+      discovery_url:
         maxLength: 255
         type: string
-      url:
+      name:
         maxLength: 255
         type: string
     required:
     - description
+    - discovery_url
     - name
-    - url
     type: object
   schema.ToolDiscoveryInput:
     properties:
@@ -828,6 +826,99 @@ paths:
       summary: 更新 Assistant
       tags:
       - assistant
+  /api/v1/assistants/{id}/keys:
+    get:
+      consumes:
+      - application/json
+      description: 此 API 可以创建一个 Assistant API Key，可以将你的 Assistant 公开出去使用。
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.AssistantKey'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取 Assistant API Key列表
+      tags:
+      - assistant
+    post:
+      consumes:
+      - application/json
+      description: 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.AssistantKey'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建 Assistant API Key
+      tags:
+      - assistant
+  /api/v1/assistants/{id}/keys/{key_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 此方法将会删除API Key，删除后，API Key将会立即失效。
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+      - in: path
+        name: key_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schema.ResponseBody'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除 Assistant API Key
+      tags:
+      - assistant
   /api/v1/assistants/{id}/library:
     delete:
       consumes:
@@ -877,99 +968,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 绑定资料库
-      tags:
-      - assistant
-  /api/v1/assistants/{id}/shares:
-    get:
-      consumes:
-      - application/json
-      description: 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
-      parameters:
-      - in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/schema.ResponseBody'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/entity.AssistantShare'
-                  type: array
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/schema.ResponseBody'
-      security:
-      - ApiKeyAuth: []
-      summary: 获取 Assistant 共享列表
-      tags:
-      - assistant
-    post:
-      consumes:
-      - application/json
-      description: 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
-      parameters:
-      - in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/schema.ResponseBody'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.AssistantShare'
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/schema.ResponseBody'
-      security:
-      - ApiKeyAuth: []
-      summary: 创建 Assistant 共享
-      tags:
-      - assistant
-  /api/v1/assistants/{id}/shares/{share_id}:
-    delete:
-      consumes:
-      - application/json
-      description: 此方法将会删除共享，删除后，共享将会立即失效。
-      parameters:
-      - in: path
-        name: id
-        required: true
-        type: integer
-      - in: path
-        name: share_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schema.ResponseBody'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/schema.ResponseBody'
-      security:
-      - ApiKeyAuth: []
-      summary: 删除 Assistant 共享
       tags:
       - assistant
   /api/v1/assistants/{id}/tools:
@@ -1183,7 +1181,7 @@ paths:
         required: true
         type: integer
       - in: formData
-        name: assistant_token
+        name: assistant_key
         required: true
         type: string
       - in: formData
@@ -1244,7 +1242,7 @@ paths:
         required: true
         type: integer
       - in: query
-        name: assistant_token
+        name: assistant_key
         required: true
         type: string
       - in: query
@@ -1326,7 +1324,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get string by ID
+      description: 列出当前账户下的所有的对话
       parameters:
       - description: Assistant ID
         in: query
@@ -1358,7 +1356,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get string by ID
+      description: 创建一个对话，如果不指定 Assistant ID，将会使用默认 Assistant。默认 Assistant 不支持上传文件以及使用外部工具。
       parameters:
       - description: Chat
         in: body
@@ -1395,7 +1393,7 @@ paths:
     delete:
       consumes:
       - application/json
-      description: get string by ID
+      description: 删除一个对话以及聊天记录
       parameters:
       - description: Chat ID
         in: path
@@ -1604,7 +1602,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get string by ID
+      description: 获取一个对话的所有聊天记录
       parameters:
       - in: path
         name: id
@@ -1644,7 +1642,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: get string by ID
+      description: 添加一条消息
       parameters:
       - in: path
         name: id
@@ -2027,7 +2025,8 @@ paths:
     get:
       consumes:
       - application/json
-      description: get string by ID
+      deprecated: true
+      description: 测试接口，将会返回当前用户的信息
       produces:
       - application/json
       responses:
@@ -2053,7 +2052,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get string by ID
+      description: 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
       parameters:
       - description: 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带
           Prompt 选项
@@ -2100,7 +2099,7 @@ paths:
             $ref: '#/definitions/schema.ResponseBody'
       security:
       - none: []
-      summary: 流式传输聊天内容
+      summary: 流式传输文本
       tags:
       - chat_message
   /api/v1/tools:

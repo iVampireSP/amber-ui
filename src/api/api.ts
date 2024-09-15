@@ -57,62 +57,62 @@ export interface ApiV1AssistantsGet200Response {
 /**
  * 
  * @export
- * @interface ApiV1AssistantsIdSharesGet200Response
+ * @interface ApiV1AssistantsIdKeysGet200Response
  */
-export interface ApiV1AssistantsIdSharesGet200Response {
+export interface ApiV1AssistantsIdKeysGet200Response {
     /**
      * 
-     * @type {Array<EntityAssistantShare>}
-     * @memberof ApiV1AssistantsIdSharesGet200Response
+     * @type {Array<EntityAssistantKey>}
+     * @memberof ApiV1AssistantsIdKeysGet200Response
      */
-    'data'?: Array<EntityAssistantShare>;
+    'data'?: Array<EntityAssistantKey>;
     /**
      * 
      * @type {string}
-     * @memberof ApiV1AssistantsIdSharesGet200Response
+     * @memberof ApiV1AssistantsIdKeysGet200Response
      */
     'error'?: string;
     /**
      * 
      * @type {string}
-     * @memberof ApiV1AssistantsIdSharesGet200Response
+     * @memberof ApiV1AssistantsIdKeysGet200Response
      */
     'message'?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof ApiV1AssistantsIdSharesGet200Response
+     * @memberof ApiV1AssistantsIdKeysGet200Response
      */
     'success'?: boolean;
 }
 /**
  * 
  * @export
- * @interface ApiV1AssistantsIdSharesPost200Response
+ * @interface ApiV1AssistantsIdKeysPost200Response
  */
-export interface ApiV1AssistantsIdSharesPost200Response {
+export interface ApiV1AssistantsIdKeysPost200Response {
     /**
      * 
-     * @type {EntityAssistantShare}
-     * @memberof ApiV1AssistantsIdSharesPost200Response
+     * @type {EntityAssistantKey}
+     * @memberof ApiV1AssistantsIdKeysPost200Response
      */
-    'data'?: EntityAssistantShare;
+    'data'?: EntityAssistantKey;
     /**
      * 
      * @type {string}
-     * @memberof ApiV1AssistantsIdSharesPost200Response
+     * @memberof ApiV1AssistantsIdKeysPost200Response
      */
     'error'?: string;
     /**
      * 
      * @type {string}
-     * @memberof ApiV1AssistantsIdSharesPost200Response
+     * @memberof ApiV1AssistantsIdKeysPost200Response
      */
     'message'?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof ApiV1AssistantsIdSharesPost200Response
+     * @memberof ApiV1AssistantsIdKeysPost200Response
      */
     'success'?: boolean;
 }
@@ -251,7 +251,7 @@ export interface ApiV1ChatPublicChatIdImagesPostRequest {
      * @type {string}
      * @memberof ApiV1ChatPublicChatIdImagesPostRequest
      */
-    'assistant_token': string;
+    'assistant_key': string;
     /**
      * 
      * @type {string}
@@ -635,19 +635,13 @@ export interface EntityAssistant {
      * @type {boolean}
      * @memberof EntityAssistant
      */
-    'enable_memory_for_assistant_share'?: boolean;
+    'enable_memory_for_assistant_api'?: boolean;
     /**
      * Id        schema.EntityId `gorm:\"primarykey\" json:\"id,string\"`
      * @type {number}
      * @memberof EntityAssistant
      */
     'id'?: number;
-    /**
-     * 
-     * @type {EntityLibrary}
-     * @memberof EntityAssistant
-     */
-    'library'?: EntityLibrary;
     /**
      * 
      * @type {number}
@@ -682,43 +676,43 @@ export interface EntityAssistant {
 /**
  * 
  * @export
- * @interface EntityAssistantShare
+ * @interface EntityAssistantKey
  */
-export interface EntityAssistantShare {
+export interface EntityAssistantKey {
     /**
      * 
      * @type {EntityAssistant}
-     * @memberof EntityAssistantShare
+     * @memberof EntityAssistantKey
      */
     'assistant'?: EntityAssistant;
     /**
      * 
      * @type {number}
-     * @memberof EntityAssistantShare
+     * @memberof EntityAssistantKey
      */
     'assistant_id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof EntityAssistantShare
+     * @memberof EntityAssistantKey
      */
     'created_at'?: string;
     /**
      * Id        schema.EntityId `gorm:\"primarykey\" json:\"id,string\"`
      * @type {number}
-     * @memberof EntityAssistantShare
+     * @memberof EntityAssistantKey
      */
     'id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof EntityAssistantShare
+     * @memberof EntityAssistantKey
      */
-    'token'?: string;
+    'secret'?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityAssistantShare
+     * @memberof EntityAssistantKey
      */
     'updated_at'?: string;
 }
@@ -1258,7 +1252,7 @@ export interface SchemaAddPublicChatMessageRequest {
      * @type {string}
      * @memberof SchemaAddPublicChatMessageRequest
      */
-    'assistant_token': string;
+    'assistant_key': string;
     /**
      * 
      * @type {string}
@@ -1362,7 +1356,7 @@ export interface SchemaAssistantUpdateRequest {
      * @type {boolean}
      * @memberof SchemaAssistantUpdateRequest
      */
-    'enable_memory_for_assistant_share'?: boolean;
+    'enable_memory_for_assistant_api'?: boolean;
     /**
      * 
      * @type {number}
@@ -1487,7 +1481,7 @@ export interface SchemaChatPublicRequest {
      * @type {string}
      * @memberof SchemaChatPublicRequest
      */
-    'assistant_token': string;
+    'assistant_key': string;
     /**
      * 
      * @type {string}
@@ -1631,7 +1625,7 @@ export interface SchemaGetPublicChatMessageRequest {
      * @type {string}
      * @memberof SchemaGetPublicChatMessageRequest
      */
-    'assistant_token': string;
+    'assistant_key': string;
     /**
      * 
      * @type {string}
@@ -1917,13 +1911,13 @@ export interface SchemaToolCreateRequest {
      * @type {string}
      * @memberof SchemaToolCreateRequest
      */
-    'name': string;
+    'discovery_url': string;
     /**
      * 
      * @type {string}
      * @memberof SchemaToolCreateRequest
      */
-    'url': string;
+    'name': string;
 }
 /**
  * 
@@ -2183,6 +2177,121 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
             };
         },
         /**
+         * 此 API 可以创建一个 Assistant API Key，可以将你的 Assistant 公开出去使用。
+         * @summary 获取 Assistant API Key列表
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdKeysGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsIdKeysGet', 'id', id)
+            const localVarPath = `/api/v1/assistants/{id}/keys`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 此方法将会删除API Key，删除后，API Key将会立即失效。
+         * @summary 删除 Assistant API Key
+         * @param {number} id 
+         * @param {number} keyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdKeysKeyIdDelete: async (id: number, keyId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsIdKeysKeyIdDelete', 'id', id)
+            // verify required parameter 'keyId' is not null or undefined
+            assertParamExists('apiV1AssistantsIdKeysKeyIdDelete', 'keyId', keyId)
+            const localVarPath = `/api/v1/assistants/{id}/keys/{key_id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"key_id"}}`, encodeURIComponent(String(keyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
+         * @summary 创建 Assistant API Key
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdKeysPost: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsIdKeysPost', 'id', id)
+            const localVarPath = `/api/v1/assistants/{id}/keys`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary 解绑资料库
          * @param {number} id 
@@ -2299,121 +2408,6 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(assistantUpdateRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
-         * @summary 获取 Assistant 共享列表
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1AssistantsIdSharesGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1AssistantsIdSharesGet', 'id', id)
-            const localVarPath = `/api/v1/assistants/{id}/shares`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication ApiKeyAuth required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
-         * @summary 创建 Assistant 共享
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1AssistantsIdSharesPost: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1AssistantsIdSharesPost', 'id', id)
-            const localVarPath = `/api/v1/assistants/{id}/shares`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication ApiKeyAuth required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 此方法将会删除共享，删除后，共享将会立即失效。
-         * @summary 删除 Assistant 共享
-         * @param {number} id 
-         * @param {number} shareId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1AssistantsIdSharesShareIdDelete: async (id: number, shareId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1AssistantsIdSharesShareIdDelete', 'id', id)
-            // verify required parameter 'shareId' is not null or undefined
-            assertParamExists('apiV1AssistantsIdSharesShareIdDelete', 'shareId', shareId)
-            const localVarPath = `/api/v1/assistants/{id}/shares/{share_id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-                .replace(`{${"share_id"}}`, encodeURIComponent(String(shareId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication ApiKeyAuth required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2627,6 +2621,46 @@ export const AssistantApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 此 API 可以创建一个 Assistant API Key，可以将你的 Assistant 公开出去使用。
+         * @summary 获取 Assistant API Key列表
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsIdKeysGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsIdKeysGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdKeysGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdKeysGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 此方法将会删除API Key，删除后，API Key将会立即失效。
+         * @summary 删除 Assistant API Key
+         * @param {number} id 
+         * @param {number} keyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsIdKeysKeyIdDelete(id: number, keyId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SchemaResponseBody>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdKeysKeyIdDelete(id, keyId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdKeysKeyIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
+         * @summary 创建 Assistant API Key
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsIdKeysPost(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsIdKeysPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdKeysPost(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdKeysPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary 解绑资料库
          * @param {number} id 
@@ -2665,46 +2699,6 @@ export const AssistantApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdPut(id, assistantUpdateRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdPut']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
-         * @summary 获取 Assistant 共享列表
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1AssistantsIdSharesGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsIdSharesGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdSharesGet(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdSharesGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
-         * @summary 创建 Assistant 共享
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1AssistantsIdSharesPost(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsIdSharesPost200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdSharesPost(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdSharesPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 此方法将会删除共享，删除后，共享将会立即失效。
-         * @summary 删除 Assistant 共享
-         * @param {number} id 
-         * @param {number} shareId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1AssistantsIdSharesShareIdDelete(id: number, shareId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SchemaResponseBody>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdSharesShareIdDelete(id, shareId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdSharesShareIdDelete']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2801,6 +2795,37 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
             return localVarFp.apiV1AssistantsIdGet(id, options).then((request) => request(axios, basePath));
         },
         /**
+         * 此 API 可以创建一个 Assistant API Key，可以将你的 Assistant 公开出去使用。
+         * @summary 获取 Assistant API Key列表
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdKeysGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsIdKeysGet200Response> {
+            return localVarFp.apiV1AssistantsIdKeysGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 此方法将会删除API Key，删除后，API Key将会立即失效。
+         * @summary 删除 Assistant API Key
+         * @param {number} id 
+         * @param {number} keyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdKeysKeyIdDelete(id: number, keyId: number, options?: RawAxiosRequestConfig): AxiosPromise<SchemaResponseBody> {
+            return localVarFp.apiV1AssistantsIdKeysKeyIdDelete(id, keyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
+         * @summary 创建 Assistant API Key
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdKeysPost(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsIdKeysPost200Response> {
+            return localVarFp.apiV1AssistantsIdKeysPost(id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary 解绑资料库
          * @param {number} id 
@@ -2831,37 +2856,6 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
          */
         apiV1AssistantsIdPut(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsPost200Response> {
             return localVarFp.apiV1AssistantsIdPut(id, assistantUpdateRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
-         * @summary 获取 Assistant 共享列表
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1AssistantsIdSharesGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsIdSharesGet200Response> {
-            return localVarFp.apiV1AssistantsIdSharesGet(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
-         * @summary 创建 Assistant 共享
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1AssistantsIdSharesPost(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsIdSharesPost200Response> {
-            return localVarFp.apiV1AssistantsIdSharesPost(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 此方法将会删除共享，删除后，共享将会立即失效。
-         * @summary 删除 Assistant 共享
-         * @param {number} id 
-         * @param {number} shareId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1AssistantsIdSharesShareIdDelete(id: number, shareId: number, options?: RawAxiosRequestConfig): AxiosPromise<SchemaResponseBody> {
-            return localVarFp.apiV1AssistantsIdSharesShareIdDelete(id, shareId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2951,6 +2945,43 @@ export class AssistantApi extends BaseAPI {
     }
 
     /**
+     * 此 API 可以创建一个 Assistant API Key，可以将你的 Assistant 公开出去使用。
+     * @summary 获取 Assistant API Key列表
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsIdKeysGet(id: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdKeysGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 此方法将会删除API Key，删除后，API Key将会立即失效。
+     * @summary 删除 Assistant API Key
+     * @param {number} id 
+     * @param {number} keyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsIdKeysKeyIdDelete(id: number, keyId: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdKeysKeyIdDelete(id, keyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
+     * @summary 创建 Assistant API Key
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsIdKeysPost(id: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdKeysPost(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * 
      * @summary 解绑资料库
      * @param {number} id 
@@ -2986,43 +3017,6 @@ export class AssistantApi extends BaseAPI {
      */
     public apiV1AssistantsIdPut(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig) {
         return AssistantApiFp(this.configuration).apiV1AssistantsIdPut(id, assistantUpdateRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 此 API 可以创建一个 Assistant 共享 Token，可以将你的 Assistant 公开出去使用。
-     * @summary 获取 Assistant 共享列表
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AssistantApi
-     */
-    public apiV1AssistantsIdSharesGet(id: number, options?: RawAxiosRequestConfig) {
-        return AssistantApiFp(this.configuration).apiV1AssistantsIdSharesGet(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 此方法将会获取一个 Token，用户将会通过这个 Token 来访问你的 Assistant 并调用工具。
-     * @summary 创建 Assistant 共享
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AssistantApi
-     */
-    public apiV1AssistantsIdSharesPost(id: number, options?: RawAxiosRequestConfig) {
-        return AssistantApiFp(this.configuration).apiV1AssistantsIdSharesPost(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 此方法将会删除共享，删除后，共享将会立即失效。
-     * @summary 删除 Assistant 共享
-     * @param {number} id 
-     * @param {number} shareId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AssistantApi
-     */
-    public apiV1AssistantsIdSharesShareIdDelete(id: number, shareId: number, options?: RawAxiosRequestConfig) {
-        return AssistantApiFp(this.configuration).apiV1AssistantsIdSharesShareIdDelete(id, shareId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3129,7 +3123,7 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * get string by ID
+         * 列出当前账户下的所有的对话
          * @summary 获取所有 Chat
          * @param {number} [assistantId] Assistant ID
          * @param {*} [options] Override http request option.
@@ -3167,7 +3161,7 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * get string by ID
+         * 删除一个对话以及聊天记录
          * @summary Delete Chat
          * @param {number} id Chat ID
          * @param {*} [options] Override http request option.
@@ -3284,7 +3278,7 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * get string by ID
+         * 创建一个对话，如果不指定 Assistant ID，将会使用默认 Assistant。默认 Assistant 不支持上传文件以及使用外部工具。
          * @summary Create Chat
          * @param {SchemaChatCreateRequest} chat Chat
          * @param {*} [options] Override http request option.
@@ -3347,7 +3341,7 @@ export const ChatApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * get string by ID
+         * 列出当前账户下的所有的对话
          * @summary 获取所有 Chat
          * @param {number} [assistantId] Assistant ID
          * @param {*} [options] Override http request option.
@@ -3360,7 +3354,7 @@ export const ChatApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * get string by ID
+         * 删除一个对话以及聊天记录
          * @summary Delete Chat
          * @param {number} id Chat ID
          * @param {*} [options] Override http request option.
@@ -3400,7 +3394,7 @@ export const ChatApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * get string by ID
+         * 创建一个对话，如果不指定 Assistant ID，将会使用默认 Assistant。默认 Assistant 不支持上传文件以及使用外部工具。
          * @summary Create Chat
          * @param {SchemaChatCreateRequest} chat Chat
          * @param {*} [options] Override http request option.
@@ -3434,7 +3428,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.apiOpenaiCompatibleV1ChatCompletionsPost(chat, xUserIP, options).then((request) => request(axios, basePath));
         },
         /**
-         * get string by ID
+         * 列出当前账户下的所有的对话
          * @summary 获取所有 Chat
          * @param {number} [assistantId] Assistant ID
          * @param {*} [options] Override http request option.
@@ -3444,7 +3438,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.apiV1ChatsGet(assistantId, options).then((request) => request(axios, basePath));
         },
         /**
-         * get string by ID
+         * 删除一个对话以及聊天记录
          * @summary Delete Chat
          * @param {number} id Chat ID
          * @param {*} [options] Override http request option.
@@ -3475,7 +3469,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.apiV1ChatsIdPut(id, schemaChatUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * get string by ID
+         * 创建一个对话，如果不指定 Assistant ID，将会使用默认 Assistant。默认 Assistant 不支持上传文件以及使用外部工具。
          * @summary Create Chat
          * @param {SchemaChatCreateRequest} chat Chat
          * @param {*} [options] Override http request option.
@@ -3508,7 +3502,7 @@ export class ChatApi extends BaseAPI {
     }
 
     /**
-     * get string by ID
+     * 列出当前账户下的所有的对话
      * @summary 获取所有 Chat
      * @param {number} [assistantId] Assistant ID
      * @param {*} [options] Override http request option.
@@ -3520,7 +3514,7 @@ export class ChatApi extends BaseAPI {
     }
 
     /**
-     * get string by ID
+     * 删除一个对话以及聊天记录
      * @summary Delete Chat
      * @param {number} id Chat ID
      * @param {*} [options] Override http request option.
@@ -3557,7 +3551,7 @@ export class ChatApi extends BaseAPI {
     }
 
     /**
-     * get string by ID
+     * 创建一个对话，如果不指定 Assistant ID，将会使用默认 Assistant。默认 Assistant 不支持上传文件以及使用外部工具。
      * @summary Create Chat
      * @param {SchemaChatCreateRequest} chat Chat
      * @param {*} [options] Override http request option.
@@ -3658,7 +3652,7 @@ export const ChatMessageApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
-         * get string by ID
+         * 获取一个对话的所有聊天记录
          * @summary 查看聊天记录
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3695,7 +3689,7 @@ export const ChatMessageApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
-         * get string by ID
+         * 添加一条消息
          * @summary 添加聊天记录
          * @param {number} id 
          * @param {SchemaChatMessageAddRequest} message Message
@@ -3738,8 +3732,8 @@ export const ChatMessageApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
-         * get string by ID
-         * @summary 流式传输聊天内容
+         * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
+         * @summary 流式传输文本
          * @param {string} streamId Chat stream id
          * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
          * @param {*} [options] Override http request option.
@@ -3814,7 +3808,7 @@ export const ChatMessageApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * get string by ID
+         * 获取一个对话的所有聊天记录
          * @summary 查看聊天记录
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3827,7 +3821,7 @@ export const ChatMessageApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * get string by ID
+         * 添加一条消息
          * @summary 添加聊天记录
          * @param {number} id 
          * @param {SchemaChatMessageAddRequest} message Message
@@ -3841,8 +3835,8 @@ export const ChatMessageApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * get string by ID
-         * @summary 流式传输聊天内容
+         * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
+         * @summary 流式传输文本
          * @param {string} streamId Chat stream id
          * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
          * @param {*} [options] Override http request option.
@@ -3886,7 +3880,7 @@ export const ChatMessageApiFactory = function (configuration?: Configuration, ba
             return localVarFp.apiV1ChatsIdFilesPost(id, apiV1ChatsIdFilesPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * get string by ID
+         * 获取一个对话的所有聊天记录
          * @summary 查看聊天记录
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -3896,7 +3890,7 @@ export const ChatMessageApiFactory = function (configuration?: Configuration, ba
             return localVarFp.apiV1ChatsIdMessagesGet(id, options).then((request) => request(axios, basePath));
         },
         /**
-         * get string by ID
+         * 添加一条消息
          * @summary 添加聊天记录
          * @param {number} id 
          * @param {SchemaChatMessageAddRequest} message Message
@@ -3907,8 +3901,8 @@ export const ChatMessageApiFactory = function (configuration?: Configuration, ba
             return localVarFp.apiV1ChatsIdMessagesPost(id, message, options).then((request) => request(axios, basePath));
         },
         /**
-         * get string by ID
-         * @summary 流式传输聊天内容
+         * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
+         * @summary 流式传输文本
          * @param {string} streamId Chat stream id
          * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
          * @param {*} [options] Override http request option.
@@ -3953,7 +3947,7 @@ export class ChatMessageApi extends BaseAPI {
     }
 
     /**
-     * get string by ID
+     * 获取一个对话的所有聊天记录
      * @summary 查看聊天记录
      * @param {number} id 
      * @param {*} [options] Override http request option.
@@ -3965,7 +3959,7 @@ export class ChatMessageApi extends BaseAPI {
     }
 
     /**
-     * get string by ID
+     * 添加一条消息
      * @summary 添加聊天记录
      * @param {number} id 
      * @param {SchemaChatMessageAddRequest} message Message
@@ -3978,8 +3972,8 @@ export class ChatMessageApi extends BaseAPI {
     }
 
     /**
-     * get string by ID
-     * @summary 流式传输聊天内容
+     * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
+     * @summary 流式传输文本
      * @param {string} streamId Chat stream id
      * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
      * @param {*} [options] Override http request option.
@@ -4083,16 +4077,16 @@ export const ChatPublicApiAxiosParamCreator = function (configuration?: Configur
          * 
          * @summary 获取公开对话的聊天记录
          * @param {number} chatId 
-         * @param {string} assistantToken 
+         * @param {string} assistantKey 
          * @param {string} guestId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1ChatPublicChatIdMessagesGet: async (chatId: number, assistantToken: string, guestId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiV1ChatPublicChatIdMessagesGet: async (chatId: number, assistantKey: string, guestId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'chatId' is not null or undefined
             assertParamExists('apiV1ChatPublicChatIdMessagesGet', 'chatId', chatId)
-            // verify required parameter 'assistantToken' is not null or undefined
-            assertParamExists('apiV1ChatPublicChatIdMessagesGet', 'assistantToken', assistantToken)
+            // verify required parameter 'assistantKey' is not null or undefined
+            assertParamExists('apiV1ChatPublicChatIdMessagesGet', 'assistantKey', assistantKey)
             // verify required parameter 'guestId' is not null or undefined
             assertParamExists('apiV1ChatPublicChatIdMessagesGet', 'guestId', guestId)
             const localVarPath = `/api/v1/chat_public/{chat_id}/messages`
@@ -4108,8 +4102,8 @@ export const ChatPublicApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (assistantToken !== undefined) {
-                localVarQueryParameter['assistant_token'] = assistantToken;
+            if (assistantKey !== undefined) {
+                localVarQueryParameter['assistant_key'] = assistantKey;
             }
 
             if (guestId !== undefined) {
@@ -4281,13 +4275,13 @@ export const ChatPublicApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取公开对话的聊天记录
          * @param {number} chatId 
-         * @param {string} assistantToken 
+         * @param {string} assistantKey 
          * @param {string} guestId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1ChatPublicChatIdMessagesGet(chatId: number, assistantToken: string, guestId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatPublicChatIdMessagesGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ChatPublicChatIdMessagesGet(chatId, assistantToken, guestId, options);
+        async apiV1ChatPublicChatIdMessagesGet(chatId: number, assistantKey: string, guestId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatPublicChatIdMessagesGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ChatPublicChatIdMessagesGet(chatId, assistantKey, guestId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChatPublicApi.apiV1ChatPublicChatIdMessagesGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4368,13 +4362,13 @@ export const ChatPublicApiFactory = function (configuration?: Configuration, bas
          * 
          * @summary 获取公开对话的聊天记录
          * @param {number} chatId 
-         * @param {string} assistantToken 
+         * @param {string} assistantKey 
          * @param {string} guestId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1ChatPublicChatIdMessagesGet(chatId: number, assistantToken: string, guestId: string, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatPublicChatIdMessagesGet200Response> {
-            return localVarFp.apiV1ChatPublicChatIdMessagesGet(chatId, assistantToken, guestId, options).then((request) => request(axios, basePath));
+        apiV1ChatPublicChatIdMessagesGet(chatId: number, assistantKey: string, guestId: string, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatPublicChatIdMessagesGet200Response> {
+            return localVarFp.apiV1ChatPublicChatIdMessagesGet(chatId, assistantKey, guestId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4447,14 +4441,14 @@ export class ChatPublicApi extends BaseAPI {
      * 
      * @summary 获取公开对话的聊天记录
      * @param {number} chatId 
-     * @param {string} assistantToken 
+     * @param {string} assistantKey 
      * @param {string} guestId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ChatPublicApi
      */
-    public apiV1ChatPublicChatIdMessagesGet(chatId: number, assistantToken: string, guestId: string, options?: RawAxiosRequestConfig) {
-        return ChatPublicApiFp(this.configuration).apiV1ChatPublicChatIdMessagesGet(chatId, assistantToken, guestId, options).then((request) => request(this.axios, this.basePath));
+    public apiV1ChatPublicChatIdMessagesGet(chatId: number, assistantKey: string, guestId: string, options?: RawAxiosRequestConfig) {
+        return ChatPublicApiFp(this.configuration).apiV1ChatPublicChatIdMessagesGet(chatId, assistantKey, guestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5565,9 +5559,10 @@ export class MemoiresApi extends BaseAPI {
 export const PingApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * get string by ID
+         * 测试接口，将会返回当前用户的信息
          * @summary Greet
          * @param {*} [options] Override http request option.
+         * @deprecated
          * @throws {RequiredError}
          */
         apiV1PingGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
@@ -5608,9 +5603,10 @@ export const PingApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PingApiAxiosParamCreator(configuration)
     return {
         /**
-         * get string by ID
+         * 测试接口，将会返回当前用户的信息
          * @summary Greet
          * @param {*} [options] Override http request option.
+         * @deprecated
          * @throws {RequiredError}
          */
         async apiV1PingGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1PingGet200Response>> {
@@ -5630,9 +5626,10 @@ export const PingApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = PingApiFp(configuration)
     return {
         /**
-         * get string by ID
+         * 测试接口，将会返回当前用户的信息
          * @summary Greet
          * @param {*} [options] Override http request option.
+         * @deprecated
          * @throws {RequiredError}
          */
         apiV1PingGet(options?: RawAxiosRequestConfig): AxiosPromise<ApiV1PingGet200Response> {
@@ -5649,9 +5646,10 @@ export const PingApiFactory = function (configuration?: Configuration, basePath?
  */
 export class PingApi extends BaseAPI {
     /**
-     * get string by ID
+     * 测试接口，将会返回当前用户的信息
      * @summary Greet
      * @param {*} [options] Override http request option.
+     * @deprecated
      * @throws {RequiredError}
      * @memberof PingApi
      */
