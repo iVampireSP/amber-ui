@@ -4,7 +4,6 @@ import { useUserStore } from "../stores/user";
 import Guest from "../pages/guest/index.vue";
 import router from "../router";
 import Header from "./Header.vue";
-import { useAppStore } from "@/stores/app";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
 const currentRoute = computed(() => router.currentRoute.value.name);

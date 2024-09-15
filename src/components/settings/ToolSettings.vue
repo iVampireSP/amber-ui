@@ -67,7 +67,7 @@ const createToolRequest: Ref<SchemaToolCreateRequest> = ref({
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
   if (isMobile.value) {
-    return 300;
+    return 400;
   } else {
     return 600;
   }

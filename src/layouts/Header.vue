@@ -135,17 +135,13 @@ import leaflowpng from "@/assets/images/leaflow.png";
 const userStore = useUserStore();
 const isMobile = useIsMobile();
 const showDrawer = ref(false);
-const width = ref(200);
-// const chatStore = useChatStore();
-
-// 如果是手机，则 width 为全屏
-if (isMobile.value) {
-  // 获取屏幕宽度
-  width.value = window.innerWidth - 100;
-} else {
-  // 获取当前屏幕宽度 40% 的宽度
-  width.value = window.innerWidth * 0.4;
-}
+const width = computed(() => {
+  if (isMobile.value) {
+    return window.innerWidth - 100;
+  } else {
+    return window.innerWidth * 0.5;
+  }
+})
 
 const userPlacement = ref("bottom");
 if (isMobile.value) {

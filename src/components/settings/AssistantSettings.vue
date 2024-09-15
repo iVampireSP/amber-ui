@@ -1,36 +1,38 @@
 <template>
-  <div class="mb-3">
-    <n-button tertiary @click="showCreateDialog = true"> 新建助理 </n-button>
+  <div v-if="assistants.length">
+    <div class="mb-3">
+      <n-button tertiary @click="showCreateDialog = true"> 新建助理 </n-button>
+    </div>
+    <n-list hoverable clickable>
+      <n-list-item
+        v-for="c in assistants"
+        :key="c.id"
+        @click="showEditAssistant(c.id ?? 0)"
+      >
+        <n-thing>
+          <div class="flex justify-between items-center">
+            <div>
+              {{ c.name }}
+            </div>
+            <div>
+              <n-button
+                quaternary
+                circle
+                type="info"
+                @click.stop="showEditAssistant(c.id ?? 0)"
+              >
+                <template #icon>
+                  <n-icon size="16" class="cursor-pointer">
+                    <SettingsOutline />
+                  </n-icon>
+                </template>
+              </n-button>
+            </div>
+          </div>
+        </n-thing>
+      </n-list-item>
+    </n-list>
   </div>
-  <n-list hoverable clickable v-if="assistants.length">
-    <n-list-item
-      v-for="c in assistants"
-      :key="c.id"
-      @click="showEditAssistant(c.id ?? 0)"
-    >
-      <n-thing>
-        <div class="flex justify-between items-center">
-          <div>
-            {{ c.name }}
-          </div>
-          <div>
-            <n-button
-              quaternary
-              circle
-              type="info"
-              @click.stop="showEditAssistant(c.id ?? 0)"
-            >
-              <template #icon>
-                <n-icon size="16" class="cursor-pointer">
-                  <SettingsOutline />
-                </n-icon>
-              </template>
-            </n-button>
-          </div>
-        </div>
-      </n-thing>
-    </n-list-item>
-  </n-list>
   <div v-else class="text-center">
     <n-result
       status="404"
@@ -148,7 +150,7 @@
       </n-drawer-content>
     </n-drawer>
 
-    <n-drawer placement="left" v-model:show="showCreateDialog" :width="600">
+    <n-drawer placement="left" v-model:show="showCreateDialog" :width="drawerWidth">
       <n-drawer-content closable title="新建助理">
         <div v-if="currentAssistant">
           <n-form>
@@ -213,7 +215,7 @@ const assistantShares: Ref<EntityAssistantShare[]> = ref([]);
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
   if (isMobile.value) {
-    return 300;
+    return 400;
   } else {
     return 600;
   }
