@@ -92,12 +92,11 @@ import { useIsMobile } from "@/utils/composables";
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
   if (isMobile.value) {
-    return 400;
+    return window.innerWidth;
   } else {
-    return 600;
+    return window.innerWidth * 0.6;
   }
 });
-
 const dialog = useDialog();
 const chatStore = useChatStore();
 const showSettingsDialog = ref(false);

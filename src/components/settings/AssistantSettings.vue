@@ -249,9 +249,9 @@ const assistantApiKeys: Ref<EntityAssistantKey[]> = ref([]);
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
   if (isMobile.value) {
-    return 400;
+    return window.innerWidth;
   } else {
-    return 600;
+    return window.innerWidth * 0.6;
   }
 });
 

@@ -67,12 +67,15 @@ const createToolRequest: Ref<SchemaToolCreateRequest> = ref({
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
   if (isMobile.value) {
-    return 400;
+    return window.innerWidth;
   } else {
-    return 600;
+    return window.innerWidth * 0.6;
   }
 });
 
+/**
+ * 获取所有工具
+ */
 const getTools = async () => {
   toolStore.tools = (await getApi().Tool.apiV1ToolsGet()).data.data ?? [];
 };
