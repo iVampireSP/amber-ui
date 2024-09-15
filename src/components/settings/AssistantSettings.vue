@@ -82,6 +82,36 @@
                 :options="librarySelects"
               />
             </n-form-item>
+
+            <n-form-item label="助理设置">
+              <div>
+                <div>
+                  <n-switch
+                    v-model:value="currentAssistant.disable_default_prompt"
+                  >
+                  </n-switch>
+                  禁用默认提示词
+                </div>
+
+                <div>
+                  <n-switch v-model:value="currentAssistant.disable_memory">
+                  </n-switch>
+                  禁用记忆
+                </div>
+
+                <div>
+                  <n-switch
+                    v-model:value="
+                      currentAssistant.enable_memory_for_assistant_api
+                    "
+                    :disabled="currentAssistant.disable_memory"
+                  >
+                  </n-switch>
+                  允许助理 API 读取记忆
+                </div>
+              </div>
+            </n-form-item>
+
             <n-space>
               <n-button type="primary" @click="editAssistant"> 更新 </n-button>
               <n-button type="error" @click="deleteAssistant" class="ml-2">
@@ -104,10 +134,10 @@
         <n-divider />
         <div>
           <div class="flex justify-between align-middle items-center">
-            <n-h3>应用对接（原助理共享）</n-h3>
-            <n-popconfirm @positive-click="createAssistantShare">
+            <n-h3>助理 API</n-h3>
+            <n-popconfirm @positive-click="createAssistantKey">
               <template #trigger>
-                <n-button tertiary> 新建对接 </n-button>
+                <n-button tertiary> 新 API </n-button>
               </template>
               <div>
                 API Key 默认是没有请求限制的。为了防止 API Key
@@ -119,16 +149,16 @@
             </n-popconfirm>
           </div>
 
-          <n-list hoverable clickable v-if="assistantShares.length">
-            <n-list-item v-for="c in assistantShares" :key="c.id">
+          <n-list hoverable clickable v-if="assistantApiKeys.length">
+            <n-list-item v-for="c in assistantApiKeys" :key="c.id">
               <n-thing>
                 <div class="flex justify-between items-center">
                   <div>
-                    {{ c.token }}
+                    {{ c.secret }}
                   </div>
                   <div>
                     <n-popconfirm
-                      @positive-click="deleteAssistantShare(c.id ?? 0)"
+                      @positive-click="deleteAssistantKey(c.id ?? 0)"
                     >
                       <template #trigger>
                         <n-button quaternary circle type="warning">
@@ -150,7 +180,11 @@
       </n-drawer-content>
     </n-drawer>
 
-    <n-drawer placement="left" v-model:show="showCreateDialog" :width="drawerWidth">
+    <n-drawer
+      placement="left"
+      v-model:show="showCreateDialog"
+      :width="drawerWidth"
+    >
       <n-drawer-content closable title="新建助理">
         <div v-if="currentAssistant">
           <n-form>
@@ -192,7 +226,7 @@ import { useChatStore } from "@/stores/chat";
 import { ref } from "vue";
 import {
   EntityAssistant,
-  EntityAssistantShare,
+  EntityAssistantKey,
   EntityAssistantTool,
   EntityLibrary,
   EntityTool,
@@ -210,7 +244,7 @@ const currentAssistant: Ref<EntityAssistant> = ref({});
 const assistants: Ref<EntityAssistant[]> = ref([]);
 const librarySelects: any = ref([]);
 const libraries: Ref<EntityLibrary[]> = ref([]);
-const assistantShares: Ref<EntityAssistantShare[]> = ref([]);
+const assistantApiKeys: Ref<EntityAssistantKey[]> = ref([]);
 
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
@@ -246,7 +280,7 @@ const showEditAssistant = async (id: number) => {
   currentAssistantId.value = id;
   currentAssistant.value =
     (await getApi().Assistant.apiV1AssistantsIdGet(id)).data.data ?? {};
-  await getAssistantsShares();
+  await getAssistantsKeys();
 
   getTools();
 };
@@ -257,7 +291,7 @@ const editAssistant = async () => {
     currentAssistant.value
   );
   await getAssistants();
-  await getAssistantsShares();
+  await getAssistantsKeys();
 };
 
 const getTools = async () => {
@@ -308,28 +342,26 @@ const getAssistants = async () => {
     (await getApi().Assistant.apiV1AssistantsGet()).data.data ?? [];
 };
 
-const getAssistantsShares = async () => {
-  assistantShares.value =
+const getAssistantsKeys = async () => {
+  assistantApiKeys.value =
     (
-      await getApi().Assistant.apiV1AssistantsIdSharesGet(
+      await getApi().Assistant.apiV1AssistantsIdKeysGet(
         currentAssistantId.value
       )
     ).data.data ?? [];
 };
 
-const createAssistantShare = async () => {
-  await getApi().Assistant.apiV1AssistantsIdSharesPost(
-    currentAssistantId.value
-  );
-  await getAssistantsShares();
+const createAssistantKey = async () => {
+  await getApi().Assistant.apiV1AssistantsIdKeysPost(currentAssistantId.value);
+  await getAssistantsKeys();
 };
 
-const deleteAssistantShare = async (id: number) => {
-  await getApi().Assistant.apiV1AssistantsIdSharesShareIdDelete(
+const deleteAssistantKey = async (id: number) => {
+  await getApi().Assistant.apiV1AssistantsIdKeysKeyIdDelete(
     currentAssistantId.value,
     id
   );
-  await getAssistantsShares();
+  await getAssistantsKeys();
 };
 
 getChats();
