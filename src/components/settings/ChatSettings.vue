@@ -48,10 +48,14 @@
     </n-result>
   </div>
   <div>
-    <n-drawer placement="left" v-model:show="showSettingsDialog" :width="600">
+    <n-drawer
+      placement="left"
+      v-model:show="showSettingsDialog"
+      :width="drawerWidth"
+    >
       <n-drawer-content closable title="编辑对话">
         <div v-if="currentChat">
-          <n-form >
+          <n-form>
             <n-form-item label="对话名称">
               <n-input
                 v-model:value="currentChat.name"
@@ -76,19 +80,23 @@
 </template>
 
 <script lang="ts" setup>
-import { NMenu, useDialog } from "naive-ui";
-import { useRoute } from "vue-router";
-import { leftMenuOptions } from "../../plugins/menus/left";
-import {
-  ChatboxOutline,
-  TrashBinOutline,
-  SettingsOutline,
-} from "@vicons/ionicons5";
+import { useDialog } from "naive-ui";
+import { TrashBinOutline, SettingsOutline } from "@vicons/ionicons5";
 import getApi from "../../plugins/api";
 import { useChatStore } from "../../stores/chat";
 import router from "@/router";
 import { ref } from "vue";
 import { EntityAssistant, EntityChat } from "@/api";
+import { useIsMobile } from "@/utils/composables";
+
+const isMobile = useIsMobile();
+const drawerWidth = computed(() => {
+  if (isMobile.value) {
+    return 300;
+  } else {
+    return 600;
+  }
+});
 
 const dialog = useDialog();
 const chatStore = useChatStore();

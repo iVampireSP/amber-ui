@@ -43,7 +43,11 @@
     </n-result>
   </div>
   <div>
-    <n-drawer placement="left" v-model:show="showSettingsDialog" :width="600">
+    <n-drawer
+      placement="left"
+      v-model:show="showSettingsDialog"
+      :width="drawerWidth"
+    >
       <n-drawer-content closable title="编辑助理">
         <div v-if="currentAssistant">
           <n-form>
@@ -121,13 +125,11 @@
                     {{ c.token }}
                   </div>
                   <div>
-                    <n-popconfirm @positive-click="deleteAssistantShare(c.id ?? 0)">
+                    <n-popconfirm
+                      @positive-click="deleteAssistantShare(c.id ?? 0)"
+                    >
                       <template #trigger>
-                        <n-button
-                          quaternary
-                          circle
-                          type="warning"
-                        >
+                        <n-button quaternary circle type="warning">
                           <template #icon>
                             <n-icon size="16" class="cursor-pointer">
                               <TrashBinOutline />
@@ -135,9 +137,7 @@
                           </template>
                         </n-button>
                       </template>
-                      <div>
-                       删除后，应用将无法访问此助理。
-                      </div>
+                      <div>删除后，应用将无法访问此助理。</div>
                     </n-popconfirm>
                   </div>
                 </div>
@@ -187,7 +187,6 @@ import { useDialog } from "naive-ui";
 import { TrashBinOutline, SettingsOutline } from "@vicons/ionicons5";
 import getApi from "@/plugins/api";
 import { useChatStore } from "@/stores/chat";
-import router from "@/router";
 import { ref } from "vue";
 import {
   EntityAssistant,
@@ -196,6 +195,7 @@ import {
   EntityLibrary,
   EntityTool,
 } from "@/api";
+import { useIsMobile } from "@/utils/composables";
 
 const dialog = useDialog();
 const chatStore = useChatStore();
@@ -209,6 +209,15 @@ const assistants: Ref<EntityAssistant[]> = ref([]);
 const librarySelects: any = ref([]);
 const libraries: Ref<EntityLibrary[]> = ref([]);
 const assistantShares: Ref<EntityAssistantShare[]> = ref([]);
+
+const isMobile = useIsMobile();
+const drawerWidth = computed(() => {
+  if (isMobile.value) {
+    return 300;
+  } else {
+    return 600;
+  }
+});
 
 async function getChats() {
   chatStore.chats = (await getApi().Chat.apiV1ChatsGet()).data.data;

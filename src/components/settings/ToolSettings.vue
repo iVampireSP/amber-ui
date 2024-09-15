@@ -14,7 +14,11 @@
     </div>
   </div>
   <div>
-    <n-drawer placement="left" v-model:show="showCreateDialog" :width="600">
+    <n-drawer
+      placement="left"
+      v-model:show="showCreateDialog"
+      :width="drawerWidth"
+    >
       <n-drawer-content closable title="新建工具">
         <n-form>
           <n-form-item label="名称">
@@ -47,6 +51,7 @@
 import { EntityTool, SchemaToolCreateRequest } from "@/api";
 import getApi from "@/plugins/api";
 import { useToolStore } from "@/stores/tools";
+import { useIsMobile } from "@/utils/composables";
 import { HammerOutline } from "@vicons/ionicons5";
 
 const toolStore = useToolStore();
@@ -57,6 +62,15 @@ const createToolRequest: Ref<SchemaToolCreateRequest> = ref({
   description: "",
   name: "",
   url: "",
+});
+
+const isMobile = useIsMobile();
+const drawerWidth = computed(() => {
+  if (isMobile.value) {
+    return 300;
+  } else {
+    return 600;
+  }
 });
 
 const getTools = async () => {
