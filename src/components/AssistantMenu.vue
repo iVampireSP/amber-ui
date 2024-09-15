@@ -6,7 +6,11 @@
         <span class="text-xl">切换助理</span>
       </div>
     </template>
-    <n-list-item v-for="a in assistantStore.assistants" :key="a.id">
+    <n-list-item
+      v-for="a in assistantStore.assistants"
+      :key="a.id"
+      @click="changeAssistant(a.id)"
+    >
       <n-thing>
         {{ a.name }}
       </n-thing>
@@ -18,10 +22,12 @@
 import { useUserStore } from "../stores/user";
 import { updateAll } from "../plugins/update/update";
 import { useAssistantStore } from "../stores/assistants";
+import { useChatStore } from "@/stores/chat";
 
 const loaded = ref(false);
 const userStore = useUserStore();
 const assistantStore = useAssistantStore();
+const chatStore = useChatStore();
 
 watch(
   () => userStore.logined,
@@ -35,6 +41,12 @@ function update() {
   updateAll();
   loaded.value = true;
 }
+
+const changeAssistant = (id: number | undefined) => {
+  if (id) {
+    chatStore.currentAssistantId = id;
+  }
+};
 
 update();
 </script>

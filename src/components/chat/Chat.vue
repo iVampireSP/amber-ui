@@ -141,6 +141,7 @@ import {
   EntityChatMessage,
   SchemaChatMessageAddRequestRoleEnum,
   EntityChat,
+  SchemaChatMessageAddRequest,
 } from "@/api";
 import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
@@ -339,12 +340,20 @@ async function sendMessage(
       });
   }
 
+  let payload: SchemaChatMessageAddRequest = {
+    message: text,
+    role: role,
+  };
+  if (chatStore.currentAssistantId) {
+    payload = {
+      ...payload,
+      assistant_id: chatStore.currentAssistantId,
+    };
+  }
+
   toolError.value = false;
   getApi()
-    .ChatMessage.apiV1ChatsIdMessagesPost(Number(chatId.value), {
-      message: text,
-      role: role,
-    })
+    .ChatMessage.apiV1ChatsIdMessagesPost(Number(chatId.value), payload)
     .then(async (res) => {
       // const newMessage = {
       //   content: text,
@@ -529,7 +538,7 @@ const chatData: Ref<EntityChat> = ref({});
 const getChat = async () => {
   chatData.value = (
     await getApi().Chat.apiV1ChatsIdGet(chatStore.currentChatId)
-  ).data.data;
+  ).data.data ?? {};
 };
 
 onMounted(() => {
