@@ -50,7 +50,7 @@
       v-model:show="showSettingsDialog"
       :width="drawerWidth"
     >
-      <n-drawer-content closable title="编辑助理">
+      <n-drawer-content closable title="编辑助理" :native-scrollbar="false">
         <div v-if="currentAssistant">
           <n-form>
             <n-form-item label="助理名称">
@@ -122,16 +122,27 @@
 
           <div class="mt-3" v-if="userTools.length">
             <n-h3>工具</n-h3>
-            <div class="flex justify-between items-center">
-              <div>工具 1</div>
-              <div>
-                <n-switch />
+            <div v-for="c in userTools" :key="c.id">
+              <!-- 如果是第 2 或不是最后一个，则添加 hr -->
+              <n-divider v-if="userTools.indexOf(c) !== 0 " />
+              <div class="flex justify-between items-center mt-3">
+                <div>
+                  {{ c.name }}
+                  <div v-if="c.description">{{ c.description }}</div>
+                </div>
+                <div>
+                  <n-switch
+                    :value="findTool(c.id ?? 0)"
+                    @click="bindOrUnbind(c.id ?? 0)"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <n-divider />
+        <n-divider v-if="!userTools.length" />
+        <div v-else class="mt-10"></div>
         <div>
           <div class="flex justify-between align-middle items-center">
             <n-h3>助理 API</n-h3>
@@ -362,6 +373,36 @@ const deleteAssistantKey = async (id: number) => {
     id
   );
   await getAssistantsKeys();
+};
+
+const findTool = (id: number) => {
+  let binded = false;
+  for (let i = 0; i < currentAssistantTools.value.length; i++) {
+    if (currentAssistantTools.value[i].tool_id === id) {
+      binded = true;
+      break;
+    }
+  }
+
+  return binded;
+};
+
+const bindOrUnbind = async (id: number) => {
+  let binded = findTool(id);
+
+  if (binded) {
+    await getApi().Assistant.apiV1AssistantsIdToolsToolIdDelete(
+      currentAssistantId.value,
+      id
+    );
+  } else {
+    await getApi().Assistant.apiV1AssistantsIdToolsToolIdPost(
+      currentAssistantId.value,
+      id
+    );
+  }
+
+  getTools();
 };
 
 getChats();
