@@ -137,7 +137,7 @@ const isMobile = useIsMobile();
 const showDrawer = ref(false);
 const width = computed(() => {
   if (isMobile.value) {
-    // return window.innerWidth;
+    return window.innerWidth;
   } else {
     return window.innerWidth * 0.4;
   }
