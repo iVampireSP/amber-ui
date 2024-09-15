@@ -4,7 +4,7 @@
       <HammerOutline />
     </n-icon>
     <p>工具可以让助理获得调用外部函数，以达到意想不到的效果。</p>
-    <div class="mt-3">
+    <div class="mt-3 mb-2">
       <n-button>创建</n-button>
     </div>
   </div>
