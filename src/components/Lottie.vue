@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import lottie, { AnimationConfigWithData, AnimationConfigWithPath, AnimationItem } from "lottie-web";
+import lottie, { AnimationConfigWithData, AnimationItem } from "lottie-web";
 
 import { onMounted, onUnmounted, ref } from "vue";
 

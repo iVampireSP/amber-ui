@@ -1,4 +1,3 @@
-import { useUserStore } from "../stores/user";
 import { h, computed } from "vue";
 import { createDiscreteApi, darkTheme, lightTheme, useOsTheme } from "naive-ui";
 import type { ConfigProviderProps } from "naive-ui";
