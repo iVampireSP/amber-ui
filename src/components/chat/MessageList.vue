@@ -32,7 +32,7 @@
             :plugins="markdownPlugins"
           /> -->
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
-            <div v-html="mdIt.render(message.content)"></div>
+            <div v-if="mdInited" class="markdown-body" v-html="mdIt.render(message.content)"></div>
             <div class="relative h-full">
               <n-avatar
                 round
@@ -48,7 +48,6 @@
         <!-- 助理消息 -->
         <n-flex justify="start" class="!flex-nowrap">
           <div class="relative h-full">
- 
             <n-avatar
               round
               size="large"
@@ -66,7 +65,13 @@
 
             <!-- <div v-html="mdIt.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$')"></div> -->
 
-            <div v-html="mdIt.render(message.content)"></div>
+            <!-- 当 message.content 变化时，重新渲染  -->
+            <div
+              v-if="mdInited"
+              class="break-all break-words markdown-body"
+              v-html="mdIt.render(message.content)"
+            ></div>
+            <!-- <div v-html="mdIt.render(message.content)"></div> -->
 
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
           </div>
@@ -88,23 +93,37 @@ import markdownIt from "markdown-it";
 // highlightjs
 import hljs from "highlight.js";
 import config from "@/config/config";
+import Shiki from "@shikijs/markdown-it";
 
 const mdIt = markdownIt();
+const mdInited = ref(false);
 
 // set options
-mdIt.options.highlight = function (str: string, lang: string) {
-  if (!lang) {
-    return "";
-  }
-  return hljs.highlight(str, { language: lang }).value;
-};
+// mdIt.options.highlight = function (str: string, lang: string) {
+//   if (!lang) {
+//     return "";
+//   }
+//   return hljs.highlight(str, { language: lang }).value;
+// };
 
-mdIt.use(markdownKatex, {
-  throwOnError: false,
-  errorColor: "#cc0000",
-  output: "html",
-});
+async function initMD() {
+  mdIt.use(
+    await Shiki({
+      themes: {
+        light: "vitesse-light",
+        dark: "vitesse-dark",
+      },
+    })
+  );
 
+  mdIt.use(markdownKatex, {
+    throwOnError: false,
+    errorColor: "#cc0000",
+    output: "html",
+  });
+
+  mdInited.value = true;
+}
 const userStore = useUserStore();
 
 const props = defineProps({
@@ -116,4 +135,8 @@ const props = defineProps({
 
 const chat_messages = toRef(props, "chat_messages") as Ref<EntityChatMessage[]>;
 const fileBaseUrl = config.backend + "/api/v1/files";
+
+onMounted(() => {
+  initMD();
+});
 </script>
