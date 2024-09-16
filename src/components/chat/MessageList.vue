@@ -80,7 +80,7 @@
             <!-- 当 message.content 变化时，重新渲染  -->
             <div>
               <div
-                v-if="message.assistant_id !== 0 && message.assistant !== null"
+                v-if="message.assistant_id && message.assistant !== null && message.assistant?.name !== ''"
               >
                 <n-divider class="!p-0 !m-0" title-placement="left">
                   {{ message.assistant?.name }}
