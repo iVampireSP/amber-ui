@@ -175,7 +175,7 @@ const props = defineProps({
   },
 });
 
-const isMobile = useIsMobile()
+const isMobile = useIsMobile();
 const userStore = useUserStore();
 const chatStore = useChatStore();
 const compositionStart = ref(false);
@@ -560,6 +560,9 @@ const getChat = async () => {
       .data ?? {};
 
   chatStore.currentChat = chatData.value;
+  if (chatData.value.assistant_id) {
+    chatStore.currentAssistantId = chatData.value.assistant_id;
+  }
 };
 
 onMounted(() => {
