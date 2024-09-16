@@ -124,7 +124,7 @@
             <n-h3>工具</n-h3>
             <div v-for="c in userTools" :key="c.id">
               <!-- 如果是第 2 或不是最后一个，则添加 hr -->
-              <n-divider v-if="userTools.indexOf(c) !== 0 " />
+              <n-divider v-if="userTools.indexOf(c) !== 0" />
               <div class="flex justify-between items-center mt-3">
                 <div>
                   {{ c.name }}
@@ -243,6 +243,7 @@ import {
   EntityTool,
 } from "@/api";
 import { useIsMobile } from "@/utils/composables";
+import { AxiosError } from "axios";
 
 const dialog = useDialog();
 const chatStore = useChatStore();
@@ -317,14 +318,28 @@ const getTools = async () => {
 };
 
 const createAssistant = async () => {
-  await getApi().Assistant.apiV1AssistantsPost({
-    name: currentAssistant.value.name ?? "",
-    prompt: currentAssistant.value.prompt ?? "",
-    description:
-      currentAssistant.value.description ?? currentAssistant.value.name ?? "",
-  });
+  await getApi()
+    .Assistant.apiV1AssistantsPost({
+      name: currentAssistant.value.name ?? "",
+      prompt: currentAssistant.value.prompt ?? "",
+      description:
+        currentAssistant.value.description ?? currentAssistant.value.name ?? "",
+    })
+    .then(() => {
+      showCreateDialog.value = false;
+    })
+    .catch((e: AxiosError) => {
+      if (e.response?.status === 400) {
+        dialog.error({
+          title: "参数错误",
+          // @ts-ignore 忽略
+          content: e.response?.data?.error,
+          positiveText: "好",
+        });
+        return;
+      }
+    });
   await getAssistants();
-  showCreateDialog.value = false;
 };
 
 const getLibraries = async () => {

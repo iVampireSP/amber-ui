@@ -3,6 +3,7 @@ import { createDiscreteApi, darkTheme, lightTheme, useOsTheme } from "naive-ui";
 import type { ConfigProviderProps } from "naive-ui";
 import error401 from "@/pages/errors/401.vue";
 import error404 from "@/pages/errors/404.vue";
+import error400 from "@/pages/errors/400.vue";
 import error500 from "@/pages/errors/500.vue";
 
 const osThemeRef = useOsTheme();
@@ -66,7 +67,16 @@ const response = {
       data = error.response.data.error.message;
     }
 
-    if (error.response.status === 401) {
+    if (error.response.status === 400) {
+      // dialog.error({
+      //   title: "输入有误",
+      //   content: () => {
+      //     return h(error400, {
+      //       show_footer: false,
+      //     });
+      //   },
+      // });
+    } else if (error.response.status === 401) {
       dialog.error({
         title: "401 未授权",
         content: () => {
