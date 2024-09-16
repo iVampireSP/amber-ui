@@ -12,10 +12,10 @@
             <n-image
               v-if="message.user_file"
               width="100"
-              :src="fileBaseUrl + '/' + message.user_file.id + '/download'"
+              :src="fileBaseUrl + '/user/' + message.user_file.id + '/download'"
             />
             <n-image
-              v-if="message.file"
+              v-else-if="message.file"
               width="100"
               :src="fileBaseUrl + '/' + message.file.id + '/download'"
             />
@@ -33,14 +33,29 @@
           /> -->
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
             <div v-html="mdIt.render(message.content)"></div>
-            <n-avatar round size="large" :src="userStore.user.avatar" class="ml-3 min-w-10" />
+            <div class="relative h-full">
+              <n-avatar
+                round
+                size="large"
+                :src="userStore.user.avatar"
+                class="ml-3 min-w-10 absolute top-0"
+              />
+            </div>
           </div>
         </n-flex>
       </div>
       <div v-else-if="message.role === 'assistant' && message.content">
         <!-- 助理消息 -->
         <n-flex justify="start" class="!flex-nowrap">
-          <n-avatar round size="large" :src="leaflowPng" class="min-w-10 min-h-10 p-1.5  !bg-transparent dark:!bg-white"/>
+          <div class="relative h-full">
+ 
+            <n-avatar
+              round
+              size="large"
+              :src="leaflowPng"
+              class="min-w-10 min-h-10 p-1.5 absolute top-0 !bg-transparent dark:!bg-white"
+            />
+          </div>
 
           <div class="flex items-center flex-nowrap">
             <!-- <vue-markdown-it
