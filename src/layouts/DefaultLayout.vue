@@ -29,11 +29,17 @@ const onScroll = (e: Event) => {
   const clientHeight = target.clientHeight;
 
   appStore.contentScrollHeight = scrollHeight;
-  appStore.contentScrollOnBottom = scrollTop + clientHeight >= scrollHeight
+  appStore.contentScrollOnBottom = scrollTop + clientHeight >= scrollHeight;
   // 当前位置
   appStore.contentScrollPosition = scrollTop;
-}
 
+  // 检测是否能滚动（如果内容的高度还没有超过可视区域的高度）
+  if (scrollHeight > clientHeight) {
+    appStore.contentScrollable = true;
+  } else {
+    appStore.contentScrollable = false;
+  }
+};
 </script>
 
 <template>

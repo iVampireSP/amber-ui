@@ -22,7 +22,7 @@
 
       <div
         class="fixed bottom-0 left-0 right-0"
-        :class="!appStore.contentScrollOnBottom ? 'hidden' : 'mb-6'"
+        :class="!appStore.contentScrollOnBottom &&  appStore.contentScrollable ? 'hidden' : 'mb-6'"
       >
         <!-- <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"

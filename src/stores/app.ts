@@ -8,5 +8,6 @@ export const useAppStore = defineStore("app", {
     contentScrollHeight: 0,
     contentScrollPosition: 0,
     contentScrollOnBottom: false,
+    contentScrollable: false,
   }),
 });
