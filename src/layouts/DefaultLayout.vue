@@ -6,9 +6,11 @@ import router from "../router";
 import Header from "./Header.vue";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
+import { useAppStore } from "@/stores/app";
 const currentRoute = computed(() => router.currentRoute.value.name);
 
 const userStore = useUserStore();
+const appStore = useAppStore();
 const route = useRoute();
 
 const isMobile = useIsMobile();
@@ -18,6 +20,20 @@ const mainContainer = ref();
 onMounted(() => {
   element.mainContainer = mainContainer.value;
 });
+
+const onScroll = (e: Event) => {
+  // 获取滚动的目标元素的高度和滚动的高度
+  const target = e.target as HTMLElement;
+  const scrollTop = target.scrollTop;
+  const scrollHeight = target.scrollHeight;
+  const clientHeight = target.clientHeight;
+
+  appStore.contentScrollHeight = scrollHeight;
+  appStore.contentScrollOnBottom = scrollTop + clientHeight >= scrollHeight
+  // 当前位置
+  appStore.contentScrollPosition = scrollTop;
+}
+
 </script>
 
 <template>
@@ -37,6 +53,7 @@ onMounted(() => {
     position="absolute"
     :style="userStore.logined ? 'margin-top: var(--header-height)' : ''"
     ref="mainContainer"
+    :on-scroll="onScroll"
   >
     <!-- <n-layout-sider
       v-if="userStore.logined && !isMobile"

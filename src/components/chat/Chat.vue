@@ -6,7 +6,7 @@
           class="flex-grow mt-3 mb-1 text-5xl select-none"
           v-if="!chatMessages?.length"
         >
-          <n-gradient-text type="info" class="pr-3 pb-2 pt-2">
+          <n-gradient-text type="success" class="pr-3 pb-2 pt-2">
             你好，{{ userStore.user.name }}
           </n-gradient-text>
           <br />
@@ -22,7 +22,7 @@
 
       <div
         class="fixed bottom-0 left-0 right-0"
-        :class="onBottom ? 'hidden' : 'mb-6'"
+        :class="!appStore.contentScrollOnBottom ? 'hidden' : 'mb-6'"
       >
         <!-- <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
@@ -129,7 +129,7 @@
         <n-text
           depth="3"
           class="text-center block mt-2 mb-2 text-sm select-none"
-          v-show="onBottom"
+          v-show="appStore.contentScrollOnBottom"
         >
           AI 也有可能犯错误，请在使用之前核查信息。
         </n-text>
@@ -158,6 +158,7 @@ import { useChatStore } from "@/stores/chat";
 import router from "@/router";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
+import { useAppStore } from "@/stores/app";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -192,7 +193,7 @@ const processing = ref(false);
 const fileUpload = ref();
 const uploading = ref(false);
 const autoScroll = ref(true);
-const onBottom = ref(false);
+const appStore = useAppStore()
 
 function onKeydown(e: KeyboardEvent) {
   // 带 shift 不触发
