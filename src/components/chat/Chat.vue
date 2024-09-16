@@ -413,7 +413,7 @@ async function sendMessage(
     })
     .catch(async (err) => {
       // if 409
-      if (err.response.status === 409) {
+      if (err.response?.status === 409) {
         const streamId = err.response.data.data?.stream_id;
 
         if (streamId) {
@@ -481,6 +481,14 @@ function streamChat(streamId: String, redirect = false) {
   const url = getApi().conf.basePath + "/api/v1/stream/" + streamId;
 
   const evtSource = new EventSource(url);
+  // 如果 error
+  evtSource.onerror = (e) => {
+    dialog.error({
+      title: "推理失败",
+      content: "目前无法完成推理，请稍后再试。",
+      positiveText: "好",
+    });
+  }
 
   let messageAdded = false;
 

@@ -101,13 +101,6 @@ const response = {
           return h(error500);
         },
       });
-    } else {
-      if (data.length !== 0) {
-        dialog.error({
-          title: "错误",
-          content: data,
-        });
-      }
     }
 
     return Promise.reject(error);
