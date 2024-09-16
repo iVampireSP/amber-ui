@@ -15,14 +15,18 @@
           </div>
         </div>
 
-        <div v-else>
+        <div v-else @click="assistantStore.selectMenu = false">
           <MessageList :chat_messages="chatMessages" />
         </div>
       </div>
 
       <div
         class="fixed bottom-0 left-0 right-0"
-        :class="!appStore.contentScrollOnBottom &&  appStore.contentScrollable ? 'hidden' : 'mb-6'"
+        :class="
+          !appStore.contentScrollOnBottom && appStore.contentScrollable
+            ? 'hidden'
+            : 'mb-6'
+        "
       >
         <!-- <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
@@ -47,6 +51,14 @@
         >
           <div class="overflow-x-hidden h-full w-full flex items-center">
             <n-scrollbar class="max-h-96">
+              <n-dropdown
+                :show="assistantStore.selectMenu"
+                :options="assistantMenuOptions"
+                placement="top-start"
+                @select="handleSelect"
+              >
+                <div class="absolute left-0"></div>
+              </n-dropdown>
               <div
                 ref="inputText"
                 :class="{ 'has-placeholder': isPlaceholderVisible }"
@@ -159,7 +171,8 @@ import router from "@/router";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
-import { useDialog } from "naive-ui";
+import { useDialog, useMessage } from "naive-ui";
+import { useAssistantStore } from "@/stores/assistants";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -196,8 +209,21 @@ const uploading = ref(false);
 const autoScroll = ref(true);
 const appStore = useAppStore();
 const dialog = useDialog();
+const assistantStore = useAssistantStore();
+const message = useMessage()
 
 function onKeydown(e: KeyboardEvent) {
+  // 如果是 Esc
+  if (e.code === "Escape") {
+    assistantStore.selectMenu = false;
+  }
+
+  // 如果第一个字是 @，则显示选择助理的菜单
+  if (content.value === "" && e.key === "@") {
+    showAssistantSelect();
+    e.preventDefault();
+  }
+
   // 带 shift 不触发
   if (e.shiftKey || inputExpanded.value) {
     return;
@@ -418,6 +444,15 @@ async function sendMessage(
 //   container.classList.add("max-w-2xl");
 // }
 
+// 监听 appStore.contentScrollPosition
+watch(
+  () => appStore.contentScrollPosition,
+  () => {
+    // 滚动则关闭菜单
+    assistantStore.selectMenu = false;
+  }
+);
+
 async function getChatMessages() {
   // 获取当前聊天记录
   if (chatId.value) {
@@ -603,6 +638,27 @@ onUnmounted(() => {
   };
 });
 
+const assistantMenuOptions: any = ref([]);
+const showAssistantSelect = async () => {
+  //  const changeAssistant = (id: number | undefined) => {
+  //   if (id) {
+  //     chatStore.currentAssistantId = id;
+  //   }
+  // };
+
+  assistantStore.selectMenu = true;
+  assistantMenuOptions.value = [];
+  assistantStore.assistants =
+    (await getApi().Assistant.apiV1AssistantsGet()).data.data ?? [];
+
+  for (const assistant of assistantStore.assistants) {
+    assistantMenuOptions.value.push({
+      label: assistant.name ?? "",
+      key: assistant.id ?? "",
+    });
+  }
+};
+
 const uploadFile = () => {
   if (!fileUpload.value || !chatId.value) {
     return;
@@ -636,6 +692,13 @@ const uploadFile = () => {
       uploading.value = false;
     });
 };
+
+function handleSelect(key: string | number) {
+  chatStore.currentAssistantId = Number(key);
+  assistantStore.selectMenu = false;
+
+  message.info("助理已切换");
+}
 </script>
 
 <style scoped>

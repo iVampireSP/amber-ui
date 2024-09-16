@@ -5,6 +5,7 @@ import { EntityAssistant } from "../api";
 export const useAssistantStore = defineStore("assistant", {
   persist: false,
   state: () => ({
-    assistants: <EntityAssistant[] | undefined> [],
+    selectMenu: false,
+    assistants: <EntityAssistant[] | undefined>[],
   }),
 });
