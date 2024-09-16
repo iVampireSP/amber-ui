@@ -515,10 +515,10 @@ export interface ApiV1LibrariesPost201Response {
 export interface ApiV1MemoriesGet200Response {
     /**
      * 
-     * @type {EntityMemory}
+     * @type {Array<EntityMemory>}
      * @memberof ApiV1MemoriesGet200Response
      */
-    'data'?: EntityMemory;
+    'data'?: Array<EntityMemory>;
     /**
      * 
      * @type {string}

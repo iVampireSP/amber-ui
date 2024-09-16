@@ -5,6 +5,7 @@ import {
   ChatPublicApi,
   Configuration,
   LibrariesApi,
+  MemoiresApi,
   PingApi,
   ToolApi,
 } from "../api";
@@ -22,6 +23,7 @@ interface Api {
   ChatMessage: ChatMessageApi;
   ChatPublic: ChatPublicApi;
   Library: LibrariesApi;
+  Memory: MemoiresApi;
   conf: Configuration
 }
 
@@ -53,6 +55,7 @@ const getApi = () => {
     ChatMessage: new ChatMessageApi(conf, undefined, axios),
     ChatPublic: new ChatPublicApi(conf, undefined, axios),
     Library: new LibrariesApi(conf, undefined, axios),
+    Memory: new MemoiresApi(conf, undefined, axios),
     conf: conf
   };
 
