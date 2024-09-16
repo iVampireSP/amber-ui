@@ -54,7 +54,10 @@
         <n-grid-item class="flex items-center justify-center select-none">
           <div v-show="!isMobile">
             <!-- 中间部分 -->
-            <n-popover trigger="hover" v-if="!chatStore.currentChat?.id && !chatStore.currentChat?.name">
+            <n-popover
+              trigger="hover"
+              v-if="!chatStore.currentChat?.id && !chatStore.currentChat?.name"
+            >
               <template #trigger>
                 <img
                   :src="leaflowpng"
@@ -64,6 +67,11 @@
               </template>
               <span> Leaflow 利飞 </span>
             </n-popover>
+            <div v-else-if="chatStore.toolName != ''">
+              <n-gradient-text type="info">
+                正在执行 {{ chatStore.toolName }}
+              </n-gradient-text>
+            </div>
             <div v-else>
               <span>{{ chatStore.currentChat?.name }}</span>
             </div>

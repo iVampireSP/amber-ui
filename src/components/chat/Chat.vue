@@ -24,12 +24,21 @@
         class="fixed bottom-0 left-0 right-0"
         :class="onBottom ? 'hidden' : 'mb-6'"
       >
-        <div
+        <!-- <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
           v-if="toolCalling"
         >
           <n-gradient-text type="info">
             {{ toolName }}
+          </n-gradient-text>
+        </div> -->
+
+        <div
+          class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
+          v-if="isMobile && chatStore.toolName != ''"
+        >
+          <n-gradient-text type="info">
+            正在执行 {{ chatStore.toolName }}
           </n-gradient-text>
         </div>
         <div
@@ -148,6 +157,7 @@ import MessageList from "./MessageList.vue";
 import { useChatStore } from "@/stores/chat";
 import router from "@/router";
 import element from "@/config/element";
+import { useIsMobile } from "@/utils/composables";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -165,6 +175,7 @@ const props = defineProps({
   },
 });
 
+const isMobile = useIsMobile()
 const userStore = useUserStore();
 const chatStore = useChatStore();
 const compositionStart = ref(false);
@@ -178,9 +189,6 @@ const content = ref("");
 const inputExpanded = ref(false);
 const chatMessages: Ref<EntityChatMessage[] | undefined> = ref([]);
 const processing = ref(false);
-const toolName = ref("");
-const toolError = ref(false);
-const toolCalling = ref(false);
 const fileUpload = ref();
 const uploading = ref(false);
 const autoScroll = ref(true);
@@ -350,7 +358,7 @@ async function sendMessage(
     };
   }
 
-  toolError.value = false;
+  // toolError.value = false;
   getApi()
     .ChatMessage.apiV1ChatsIdMessagesPost(Number(chatId.value), payload)
     .then(async (res) => {
@@ -465,28 +473,38 @@ function streamChat(streamId: String, redirect = false) {
 
     switch (data.state) {
       case "tool_calling":
-        toolCalling.value = true;
-        toolName.value =
+        // toolCalling.value = true;
+        chatStore.toolName =
           data.tool_call_message.tool_name +
           " 中的 " +
           data.tool_call_message.function_name;
+        // toolName.value =
+        //   data.tool_call_message.tool_name +
+        //   " 中的 " +
+        //   data.tool_call_message.function_name;
         break;
       case "tool_response":
         setTimeout(() => {
-          toolName.value = "";
-          toolCalling.value = false;
+          chatStore.toolName = "";
         }, 300);
         break;
       case "tool_failed":
-        toolName.value =
-          data.tool_response_message.tool_name +
+        // toolName.value =
+        //   data.tool_response_message.tool_name +
+        //   " 中的 " +
+        //   data.tool_response_message.function_name;
+
+        chatStore.toolName =
+          data.tool_call_message.tool_name +
           " 中的 " +
-          data.tool_response_message.function_name;
-        toolError.value = true;
+          data.tool_call_message.function_name;
+
+        // toolError.value = true;
         append = false;
         setTimeout(() => {
-          toolCalling.value = false;
-        }, 300);
+          // toolCalling.value = false;
+          chatStore.toolName = "";
+        }, 1000);
         break;
       case "chunk":
         if (!messageAdded) {

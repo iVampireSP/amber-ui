@@ -6,6 +6,7 @@ export const useChatStore = defineStore("chats", {
   state: () => ({
     currentChat: <EntityChat | undefined> {},
     currentAssistantId: 0,
+    toolName: "",
     chats: <EntityChat[] | undefined>[],
   }),
 });
