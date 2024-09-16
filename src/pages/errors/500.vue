@@ -10,5 +10,5 @@
 <script setup lang="ts">
 import { NResult } from "naive-ui";
 import Lottie from "@/components/Lottie.vue";
-import ScrunchedMouth from "@/assets/lottie/scrunched-mouth.json";
+import ScrunchedMouth from "@/assets/lottie/Scrunched-mouth.json";
 </script>
