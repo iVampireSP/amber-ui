@@ -32,7 +32,11 @@
             :plugins="markdownPlugins"
           /> -->
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
-            <div v-if="mdInited" class="markdown-body" v-html="mdIt.render(message.content)"></div>
+            <div
+              v-if="mdInited"
+              class="markdown-body"
+              v-html="mdIt.render(message.content)"
+            ></div>
             <div class="relative h-full">
               <n-avatar
                 round
@@ -91,7 +95,7 @@ import leaflowPng from "@/assets/images/leaflow.png";
 import markdownKatex from "@traptitech/markdown-it-katex";
 import markdownIt from "markdown-it";
 // highlightjs
-import hljs from "highlight.js";
+// import hljs from "highlight.js";
 import config from "@/config/config";
 import Shiki from "@shikijs/markdown-it";
 
