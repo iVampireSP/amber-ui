@@ -386,6 +386,37 @@ export interface ApiV1ChatsIdFilesPostRequest {
 /**
  * 
  * @export
+ * @interface ApiV1ChatsIdMessagesGet200Response
+ */
+export interface ApiV1ChatsIdMessagesGet200Response {
+    /**
+     * 
+     * @type {Array<EntityChatMessageList>}
+     * @memberof ApiV1ChatsIdMessagesGet200Response
+     */
+    'data'?: Array<EntityChatMessageList>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1ChatsIdMessagesGet200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1ChatsIdMessagesGet200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1ChatsIdMessagesGet200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface ApiV1LibrariesGet200Response
  */
 export interface ApiV1LibrariesGet200Response {
@@ -833,6 +864,12 @@ export interface EntityChat {
  */
 export interface EntityChatMessage {
     /**
+     * 
+     * @type {EntityAssistant}
+     * @memberof EntityChatMessage
+     */
+    'assistant'?: EntityAssistant;
+    /**
      * AssistantId 可以让同一个对话中，使用不同的助手来处理消息
      * @type {number}
      * @memberof EntityChatMessage
@@ -922,6 +959,128 @@ export interface EntityChatMessage {
      * @memberof EntityChatMessage
      */
     'user_file_id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EntityChatMessageList
+ */
+export interface EntityChatMessageList {
+    /**
+     * 
+     * @type {EntityChatMessageListAssistant}
+     * @memberof EntityChatMessageList
+     */
+    'assistant'?: EntityChatMessageListAssistant;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'assistant_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'chat_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'completion_tokens'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityChatMessageList
+     */
+    'content'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityChatMessageList
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {EntityFile}
+     * @memberof EntityChatMessageList
+     */
+    'file'?: EntityFile;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'file_id'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityChatMessageList
+     */
+    'hidden'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'prompt_tokens'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityChatMessageList
+     */
+    'role'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'total_tokens'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityChatMessageList
+     */
+    'updated_at'?: string;
+    /**
+     * 
+     * @type {EntityUserFile}
+     * @memberof EntityChatMessageList
+     */
+    'user_file'?: EntityUserFile;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageList
+     */
+    'user_file_id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EntityChatMessageListAssistant
+ */
+export interface EntityChatMessageListAssistant {
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityChatMessageListAssistant
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityChatMessageListAssistant
+     */
+    'name'?: string;
 }
 /**
  * 
@@ -3814,7 +3973,7 @@ export const ChatMessageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1ChatsIdMessagesGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatPublicChatIdMessagesGet200Response>> {
+        async apiV1ChatsIdMessagesGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatsIdMessagesGet200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ChatsIdMessagesGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChatMessageApi.apiV1ChatsIdMessagesGet']?.[localVarOperationServerIndex]?.url;
@@ -3886,7 +4045,7 @@ export const ChatMessageApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1ChatsIdMessagesGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatPublicChatIdMessagesGet200Response> {
+        apiV1ChatsIdMessagesGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatsIdMessagesGet200Response> {
             return localVarFp.apiV1ChatsIdMessagesGet(id, options).then((request) => request(axios, basePath));
         },
         /**

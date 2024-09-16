@@ -3,7 +3,7 @@
   <n-list hoverable clickable v-show="loaded" class="select-none">
     <template #header>
       <div>
-        <span class="text-xl">切换助理</span>
+        <span class="text-xl">下条消息的助理</span>
       </div>
     </template>
     <n-list-item
@@ -11,9 +11,16 @@
       :key="a.id"
       @click="changeAssistant(a.id)"
     >
-      <n-thing>
-        {{ a.name }}
-      </n-thing>
+      <div class="flex justify-between items-center">
+        <div>
+          {{ a.name }}
+        </div>
+        <div v-show="a.id === chatStore.currentAssistantId" class="text-green">
+          <n-text type="success">
+            <n-icon><CheckmarkOutline /></n-icon>
+          </n-text>
+        </div>
+      </div>
     </n-list-item>
   </n-list>
 </template>
@@ -23,6 +30,7 @@ import { useUserStore } from "../stores/user";
 import { updateAll } from "../plugins/update/update";
 import { useAssistantStore } from "../stores/assistants";
 import { useChatStore } from "@/stores/chat";
+import { CheckmarkOutline } from "@vicons/ionicons5";
 
 const loaded = ref(false);
 const userStore = useUserStore();

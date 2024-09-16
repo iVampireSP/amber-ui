@@ -20,18 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { NMenu } from "naive-ui";
-import { useRoute } from "vue-router";
-import { leftMenuOptions } from "../plugins/menus/left";
 import { ChatboxOutline } from "@vicons/ionicons5";
 import getApi from "../plugins/api";
 import { useChatStore } from "../stores/chat";
-
-const route = useRoute();
-
-const currentRoute: any = computed(() => route.name);
-
-const collapsed = ref(false);
 
 const chatStore = useChatStore();
 

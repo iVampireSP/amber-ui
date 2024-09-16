@@ -32,11 +32,19 @@
             :plugins="markdownPlugins"
           /> -->
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
-            <div
-              v-if="mdInited"
-              class="markdown-body"
-              v-html="mdIt.render(message.content)"
-            ></div>
+            <div  class="flex items-end flex-col">
+              <div>
+                <n-divider class="!p-0 !m-0" title-placement="right">
+                  {{ userStore.user.name }}
+                </n-divider>
+              </div>
+              <div
+                v-if="mdInited"
+                class="markdown-body"
+                v-html="mdIt.render(message.content)"
+              ></div>
+            </div>
+
             <div class="relative h-full">
               <n-avatar
                 round
@@ -70,11 +78,20 @@
             <!-- <div v-html="mdIt.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$')"></div> -->
 
             <!-- 当 message.content 变化时，重新渲染  -->
-            <div
-              v-if="mdInited"
-              class="break-all break-words markdown-body"
-              v-html="mdIt.render(message.content)"
-            ></div>
+            <div>
+              <div
+                v-if="message.assistant_id !== 0 && message.assistant !== null"
+              >
+                <n-divider class="!p-0 !m-0" title-placement="left">
+                  {{ message.assistant?.name }}
+                </n-divider>
+              </div>
+              <div
+                v-if="mdInited"
+                class="break-all break-words markdown-body"
+                v-html="mdIt.render(message.content)"
+              ></div>
+            </div>
             <!-- <div v-html="mdIt.render(message.content)"></div> -->
 
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
