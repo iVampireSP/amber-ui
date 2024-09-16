@@ -16,7 +16,7 @@
       <n-list-item v-for="c in toolStore.tools" :key="c.id">
         <n-thing>
           <div class="flex justify-between items-center">
-            <div class="font-semibold truncate block">
+            <div class="truncate block">
               {{ c.name }}
             </div>
             <div>
