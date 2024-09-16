@@ -15,6 +15,7 @@ declare module 'vue' {
     ChatSettings: typeof import('./components/settings/ChatSettings.vue')['default']
     LeftSettings: typeof import('./components/settings/LeftSettings.vue')['default']
     LibrarySettings: typeof import('./components/settings/LibrarySettings.vue')['default']
+    Lottie: typeof import('./components/Lottie.vue')['default']
     MemorySettings: typeof import('./components/settings/MemorySettings.vue')['default']
     Menu: typeof import('./components/Menu.vue')['default']
     MessageList: typeof import('./components/chat/MessageList.vue')['default']

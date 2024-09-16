@@ -24,6 +24,10 @@ declare module 'vue-router/auto-routes' {
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/auth/logout': RouteRecordInfo<'/auth/logout', '/auth/logout', Record<never, never>, Record<never, never>>,
     '/chat/[id]/': RouteRecordInfo<'/chat/[id]/', '/chat/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/errors/401': RouteRecordInfo<'/errors/401', '/errors/401', Record<never, never>, Record<never, never>>,
+    '/errors/404': RouteRecordInfo<'/errors/404', '/errors/404', Record<never, never>, Record<never, never>>,
+    '/errors/500': RouteRecordInfo<'/errors/500', '/errors/500', Record<never, never>, Record<never, never>>,
+    '/errors/Base': RouteRecordInfo<'/errors/Base', '/errors/Base', Record<never, never>, Record<never, never>>,
     '/guest/': RouteRecordInfo<'/guest/', '/guest', Record<never, never>, Record<never, never>>,
   }
 }

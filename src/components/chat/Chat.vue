@@ -159,6 +159,7 @@ import router from "@/router";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
+import { useDialog } from "naive-ui";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -193,7 +194,8 @@ const processing = ref(false);
 const fileUpload = ref();
 const uploading = ref(false);
 const autoScroll = ref(true);
-const appStore = useAppStore()
+const appStore = useAppStore();
+const dialog = useDialog();
 
 function onKeydown(e: KeyboardEvent) {
   // 带 shift 不触发
@@ -473,6 +475,13 @@ function streamChat(streamId: String, redirect = false) {
     let append = true;
 
     switch (data.state) {
+      case "failed":
+        dialog.error({
+          title: "推理失败",
+          content: "目前无法完成推理，请稍后再试。",
+          positiveText: "好",
+        });
+        break;
       case "tool_calling":
         // toolCalling.value = true;
         chatStore.toolName =
@@ -499,6 +508,15 @@ function streamChat(streamId: String, redirect = false) {
           data.tool_call_message.tool_name +
           " 中的 " +
           data.tool_call_message.function_name;
+
+        dialog.error({
+          title: "工具调用失败",
+          content:
+            data.tool_call_message.tool_name +
+            " 中的 " +
+            data.tool_call_message.function_name,
+          positiveText: "好",
+        });
 
         // toolError.value = true;
         append = false;
