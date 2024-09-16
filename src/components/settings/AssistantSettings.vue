@@ -145,7 +145,25 @@
         <div v-else class="mt-10"></div>
         <div>
           <div class="flex justify-between align-middle items-center">
-            <n-h3>助理 API</n-h3>
+            <div>
+              <n-h3 class="inline">助理 API</n-h3>
+              <n-popover trigger="hover">
+                <template #trigger>
+                  <n-icon size="16"><HelpCircleOutline /></n-icon>
+                </template>
+                <div>
+                  <n-text
+                    >你可以将应用通过 OpenAI 协议接入到 Amber，我们目前支持 Chat
+                    Completion API。</n-text
+                  >
+                  <n-text>
+                    我们的 API 端点是：{{ config.backend }}/openai-compatible/v1
+                    。密钥为下方的 API Key。
+                  </n-text>
+                </div>
+              </n-popover>
+            </div>
+
             <n-popconfirm @positive-click="createAssistantKey">
               <template #trigger>
                 <n-button tertiary> 新 API </n-button>
@@ -160,33 +178,35 @@
             </n-popconfirm>
           </div>
 
-          <n-list hoverable clickable v-if="assistantApiKeys.length">
-            <n-list-item v-for="c in assistantApiKeys" :key="c.id">
-              <n-thing>
-                <div class="flex justify-between items-center">
-                  <div>
-                    {{ c.secret }}
+          <div class="mt-3">
+            <n-list hoverable clickable v-if="assistantApiKeys.length">
+              <n-list-item v-for="c in assistantApiKeys" :key="c.id">
+                <n-thing>
+                  <div class="flex justify-between items-center">
+                    <div>
+                      {{ c.secret }}
+                    </div>
+                    <div>
+                      <n-popconfirm
+                        @positive-click="deleteAssistantKey(c.id ?? 0)"
+                      >
+                        <template #trigger>
+                          <n-button quaternary circle type="warning">
+                            <template #icon>
+                              <n-icon size="16" class="cursor-pointer">
+                                <TrashBinOutline />
+                              </n-icon>
+                            </template>
+                          </n-button>
+                        </template>
+                        <div>删除后，应用将无法访问此助理。</div>
+                      </n-popconfirm>
+                    </div>
                   </div>
-                  <div>
-                    <n-popconfirm
-                      @positive-click="deleteAssistantKey(c.id ?? 0)"
-                    >
-                      <template #trigger>
-                        <n-button quaternary circle type="warning">
-                          <template #icon>
-                            <n-icon size="16" class="cursor-pointer">
-                              <TrashBinOutline />
-                            </n-icon>
-                          </template>
-                        </n-button>
-                      </template>
-                      <div>删除后，应用将无法访问此助理。</div>
-                    </n-popconfirm>
-                  </div>
-                </div>
-              </n-thing>
-            </n-list-item>
-          </n-list>
+                </n-thing>
+              </n-list-item>
+            </n-list>
+          </div>
         </div>
       </n-drawer-content>
     </n-drawer>
@@ -231,7 +251,11 @@
 
 <script lang="ts" setup>
 import { useDialog } from "naive-ui";
-import { TrashBinOutline, SettingsOutline } from "@vicons/ionicons5";
+import {
+  TrashBinOutline,
+  SettingsOutline,
+  HelpCircleOutline,
+} from "@vicons/ionicons5";
 import getApi from "@/plugins/api";
 import { useChatStore } from "@/stores/chat";
 import { ref } from "vue";
@@ -244,6 +268,7 @@ import {
 } from "@/api";
 import { useIsMobile } from "@/utils/composables";
 import { AxiosError } from "axios";
+import config from "@/config/config";
 
 const dialog = useDialog();
 const chatStore = useChatStore();
