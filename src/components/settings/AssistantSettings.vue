@@ -157,7 +157,7 @@
                     Completion API。</n-text
                   >
                   <n-text>
-                    我们的 API 端点是：{{ config.backend }}/openai-compatible/v1
+                    我们的 API 端点是：{{ config.backend }}/api/openai-compatible/v1
                     。密钥为下方的 API Key。
                   </n-text>
                 </div>
