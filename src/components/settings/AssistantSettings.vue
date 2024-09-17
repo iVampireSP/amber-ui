@@ -67,7 +67,7 @@
               />
             </n-form-item>
 
-            <n-form-item label="提示词">
+            <n-form-item label="提示词（支持模板, 使用 {foo} 作为变量）">
               <n-input
                 type="textarea"
                 v-model:value="currentAssistant.prompt"

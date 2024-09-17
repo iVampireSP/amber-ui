@@ -1584,6 +1584,12 @@ export interface SchemaChatMessageAddRequest {
      * @memberof SchemaChatMessageAddRequest
      */
     'role': SchemaChatMessageAddRequestRoleEnum;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof SchemaChatMessageAddRequest
+     */
+    'variables'?: { [key: string]: string; };
 }
 
 export const SchemaChatMessageAddRequestRoleEnum = {
@@ -3893,7 +3899,7 @@ export const ChatMessageApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
          * @summary 流式传输文本
-         * @param {string} streamId Chat stream id
+         * @param {string} streamId 
          * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3996,7 +4002,7 @@ export const ChatMessageApiFp = function(configuration?: Configuration) {
         /**
          * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
          * @summary 流式传输文本
-         * @param {string} streamId Chat stream id
+         * @param {string} streamId 
          * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4062,7 +4068,7 @@ export const ChatMessageApiFactory = function (configuration?: Configuration, ba
         /**
          * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
          * @summary 流式传输文本
-         * @param {string} streamId Chat stream id
+         * @param {string} streamId 
          * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4133,7 +4139,7 @@ export class ChatMessageApi extends BaseAPI {
     /**
      * 将会通过 SSE 的方式来流式传输内容，不建议使用本文档生成的代码来获取，第三方库有更好的解决方案。
      * @summary 流式传输文本
-     * @param {string} streamId Chat stream id
+     * @param {string} streamId 
      * @param {string} [xUserIP] 指定聊天中的用户 IP 地址，不指定则自动获取。此 IP 地址只会增加至 Prompt 中，如果不希望增加，请关闭系统自带 Prompt 选项
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

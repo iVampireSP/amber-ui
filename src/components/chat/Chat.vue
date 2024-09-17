@@ -210,7 +210,7 @@ const autoScroll = ref(true);
 const appStore = useAppStore();
 const dialog = useDialog();
 const assistantStore = useAssistantStore();
-const message = useMessage()
+const message = useMessage();
 
 function onKeydown(e: KeyboardEvent) {
   // 如果是 Esc
@@ -346,7 +346,8 @@ function sendText() {
 
 async function sendMessage(
   role: SchemaChatMessageAddRequestRoleEnum,
-  text: string
+  text: string,
+  variables: any = {}
 ) {
   if (processing.value) {
     return;
@@ -376,9 +377,20 @@ async function sendMessage(
       });
   }
 
+  let chatVariables = {
+    "now": new Date().toLocaleString(),
+  };
+
+  // 合并
+  chatVariables = {
+    ...chatVariables,
+    ...variables,
+  };
+
   let payload: SchemaChatMessageAddRequest = {
     message: text,
     role: role,
+    variables: chatVariables,
   };
   if (chatStore.currentAssistantId) {
     payload = {
@@ -488,7 +500,7 @@ function streamChat(streamId: String, redirect = false) {
       content: "目前无法完成推理，请稍后再试。",
       positiveText: "好",
     });
-  }
+  };
 
   let messageAdded = false;
 
