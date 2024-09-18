@@ -109,6 +109,18 @@
                   </n-switch>
                   允许助理 API 读取记忆
                 </div>
+
+                 <div class=mt-3>
+                  话语随机性 (Temperature)
+                  <n-slider
+                    v-model:value="currentAssistant.temperature"
+                    :step="0.1"
+                    :min="0"
+                    :max="1"
+                  />
+                </div>
+
+               
               </div>
             </n-form-item>
 
@@ -157,8 +169,9 @@
                     Completion API。</n-text
                   >
                   <n-text>
-                    我们的 API 端点是：{{ config.backend }}/api/openai-compatible/v1
-                    。密钥为下方的 API Key。
+                    我们的 API 端点是：{{
+                      config.backend
+                    }}/api/openai-compatible/v1 。密钥为下方的 API Key。
                   </n-text>
                 </div>
               </n-popover>
