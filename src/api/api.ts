@@ -906,13 +906,13 @@ export interface EntityChatMessage {
      */
     'file'?: EntityFile;
     /**
-     * FileId 虽然有了 UserFileId， 但是 File Id 还是应该保留，因为这个是针对访客用户的
+     * FileId
      * @type {number}
      * @memberof EntityChatMessage
      */
     'file_id'?: number;
     /**
-     * 
+     * UserFileId       *schema.EntityId `json:\"user_file_id\"` UserFile         *UserFile        `json:\"user_file\"`
      * @type {boolean}
      * @memberof EntityChatMessage
      */
@@ -947,18 +947,6 @@ export interface EntityChatMessage {
      * @memberof EntityChatMessage
      */
     'updated_at'?: string;
-    /**
-     * 
-     * @type {EntityUserFile}
-     * @memberof EntityChatMessage
-     */
-    'user_file'?: EntityUserFile;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntityChatMessage
-     */
-    'user_file_id'?: number;
 }
 /**
  * 
@@ -1015,7 +1003,7 @@ export interface EntityChatMessageList {
      */
     'file_id'?: number;
     /**
-     * 
+     * UserFileId       *schema.EntityId `json:\"user_file_id\"` UserFile         *UserFile        `json:\"user_file\"`
      * @type {boolean}
      * @memberof EntityChatMessageList
      */
@@ -1050,18 +1038,6 @@ export interface EntityChatMessageList {
      * @memberof EntityChatMessageList
      */
     'updated_at'?: string;
-    /**
-     * 
-     * @type {EntityUserFile}
-     * @memberof EntityChatMessageList
-     */
-    'user_file'?: EntityUserFile;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntityChatMessageList
-     */
-    'user_file_id'?: number;
 }
 /**
  * 
@@ -1144,7 +1120,7 @@ export interface EntityFile {
      */
     'created_at'?: string;
     /**
-     * TODO: 移除 file 的到期时间，如果当 file 没有任何引用的时候再删除 因为有外键，所以直接删除是删不掉的，必须删除消息
+     * Public   bool    `json:\"public\"` // 是否公开，访客上传的文件应始终公开，或归属于所有者 TODO: 移除 file 的到期时间，如果当 file 没有任何引用的时候再删除 因为有外键，所以直接删除是删不掉的，必须删除消息
      * @type {string}
      * @memberof EntityFile
      */
@@ -1167,18 +1143,6 @@ export interface EntityFile {
      * @memberof EntityFile
      */
     'mime_type'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityFile
-     */
-    'path'?: string;
-    /**
-     * 是否公开，访客上传的文件应始终公开，或归属于所有者
-     * @type {boolean}
-     * @memberof EntityFile
-     */
-    'public'?: boolean;
     /**
      * 
      * @type {number}
@@ -1354,49 +1318,6 @@ export interface EntityTool {
      * 
      * @type {string}
      * @memberof EntityTool
-     */
-    'user_id'?: string;
-}
-/**
- * 
- * @export
- * @interface EntityUserFile
- */
-export interface EntityUserFile {
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityUserFile
-     */
-    'created_at'?: string;
-    /**
-     * 
-     * @type {EntityFile}
-     * @memberof EntityUserFile
-     */
-    'file'?: EntityFile;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntityUserFile
-     */
-    'file_id'?: number;
-    /**
-     * Id        schema.EntityId `gorm:\"primarykey\" json:\"id,string\"`
-     * @type {number}
-     * @memberof EntityUserFile
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityUserFile
-     */
-    'updated_at'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityUserFile
      */
     'user_id'?: string;
 }
@@ -4663,17 +4584,17 @@ export class ChatPublicApi extends BaseAPI {
 export const FileApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-         * @summary 下载公开文件
-         * @param {number} id 
+         * 根据文件 Hash 下载文件。仅支持图片下载，且图片具有有效期
+         * @summary 下载图片
+         * @param {string} hash FileId uint64 &#x60;uri:\&quot;id\&quot; binding:\&quot;required\&quot;&#x60;
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1FilesIdDownloadGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1FilesIdDownloadGet', 'id', id)
-            const localVarPath = `/api/v1/files/{id}/download`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        apiV1FilesDownloadHashGet: async (hash: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'hash' is not null or undefined
+            assertParamExists('apiV1FilesDownloadHashGet', 'hash', hash)
+            const localVarPath = `/api/v1/files/download/{hash}`
+                .replace(`{${"hash"}}`, encodeURIComponent(String(hash)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4684,45 +4605,6 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-         * @summary 下载用户开文件
-         * @param {number} id 
-         * @param {string} [idToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1FilesUserIdDownloadGet: async (id: number, idToken?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiV1FilesUserIdDownloadGet', 'id', id)
-            const localVarPath = `/api/v1/files/user/{id}/download`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (idToken !== undefined) {
-                localVarQueryParameter['id_token'] = idToken;
-            }
 
 
     
@@ -4746,30 +4628,16 @@ export const FileApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FileApiAxiosParamCreator(configuration)
     return {
         /**
-         * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-         * @summary 下载公开文件
-         * @param {number} id 
+         * 根据文件 Hash 下载文件。仅支持图片下载，且图片具有有效期
+         * @summary 下载图片
+         * @param {string} hash FileId uint64 &#x60;uri:\&quot;id\&quot; binding:\&quot;required\&quot;&#x60;
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1FilesIdDownloadGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1FilesIdDownloadGet(id, options);
+        async apiV1FilesDownloadHashGet(hash: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1FilesDownloadHashGet(hash, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FileApi.apiV1FilesIdDownloadGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-         * @summary 下载用户开文件
-         * @param {number} id 
-         * @param {string} [idToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiV1FilesUserIdDownloadGet(id: number, idToken?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1FilesUserIdDownloadGet(id, idToken, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FileApi.apiV1FilesUserIdDownloadGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FileApi.apiV1FilesDownloadHashGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -4783,25 +4651,14 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = FileApiFp(configuration)
     return {
         /**
-         * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-         * @summary 下载公开文件
-         * @param {number} id 
+         * 根据文件 Hash 下载文件。仅支持图片下载，且图片具有有效期
+         * @summary 下载图片
+         * @param {string} hash FileId uint64 &#x60;uri:\&quot;id\&quot; binding:\&quot;required\&quot;&#x60;
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1FilesIdDownloadGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.apiV1FilesIdDownloadGet(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-         * @summary 下载用户开文件
-         * @param {number} id 
-         * @param {string} [idToken] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiV1FilesUserIdDownloadGet(id: number, idToken?: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.apiV1FilesUserIdDownloadGet(id, idToken, options).then((request) => request(axios, basePath));
+        apiV1FilesDownloadHashGet(hash: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
+            return localVarFp.apiV1FilesDownloadHashGet(hash, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4814,28 +4671,15 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
  */
 export class FileApi extends BaseAPI {
     /**
-     * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-     * @summary 下载公开文件
-     * @param {number} id 
+     * 根据文件 Hash 下载文件。仅支持图片下载，且图片具有有效期
+     * @summary 下载图片
+     * @param {string} hash FileId uint64 &#x60;uri:\&quot;id\&quot; binding:\&quot;required\&quot;&#x60;
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FileApi
      */
-    public apiV1FilesIdDownloadGet(id: number, options?: RawAxiosRequestConfig) {
-        return FileApiFp(this.configuration).apiV1FilesIdDownloadGet(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 根据 File ID 下载文件。如果文件是私有的，将无法下载
-     * @summary 下载用户开文件
-     * @param {number} id 
-     * @param {string} [idToken] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FileApi
-     */
-    public apiV1FilesUserIdDownloadGet(id: number, idToken?: string, options?: RawAxiosRequestConfig) {
-        return FileApiFp(this.configuration).apiV1FilesUserIdDownloadGet(id, idToken, options).then((request) => request(this.axios, this.basePath));
+    public apiV1FilesDownloadHashGet(hash: string, options?: RawAxiosRequestConfig) {
+        return FileApiFp(this.configuration).apiV1FilesDownloadHashGet(hash, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

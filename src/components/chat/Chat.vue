@@ -82,7 +82,12 @@
                 v-if="chatId !== null && chatData.assistant_id !== null"
               >
                 <template #trigger>
-                  <n-button tertiary circle size="large">
+                  <n-button
+                    tertiary
+                    circle
+                    size="large"
+                    @click="showUploadModal = true"
+                  >
                     <template #icon>
                       <n-icon><DocumentAttachOutline /></n-icon>
                     </template>
@@ -148,6 +153,34 @@
       </div>
     </div>
   </div>
+
+  <n-modal
+    v-model:show="showUploadModal"
+    :bordered="false"
+    class="w-0"
+    preset="card"
+    title="上传"
+    size="huge"
+    :style="{
+      width: '80%',
+    }"
+  >
+    <n-upload directory-dnd :custom-request="uploadFile" :max="5">
+      <n-upload-dragger>
+        <div style="margin-bottom: 12px">
+          <n-icon size="48" :depth="3">
+            <ArchiveOutline />
+          </n-icon>
+        </div>
+        <n-text style="font-size: 16px">
+          点击或者拖动文件到该区域来上传
+        </n-text>
+        <n-p depth="3" style="margin: 8px 0 0 0">
+          请不要上传敏感数据，比如你的银行卡号和密码，信用卡号有效期和安全码
+        </n-p>
+      </n-upload-dragger>
+    </n-upload>
+  </n-modal>
 </template>
 <script setup lang="ts">
 import { useUserStore } from "../../stores/user";
@@ -157,6 +190,7 @@ import {
   MicOutline,
   DocumentAttachOutline,
   TrashBinOutline,
+  ArchiveOutline,
 } from "@vicons/ionicons5";
 import {
   EntityChatMessage,
@@ -171,7 +205,7 @@ import router from "@/router";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
-import { useDialog, useMessage } from "naive-ui";
+import { UploadCustomRequestOptions, useDialog, useMessage } from "naive-ui";
 import { useAssistantStore } from "@/stores/assistants";
 
 // 获取组件传入的 chatId
@@ -211,6 +245,18 @@ const appStore = useAppStore();
 const dialog = useDialog();
 const assistantStore = useAssistantStore();
 const message = useMessage();
+const showUploadModal = ref(false);
+const pasteUpload = (event: ClipboardEvent) => {
+  // const items = event.clipboardData && event.clipboardData.items;
+  // if (items && items.length) {
+  //   for (let i = 0; i < items.length; i++) {
+  //     if (items[i].type.indexOf("image") !== -1) {
+  //       fileUpload.value = items[i].getAsFile();
+  //       break;
+  //     }
+  //   }
+  // }
+};
 
 function onKeydown(e: KeyboardEvent) {
   // 如果是 Esc
@@ -378,7 +424,7 @@ async function sendMessage(
   }
 
   let chatVariables = {
-    "now": new Date().toLocaleString(),
+    now: new Date().toLocaleString(),
   };
 
   // 合并
@@ -650,12 +696,16 @@ onMounted(() => {
   if (chatId.value) {
     getChat();
   }
+
+  document.addEventListener("paste", pasteUpload);
 });
 
 onUnmounted(() => {
   chatStore.currentChat = {
     id: 0,
   };
+
+  document.removeEventListener("paste", pasteUpload);
 });
 
 const assistantMenuOptions: any = ref([]);
@@ -679,17 +729,28 @@ const showAssistantSelect = async () => {
   }
 };
 
-const uploadFile = () => {
-  if (!fileUpload.value || !chatId.value) {
-    return;
-  }
+const uploadFile = ({
+  file,
+  data,
+  headers,
+  withCredentials,
+  action,
+  onFinish,
+  onError,
+  onProgress,
+}: UploadCustomRequestOptions) => {
+  // const formData = new FormData();
+  
+  // formData.append(file.name, file.file as File);
 
-  uploading.value = true;
+  // uploading.value = true;
+
+
   getApi()
     .ChatMessage.apiV1ChatsIdFilesPost(
       Number(chatId.value),
       {
-        file: fileUpload.value,
+        file: file.file as File,
         url: "",
       },
       {
@@ -701,12 +762,14 @@ const uploadFile = () => {
     .then((r) => {
       // 如果成功
       if (r.status === 200 || r.status === 201) {
-        fileUpload.value = null;
         getChatMessages();
+
+        onFinish();
       }
     })
     .catch((err) => {
-      alert(err.response.data.message);
+      message.error("上传失败: " + err.response.data.message);
+      onError();
     })
     .finally(() => {
       uploading.value = false;

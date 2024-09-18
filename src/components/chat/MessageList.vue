@@ -8,17 +8,30 @@
         <!-- 文件类型 -->
         <n-flex justify="end">
           <div class="flex items-center flex-nowrap">
-            <!-- 如果是 user file -->
-            <n-image
-              v-if="message.user_file"
-              width="100"
-              :src="fileBaseUrl + '/user/' + message.user_file.id + '/download'"
-            />
-            <n-image
-              v-else-if="message.file"
-              width="100"
-              :src="fileBaseUrl + '/' + message.file.id + '/download'"
-            />
+            <div class="flex items-end flex-col">
+              <div>
+                <n-divider class="!p-0 !m-0" title-placement="right">
+                  {{ userStore.user.name }}
+                </n-divider>
+              </div>
+              <n-image
+                v-if="message.file && message.file.mime_type?.startsWith('image/')"
+                width="100"
+                :src="fileBaseUrl + '/download/' + message.file.file_hash"
+              />
+              <n-text italic depth="3" v-else>
+                你上传了一个文件
+              </n-text>
+            </div>
+
+            <div class="relative h-full">
+              <n-avatar
+                round
+                size="large"
+                :src="userStore.user.avatar"
+                class="ml-3 min-w-10 absolute top-0"
+              />
+            </div>
           </div>
         </n-flex>
       </div>
@@ -32,7 +45,7 @@
             :plugins="markdownPlugins"
           /> -->
             <!-- <v-md-preview :text="message.content" height="500px"></v-md-preview> -->
-            <div  class="flex items-end flex-col">
+            <div class="flex items-end flex-col">
               <div>
                 <n-divider class="!p-0 !m-0" title-placement="right">
                   {{ userStore.user.name }}
@@ -40,7 +53,7 @@
               </div>
               <div
                 v-if="mdInited"
-                class="markdown-body"
+                class="break-all break-words markdown-body"
                 v-html="mdIt.render(message.content)"
               ></div>
             </div>
@@ -80,7 +93,11 @@
             <!-- 当 message.content 变化时，重新渲染  -->
             <div>
               <div
-                v-if="message.assistant_id && message.assistant !== null && message.assistant?.name !== ''"
+                v-if="
+                  message.assistant_id &&
+                  message.assistant !== null &&
+                  message.assistant?.name !== ''
+                "
               >
                 <n-divider class="!p-0 !m-0" title-placement="left">
                   {{ message.assistant?.name }}
