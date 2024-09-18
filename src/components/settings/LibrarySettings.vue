@@ -100,6 +100,10 @@
             />
           </n-form-item>
 
+          <n-p
+            >如果您需要上传文档，请在聊天界面上传（需要为对话设置默认助理才可以上传）。</n-p
+          >
+
           <n-button type="primary" @click="newDocument"> 创建 </n-button>
         </n-form>
       </div>
@@ -149,7 +153,7 @@
 
       <div>
         <div class="mt-3 mb-2">
-          <n-button @click="showCreateDocumentDialog = true">上传文档</n-button>
+          <n-button @click="showCreateDocumentDialog = true">填写文档</n-button>
         </div>
       </div>
       <!-- 文档列表 -->
@@ -162,12 +166,24 @@
                   {{ c.name }}
                 </div>
                 <div>
-                  <n-icon size="16" v-if="c.chunked">
-                    <Checkmark />
-                  </n-icon>
-                  <n-icon  v-else size="16" class="cursor-pointer">
-                    <Reload />
-                  </n-icon>
+                  <n-tooltip trigger="hover" v-if="c.chunked">
+                    <template #trigger>
+                      <n-icon class="mr-1" size="16">
+                        <Checkmark />
+                      </n-icon>
+                    </template>
+                    处理完成
+                  </n-tooltip>
+
+                  <n-tooltip trigger="hover" v-else>
+                    <template #trigger>
+                      <n-icon class="mr-1" size="16">
+                        <SyncOutline />
+                      </n-icon>
+                    </template>
+                    正在处理
+                  </n-tooltip>
+
                   <n-popconfirm @positive-click="deleteDocument(c.id ?? 0)">
                     <template #trigger>
                       <n-button quaternary circle type="warning">
@@ -203,8 +219,8 @@ import {
   TrashBinOutline,
   SettingsOutline,
   DocumentOutline,
-  Reload,
-  Checkmark
+  SyncOutline,
+  Checkmark,
 } from "@vicons/ionicons5";
 import { AxiosError } from "axios";
 import { useMessage } from "naive-ui";
@@ -235,6 +251,7 @@ const showEditDialog = async (library: EntityLibrary) => {
   showEditLibraryDialog.value = true;
 
   getDocuments(library.id ?? 0);
+  libraryStore.updateLibraries();
 };
 
 const getDocuments = async (libraryId: number) => {
@@ -253,6 +270,8 @@ const updateLibrary = async () => {
       default: currentLibrary.value.default ?? false,
     });
   }
+
+  libraryStore.updateLibraries();
 };
 
 const newLibrary = async () => {
