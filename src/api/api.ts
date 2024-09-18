@@ -693,6 +693,12 @@ export interface EntityAssistant {
     'prompt'?: string;
     /**
      * 
+     * @type {number}
+     * @memberof EntityAssistant
+     */
+    'temperature'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof EntityAssistant
      */
@@ -1393,6 +1399,12 @@ export interface SchemaAssistantCreateRequest {
      * @memberof SchemaAssistantCreateRequest
      */
     'prompt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemaAssistantCreateRequest
+     */
+    'temperature'?: number;
 }
 /**
  * 
@@ -1455,6 +1467,12 @@ export interface SchemaAssistantUpdateRequest {
      * @memberof SchemaAssistantUpdateRequest
      */
     'prompt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemaAssistantUpdateRequest
+     */
+    'temperature'?: number;
 }
 /**
  * 
