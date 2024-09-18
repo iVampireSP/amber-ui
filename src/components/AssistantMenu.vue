@@ -51,6 +51,13 @@ function update() {
 }
 
 const changeAssistant = (id: number | undefined) => {
+
+  // 如果 id 相同，则取消选择
+  if (id === chatStore.currentAssistantId) {
+    chatStore.currentAssistantId = 0;
+    return;
+  }
+
   if (id) {
     chatStore.currentAssistantId = id;
   }
