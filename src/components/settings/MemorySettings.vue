@@ -9,14 +9,18 @@
     </div> -->
   </div>
   <div v-else>
-    <div class="mb-3">
+    <n-space class="mb-3">
       <n-popconfirm @positive-click="purgeMemory">
         <template #trigger>
           <n-button tertiary> 清除记忆 </n-button>
         </template>
         清除后, 助理将不会记得你的喜好
       </n-popconfirm>
-    </div>
+    </n-space>
+    <n-p
+      >Amber
+      会有专门的助理来管理您的记忆。记忆将会根据您的对话来生成，它将会比较碎片化。</n-p
+    >
     <n-list hoverable clickable>
       <n-list-item v-for="c in memories" :key="c.id">
         <n-thing>
@@ -49,7 +53,7 @@
 import { EntityMemory } from "@/api";
 import getApi from "@/plugins/api";
 import { GiftSharp } from "@vicons/ionicons5";
-import { TrashBinOutline } from "@vicons/ionicons5";
+import { TrashBinOutline, HelpCircleOutline } from "@vicons/ionicons5";
 
 const memories: Ref<EntityMemory[]> = ref([]);
 
