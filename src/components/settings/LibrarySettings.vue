@@ -152,6 +152,40 @@
           <n-button @click="showCreateDocumentDialog = true">上传文档</n-button>
         </div>
       </div>
+      <!-- 文档列表 -->
+      <div>
+        <n-list hoverable v-if="documents.length">
+          <n-list-item v-for="c in documents" :key="c.id">
+            <n-thing>
+              <div class="flex justify-between items-center">
+                <div>
+                  {{ c.name }}
+                </div>
+                <div>
+                  <n-icon size="16" v-if="c.chunked">
+                    <Checkmark />
+                  </n-icon>
+                  <n-icon  v-else size="16" class="cursor-pointer">
+                    <Reload />
+                  </n-icon>
+                  <n-popconfirm @positive-click="deleteDocument(c.id ?? 0)">
+                    <template #trigger>
+                      <n-button quaternary circle type="warning">
+                        <template #icon>
+                          <n-icon size="16" class="cursor-pointer">
+                            <TrashBinOutline />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    <div>删除后，文档将无法被检索</div>
+                  </n-popconfirm>
+                </div>
+              </div>
+            </n-thing>
+          </n-list-item>
+        </n-list>
+      </div>
     </n-drawer-content>
   </n-drawer>
 </template>
@@ -169,6 +203,8 @@ import {
   TrashBinOutline,
   SettingsOutline,
   DocumentOutline,
+  Reload,
+  Checkmark
 } from "@vicons/ionicons5";
 import { AxiosError } from "axios";
 import { useMessage } from "naive-ui";
@@ -192,11 +228,23 @@ const createDocument: Ref<SchemaDocumentCreateRequest> = ref({
   name: "",
   content: "",
 });
-const libraryDocuments: Ref<EntityDocument[]> = ref([]);
-const showEditDialog = (library: EntityLibrary) => {
+const documents: Ref<EntityDocument[]> = ref([]);
+
+const showEditDialog = async (library: EntityLibrary) => {
   currentLibrary.value = library;
   showEditLibraryDialog.value = true;
+
+  getDocuments(library.id ?? 0);
 };
+
+const getDocuments = async (libraryId: number) => {
+  await getApi()
+    .Library.apiV1LibrariesIdDocumentsGet(libraryId)
+    .then((r) => {
+      documents.value = r.data.data ?? [];
+    });
+};
+
 const updateLibrary = async () => {
   if (currentLibrary.value.id) {
     await getApi().Library.apiV1LibrariesIdPut(currentLibrary.value.id, {
@@ -238,7 +286,18 @@ const newDocument = async () => {
       currentLibrary.value.id,
       createDocument.value
     );
+
+    getDocuments(currentLibrary.value.id);
   }
+};
+
+const deleteDocument = async (documentId: number) => {
+  await getApi().Library.apiV1LibrariesIdDocumentsDocumentIdDelete(
+    documentId,
+    currentLibrary.value.id ?? 0
+  );
+
+  getDocuments(currentLibrary.value.id ?? 0);
 };
 
 onMounted(() => {
