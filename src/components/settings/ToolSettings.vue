@@ -22,7 +22,7 @@
             <div>
               <n-popconfirm @positive-click="remove(c.id ?? 0)">
                 <template #trigger>
-                  <n-button quaternary circle type="info">
+                  <n-button quaternary circle type="warning">
                     <template #icon>
                       <n-icon size="16" class="cursor-pointer">
                         <TrashBinOutline />
