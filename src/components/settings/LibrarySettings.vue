@@ -129,8 +129,7 @@
             />
           </n-form-item>
 
-          <n-form-item label="描述资料库">
-            默认？
+          <n-form-item label="要设置为默认吗">
             <n-switch v-model:value="currentLibrary.default" />
           </n-form-item>
 
