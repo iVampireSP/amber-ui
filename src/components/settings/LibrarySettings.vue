@@ -296,6 +296,7 @@ const newLibrary = async () => {
 
 const remove = async (id: number) => {
   await getApi().Library.apiV1LibrariesIdDelete(id);
+  showEditLibraryDialog.value = false;
   libraryStore.updateLibraries();
 };
 
