@@ -95,12 +95,22 @@ const response = {
         },
       });
     } else if (error.response.status === 500) {
-      dialog.error({
-        title: "500 服务器错误",
-        content: () => {
-          return h(error500);
-        },
-      });
+      const m = error.response.data.error;
+      if (m) {
+        dialog.error({
+          title: "500 服务器错误",
+          content: () => {
+            return m;
+          },
+        });
+      } else {
+        dialog.error({
+          title: "500 服务器错误",
+          content: () => {
+            return h(error500);
+          },
+        });
+      }
     }
 
     return Promise.reject(error);
