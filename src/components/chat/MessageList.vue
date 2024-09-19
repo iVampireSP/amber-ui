@@ -77,7 +77,7 @@
               round
               size="large"
               :src="leaflowPng"
-              class="min-w-10 min-h-10 p-1.5 absolute top-0 !bg-transparent dark:!bg-white"
+              class="min-w-10 min-h-10 p-1.5 absolute top-0 !bg-transparent "
             />
           </div>
 
