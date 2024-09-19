@@ -20,14 +20,7 @@
         </div>
       </div>
 
-      <div
-        class="fixed bottom-0 left-0 right-0"
-        :class="
-          !appStore.contentScrollOnBottom && appStore.contentScrollable
-            ? 'hidden'
-            : 'mb-6'
-        "
-      >
+      <div class="fixed bottom-0 left-0 right-0">
         <!-- <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
           v-if="toolCalling"
@@ -146,7 +139,6 @@
         <n-text
           depth="3"
           class="text-center block mt-2 mb-2 text-sm select-none"
-          v-show="appStore.contentScrollOnBottom"
         >
           AI 也有可能犯错误，请在使用之前核查信息。
         </n-text>
@@ -740,11 +732,10 @@ const uploadFile = ({
   onProgress,
 }: UploadCustomRequestOptions) => {
   // const formData = new FormData();
-  
+
   // formData.append(file.name, file.file as File);
 
   // uploading.value = true;
-
 
   getApi()
     .ChatMessage.apiV1ChatsIdFilesPost(
