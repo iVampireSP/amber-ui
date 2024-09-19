@@ -538,6 +538,9 @@ function streamChat(streamId: String, redirect = false) {
       content: "目前无法完成推理，请稍后再试。",
       positiveText: "好",
     });
+
+    evtSource.close();
+    processing.value = false;
   };
 
   let messageAdded = false;
