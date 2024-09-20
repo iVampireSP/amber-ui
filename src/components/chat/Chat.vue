@@ -199,6 +199,7 @@ import { useIsMobile } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
 import { UploadCustomRequestOptions, useDialog, useMessage } from "naive-ui";
 import { useAssistantStore } from "@/stores/assistants";
+import html2markdown from "@notable/html2markdown";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -230,7 +231,6 @@ const content = ref("");
 const inputExpanded = ref(false);
 const chatMessages: Ref<EntityChatMessage[] | undefined> = ref([]);
 const processing = ref(false);
-const fileUpload = ref();
 const uploading = ref(false);
 const autoScroll = ref(true);
 const appStore = useAppStore();
@@ -360,14 +360,14 @@ function sendText() {
   }
 
   const input = inputText.value;
-  const textContent = input.innerText.trim();
+  const textContent = input.innerHTML;
 
   if (textContent === "") {
     return;
   }
 
   // 发送文本到服务器
-  sendMessage("user", textContent);
+  sendMessage("user", html2markdown(textContent));
 
   // 清空输入框
   input.innerText = "";
