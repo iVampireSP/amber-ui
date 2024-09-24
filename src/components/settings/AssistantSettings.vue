@@ -179,7 +179,7 @@
 
             <n-popconfirm @positive-click="createAssistantKey">
               <template #trigger>
-                <n-button tertiary> 新 API </n-button>
+                <n-button tertiary> 新 API Key </n-button>
               </template>
               <div>
                 API Key 默认是没有请求限制的。为了防止 API Key
@@ -197,7 +197,7 @@
                 <n-thing>
                   <div class="flex justify-between items-center">
                     <div>
-                      {{ c.secret }}
+                      sk-{{ c.secret }}
                     </div>
                     <div>
                       <n-popconfirm
