@@ -403,6 +403,8 @@ async function sendMessage(
     await getApi()
       .Chat.apiV1ChatsPost({
         name: text.slice(0, 10),
+        // 如果没有指定，则使用目前选择的助理来创建聊天
+        assistant_id: chatStore.currentAssistantId,
       })
       .then(async (res) => {
         chatId.value = res.data.data?.id;
