@@ -110,7 +110,15 @@
                   允许助理 API 读取记忆
                 </div>
 
-                 <div class=mt-3>
+                <div>
+                  <n-switch
+                    v-model:value="currentAssistant.public"
+                  >
+                  </n-switch>
+                  公开分享助理
+                </div>
+
+                <div class="mt-3">
                   话语随机性 (Temperature)
                   <n-slider
                     v-model:value="currentAssistant.temperature"
@@ -119,8 +127,6 @@
                     :max="1"
                   />
                 </div>
-
-               
               </div>
             </n-form-item>
 
@@ -196,9 +202,7 @@
               <n-list-item v-for="c in assistantApiKeys" :key="c.id">
                 <n-thing>
                   <div class="flex justify-between items-center">
-                    <div>
-                      sk-{{ c.secret }}
-                    </div>
+                    <div>sk-{{ c.secret }}</div>
                     <div>
                       <n-popconfirm
                         @positive-click="deleteAssistantKey(c.id ?? 0)"

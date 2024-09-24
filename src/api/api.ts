@@ -693,6 +693,12 @@ export interface EntityAssistant {
     'prompt'?: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof EntityAssistant
+     */
+    'public'?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof EntityAssistant
      */
@@ -2676,6 +2682,39 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary 获取公开的助理列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsPublicGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/assistants/public`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2859,6 +2898,18 @@ export const AssistantApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary 获取公开的助理列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsPublicGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsPublicGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsPublicGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -3002,6 +3053,15 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
          */
         apiV1AssistantsPost(assistant: SchemaAssistantCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsPost200Response> {
             return localVarFp.apiV1AssistantsPost(assistant, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取公开的助理列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsPublicGet(options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsGet200Response> {
+            return localVarFp.apiV1AssistantsPublicGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3171,6 +3231,17 @@ export class AssistantApi extends BaseAPI {
      */
     public apiV1AssistantsPost(assistant: SchemaAssistantCreateRequest, options?: RawAxiosRequestConfig) {
         return AssistantApiFp(this.configuration).apiV1AssistantsPost(assistant, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 获取公开的助理列表
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsPublicGet(options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsPublicGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
