@@ -1,6 +1,6 @@
 <template>
-  <div class="p-4">
-    <div class="mt-5">
+  <div class="p-4 pt-0">
+    <div>
       <n-grid x-gap="14" cols="1 s:2" responsive="screen">
         <n-gi class="mt-3 from-green-200 to-green-300 rounded-lg p-4">
           <h3 class="text-2xl">Leaflow Amber</h3>
