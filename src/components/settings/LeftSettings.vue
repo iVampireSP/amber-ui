@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import AssistantPublistSettings from './AssistantPublistSettings.vue';
+</script>
+
 <template>
   <n-tabs type="segment" animated class="select-none">
     <n-tab-pane name="chat" tab="对话">
@@ -5,6 +9,9 @@
     </n-tab-pane>
     <n-tab-pane name="assistant" tab="助理">
       <AssistantSettings />
+    </n-tab-pane>
+    <n-tab-pane name="assistant_public" tab="发布">
+      <AssistantPublistSettings />
     </n-tab-pane>
     <n-tab-pane name="tool" tab="工具">
       <ToolSettings />

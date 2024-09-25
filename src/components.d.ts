@@ -9,10 +9,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     AccountSettings: typeof import('./components/settings/AccountSettings.vue')['default']
     AssistantMenu: typeof import('./components/AssistantMenu.vue')['default']
+    AssistantPublistSettings: typeof import('./components/settings/AssistantPublistSettings.vue')['default']
     AssistantSettings: typeof import('./components/settings/AssistantSettings.vue')['default']
     Chat: typeof import('./components/chat/Chat.vue')['default']
     ChatMenu: typeof import('./components/ChatMenu.vue')['default']
     ChatSettings: typeof import('./components/settings/ChatSettings.vue')['default']
+    copy: typeof import('./components/settings/AssistantSettings copy.vue')['default']
     LeftSettings: typeof import('./components/settings/LeftSettings.vue')['default']
     LibrarySettings: typeof import('./components/settings/LibrarySettings.vue')['default']
     Lottie: typeof import('./components/Lottie.vue')['default']
