@@ -2,16 +2,15 @@
   <div class="p-4">
     <div class="mt-5">
       <n-grid x-gap="14" cols="2 s:3 m:4 l:5" responsive="screen">
-        <n-gi
-          class="mt-3   from-green-200 to-green-300 rounded-lg p-4 text-black"
-        >
+        <n-gi class="mt-3 from-green-200 to-green-300 rounded-lg p-4">
           <h3 class="text-2xl">Leaflow Amber</h3>
-          <p class=" mt-3">
+          <p class="mt-3">
             Amber 是一个全新的智能体平台，是我们 LeaFlow
             生态里面重要的一环，也是我们自脱离莱云之后全新的尝试。 Leaflow Amber
             目前仍然处于测试阶段， 不代表最终品质。
           </p>
-          <p
+
+          <div
             v-if="
               siteUsage.month_tokens &&
               siteUsage.month_tool_calls &&
@@ -19,13 +18,26 @@
               siteUsage.month_tool_calls
             "
           >
-            我们本月共处理了 {{ siteUsage.month_tokens }} Token, 发起了
-            {{ siteUsage.month_tool_calls }} 次工具调用。
-          </p>
+            <p class="mt-5">处理的 Token 和工具调用的情况</p>
+            <n-statistic tabular-nums>
+              <n-number-animation
+                ref="numberAnimationInstRef"
+                :from="0"
+                :to="siteUsage.month_tokens"
+              />
+              <template #suffix> Tokens </template>
+            </n-statistic>
+            <n-statistic tabular-nums>
+              <n-number-animation
+                ref="numberAnimationInstRef"
+                :from="0"
+                :to="siteUsage.month_tool_calls"
+              />
+              <template #suffix> Calls </template>
+            </n-statistic>
+          </div>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">💬 对话优化引擎</h3>
 
           <p class="mt-3">
@@ -38,9 +50,22 @@
             为聊天场景做了很多的优化，它将更能处理您日常生活中的问题。
           </p>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
+          <h3 class="text-2xl">📖 智能上下文</h3>
+
+          <p class="mt-3">
+            Amber
+            拥有独特的智能上下文技术，能够根据对话场景自动调整上下文。这一过程对用户是透明的，您无需手动干预，系统会智能识别何时需要移除或添加上下文信息。这种灵活性不仅提升了对话的流畅性，还能显著降低
+            Token 的消耗，节省从几千到几万不等的费用，帮助用户更高效地利用资源。
+          </p>
+          <p>
+            需要注意的是，OpenAI
+            兼容模式不支持智能上下文功能，因此在使用该模式时，您将无法享受到这一创新技术带来的便利。我们建议您在适用的情况下，充分利用
+            Amber 的智能上下文，以优化您的对话体验和资源使用。
+          </p>
+        </n-gi>
+
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">🛠️ 客制化</h3>
 
           <p class="mt-3">
@@ -49,9 +74,7 @@
             💪
           </p>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">🧠 记忆</h3>
 
           <p class="mt-3">
@@ -61,9 +84,7 @@
             会从第二条消息开始学习记忆） ❤️
           </p>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">🔗 API</h3>
 
           <p class="mt-3">
@@ -83,9 +104,7 @@
             >
           </p>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">🛠️ 工具集成</h3>
 
           <p class="mt-3">
@@ -96,9 +115,7 @@
             的记忆功能将会记住你的喜好（接入教程和详细文档将在近期提供）。 📈
           </p>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">📚 文档管理</h3>
 
           <p class="mt-3">
@@ -109,9 +126,8 @@
             不会长期保存您的文档的源文件，我们不建议您上传具有机密性的文档。
           </p>
         </n-gi>
-        <n-gi
-          class="mt-3  from-cyan-500 to-blue-500 rounded-lg p-4 "
-        >
+
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">👋 一起加入</h3>
           <p class="mt-3">
             我们提供了 WP Amber，此 WordPress 插件可以将 Amber
