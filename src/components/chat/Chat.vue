@@ -1,11 +1,12 @@
 <template>
-  <div
-    class="flex flex-col items-center justify-between pl-20 pr-20"
-  >
-    <div class=" min-w-full w-4/5">
-      <n-scrollbar  style="max-height: calc(100vh - (var(--header-height) *3.5))">
+  <div class="flex flex-col items-center justify-between pl-20 pr-20">
+    <div class="min-w-full w-4/5">
+      <n-scrollbar
+        style="max-height: calc(100vh - (var(--header-height) * 3.5))"
+      >
         <div
           class="flex-grow mt-3 mb-1 text-5xl select-none"
+          style="min-height: calc(100vh - (var(--header-height) * 4))"
           v-if="!chatMessages?.length"
         >
           <n-gradient-text type="success" class="pr-3 pb-2 pt-2">
@@ -17,7 +18,11 @@
           </div>
         </div>
 
-        <div v-else @click="assistantStore.selectMenu = false">
+        <div
+          v-else
+          @click="assistantStore.selectMenu = false"
+          style="min-height: calc(100vh - (var(--header-height) * 4))"
+        >
           <MessageList :chat_messages="chatMessages" />
         </div>
       </n-scrollbar>
@@ -179,6 +184,7 @@ import {
   SchemaChatMessageAddRequestRoleEnum,
   EntityChat,
   SchemaChatMessageAddRequest,
+  SchemaChatCreateRequest,
 } from "@/api";
 import getApi from "@/plugins/api";
 import MessageList from "./MessageList.vue";
@@ -390,12 +396,19 @@ async function sendMessage(
   let redirect = false;
 
   if (!chatId.value) {
+    const postData: SchemaChatCreateRequest = {
+      name: text.slice(0, 10),
+    };
+
+    // 如果没有指定，则使用目前选择的助理来创建聊天
+    if (chatStore.currentAssistantId) {
+      // 添加 assistant_id 到 postData
+      postData.assistant_id = chatStore.currentAssistantId;
+    }
+
     await getApi()
-      .Chat.apiV1ChatsPost({
-        name: text.slice(0, 10),
-        // 如果没有指定，则使用目前选择的助理来创建聊天
-        assistant_id: chatStore.currentAssistantId,
-      })
+      .Chat.apiV1ChatsPost(postData)
+
       .then(async (res) => {
         chatId.value = res.data.data?.id;
         chatStore.currentChat = res.data.data;
