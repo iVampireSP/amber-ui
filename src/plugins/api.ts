@@ -8,6 +8,7 @@ import {
   MemoiresApi,
   PingApi,
   ToolApi,
+  UsageApi
 } from "../api";
 import config from "../config/config";
 
@@ -24,7 +25,8 @@ interface Api {
   ChatPublic: ChatPublicApi;
   Library: LibrariesApi;
   Memory: MemoiresApi;
-  conf: Configuration
+  conf: Configuration;
+  Usage: UsageApi
 }
 
 let api: Api | null = null; // 使用联合类型来表示初始状态可能是 null
@@ -56,7 +58,8 @@ const getApi = () => {
     ChatPublic: new ChatPublicApi(conf, undefined, axios),
     Library: new LibrariesApi(conf, undefined, axios),
     Memory: new MemoiresApi(conf, undefined, axios),
-    conf: conf
+    Usage: new UsageApi(conf, undefined, axios),
+    conf: conf,
   };
 
   return api;

@@ -1,5 +1,11 @@
 <template>
-  <Chat />
+  <Chat v-if="userStore.logined" />
+  <Guest v-else />
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import Guest from "@/pages/Guest.vue";
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
+</script>

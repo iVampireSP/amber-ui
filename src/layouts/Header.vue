@@ -30,7 +30,10 @@
               closable
               :native-scrollbar="false"
             >
-              <LeftSettings></LeftSettings>
+              <LeftSettings v-if="userStore.logined"></LeftSettings>
+              <div v-else>
+                要使用 Amberlet，请先登录。
+              </div>
             </n-drawer-content>
           </n-drawer>
           <div
@@ -77,47 +80,57 @@
 
         <n-grid-item class="flex items-center justify-end mr-1.5">
           <!-- 右侧 -->
-          <!-- 新对话 -->
-          <n-tooltip trigger="hover">
-            <template #trigger>
-              <n-icon class="text-2xl mr-4 cursor-pointer" @click="backToHome">
-                <AddOutline />
-              </n-icon>
-            </template>
-            <span> 新对话 </span>
-          </n-tooltip>
 
-          <!-- 助理选择 -->
-          <n-popover
-            :placement="userPlacement"
-            class="w-full"
-            trigger="click"
-            style="padding: 0"
-          >
-            <template #trigger>
-              <n-icon class="text-2xl mr-4 cursor-pointer">
-                <PersonOutline />
-              </n-icon>
-            </template>
-            <AssistantMenu />
-          </n-popover>
-          <!-- 用户弹出 -->
-          <n-popover
-            :placement="userPlacement"
-            class="w-full"
-            trigger="click"
-            style="padding: 0"
-          >
-            <template #trigger>
-              <n-avatar
-                round
-                size="medium"
-                :src="userStore.user.avatar"
-                class="mr-2 cursor-pointer"
-              />
-            </template>
-            <UserMenu class="select-none" />
-          </n-popover>
+          <div v-if="userStore.logined">
+            <!-- 新对话 -->
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-icon
+                  class="text-2xl mr-4 cursor-pointer"
+                  @click="backToHome"
+                >
+                  <AddOutline />
+                </n-icon>
+              </template>
+              <span> 新对话 </span>
+            </n-tooltip>
+
+            <!-- 助理选择 -->
+            <n-popover
+              :placement="userPlacement"
+              class="w-full"
+              trigger="click"
+              style="padding: 0"
+            >
+              <template #trigger>
+                <n-icon class="text-2xl mr-4 cursor-pointer">
+                  <PersonOutline />
+                </n-icon>
+              </template>
+              <AssistantMenu />
+            </n-popover>
+            <!-- 用户弹出 -->
+            <n-popover
+              :placement="userPlacement"
+              class="w-full"
+              trigger="click"
+              style="padding: 0"
+            >
+              <template #trigger>
+                <n-avatar
+                  round
+                  size="medium"
+                  :src="userStore.user.avatar"
+                  class="mr-2 cursor-pointer"
+                />
+              </template>
+              <UserMenu class="select-none" />
+            </n-popover>
+          </div>
+
+          <div v-else class="mr-2">
+            <n-button @click="gotoLogin" strong secondary type="primary"> 登录 </n-button>
+          </div>
         </n-grid-item>
       </n-grid>
     </n-layout-header>
@@ -165,4 +178,10 @@ if (isMobile.value) {
 const backToHome = () => {
   router.push("/");
 };
+
+
+const gotoLogin = () => {
+  router.push("/auth/login");
+};
+
 </script>

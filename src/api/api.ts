@@ -26,6 +26,37 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface ApiV1AssistantsFavoritesGet200Response
+ */
+export interface ApiV1AssistantsFavoritesGet200Response {
+    /**
+     * 
+     * @type {PagePagedResultSchemaAssistantPublic}
+     * @memberof ApiV1AssistantsFavoritesGet200Response
+     */
+    'data'?: PagePagedResultSchemaAssistantPublic;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsFavoritesGet200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsFavoritesGet200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1AssistantsFavoritesGet200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface ApiV1AssistantsGet200Response
  */
 export interface ApiV1AssistantsGet200Response {
@@ -206,6 +237,37 @@ export interface ApiV1AssistantsPost200Response {
      * 
      * @type {boolean}
      * @memberof ApiV1AssistantsPost200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ApiV1AssistantsPublicIdPost200Response
+ */
+export interface ApiV1AssistantsPublicIdPost200Response {
+    /**
+     * 
+     * @type {SchemaAssistantPublic}
+     * @memberof ApiV1AssistantsPublicIdPost200Response
+     */
+    'data'?: SchemaAssistantPublic;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsPublicIdPost200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsPublicIdPost200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1AssistantsPublicIdPost200Response
      */
     'success'?: boolean;
 }
@@ -628,6 +690,37 @@ export interface ApiV1ToolsPost200Response {
      * 
      * @type {boolean}
      * @memberof ApiV1ToolsPost200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ApiV1UsageGet200Response
+ */
+export interface ApiV1UsageGet200Response {
+    /**
+     * 
+     * @type {SchemaSiteUsageResponse}
+     * @memberof ApiV1UsageGet200Response
+     */
+    'data'?: SchemaSiteUsageResponse;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1UsageGet200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1UsageGet200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1UsageGet200Response
      */
     'success'?: boolean;
 }
@@ -1336,6 +1429,43 @@ export interface EntityTool {
 /**
  * 
  * @export
+ * @interface PagePagedResultSchemaAssistantPublic
+ */
+export interface PagePagedResultSchemaAssistantPublic {
+    /**
+     * 
+     * @type {Array<SchemaAssistantPublic>}
+     * @memberof PagePagedResultSchemaAssistantPublic
+     */
+    'data'?: Array<SchemaAssistantPublic>;
+    /**
+     * 当前页码
+     * @type {number}
+     * @memberof PagePagedResultSchemaAssistantPublic
+     */
+    'page'?: number;
+    /**
+     * 每页大小
+     * @type {number}
+     * @memberof PagePagedResultSchemaAssistantPublic
+     */
+    'page_size'?: number;
+    /**
+     * 数据总条数
+     * @type {number}
+     * @memberof PagePagedResultSchemaAssistantPublic
+     */
+    'total_count'?: number;
+    /**
+     * 总页数
+     * @type {number}
+     * @memberof PagePagedResultSchemaAssistantPublic
+     */
+    'total_pages'?: number;
+}
+/**
+ * 
+ * @export
  * @interface SchemaAddPublicChatMessageRequest
  */
 export interface SchemaAddPublicChatMessageRequest {
@@ -1428,6 +1558,31 @@ export interface SchemaAssistantLibraryRequest {
 /**
  * 
  * @export
+ * @interface SchemaAssistantPublic
+ */
+export interface SchemaAssistantPublic {
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaAssistantPublic
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemaAssistantPublic
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaAssistantPublic
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface SchemaAssistantUpdateRequest
  */
 export interface SchemaAssistantUpdateRequest {
@@ -1473,6 +1628,12 @@ export interface SchemaAssistantUpdateRequest {
      * @memberof SchemaAssistantUpdateRequest
      */
     'prompt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemaAssistantUpdateRequest
+     */
+    'public'?: boolean;
     /**
      * 
      * @type {number}
@@ -1976,6 +2137,25 @@ export interface SchemaResponseBody {
 /**
  * 
  * @export
+ * @interface SchemaSiteUsageResponse
+ */
+export interface SchemaSiteUsageResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemaSiteUsageResponse
+     */
+    'month_tokens'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemaSiteUsageResponse
+     */
+    'month_tool_calls'?: number;
+}
+/**
+ * 
+ * @export
  * @interface SchemaTokenUsage
  */
 export interface SchemaTokenUsage {
@@ -2179,6 +2359,44 @@ export interface SchemaToolDiscoveryOutputFunctions {
  */
 export const AssistantApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary 收藏的助理列表
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsFavoritesGet: async (page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/assistants/favorites`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary 获取 Assistant 列表
@@ -2685,10 +2903,11 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary 获取公开的助理列表
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1AssistantsPublicGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiV1AssistantsPublicGet: async (page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/assistants/public`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2698,6 +2917,84 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 取消收藏助理
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsPublicIdDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsPublicIdDelete', 'id', id)
+            const localVarPath = `/api/v1/assistants/public/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 收藏助理
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsPublicIdPost: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsPublicIdPost', 'id', id)
+            const localVarPath = `/api/v1/assistants/public/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -2725,6 +3022,19 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
 export const AssistantApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AssistantApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @summary 收藏的助理列表
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsFavoritesGet(page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsFavoritesGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsFavoritesGet(page, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsFavoritesGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
         /**
          * 
          * @summary 获取 Assistant 列表
@@ -2901,13 +3211,40 @@ export const AssistantApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取公开的助理列表
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1AssistantsPublicGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsGet200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsPublicGet(options);
+        async apiV1AssistantsPublicGet(page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsFavoritesGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsPublicGet(page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsPublicGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary 取消收藏助理
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsPublicIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsPublicIdPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsPublicIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsPublicIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary 收藏助理
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsPublicIdPost(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsPublicIdPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsPublicIdPost(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsPublicIdPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -2920,6 +3257,16 @@ export const AssistantApiFp = function(configuration?: Configuration) {
 export const AssistantApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AssistantApiFp(configuration)
     return {
+        /**
+         * 
+         * @summary 收藏的助理列表
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsFavoritesGet(page?: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsFavoritesGet200Response> {
+            return localVarFp.apiV1AssistantsFavoritesGet(page, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @summary 获取 Assistant 列表
@@ -3057,11 +3404,32 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary 获取公开的助理列表
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1AssistantsPublicGet(options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsGet200Response> {
-            return localVarFp.apiV1AssistantsPublicGet(options).then((request) => request(axios, basePath));
+        apiV1AssistantsPublicGet(page?: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsFavoritesGet200Response> {
+            return localVarFp.apiV1AssistantsPublicGet(page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 取消收藏助理
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsPublicIdDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsPublicIdPost200Response> {
+            return localVarFp.apiV1AssistantsPublicIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 收藏助理
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsPublicIdPost(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsPublicIdPost200Response> {
+            return localVarFp.apiV1AssistantsPublicIdPost(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3073,6 +3441,18 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
  * @extends {BaseAPI}
  */
 export class AssistantApi extends BaseAPI {
+    /**
+     * 
+     * @summary 收藏的助理列表
+     * @param {number} [page] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsFavoritesGet(page?: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsFavoritesGet(page, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary 获取 Assistant 列表
@@ -3236,12 +3616,37 @@ export class AssistantApi extends BaseAPI {
     /**
      * 
      * @summary 获取公开的助理列表
+     * @param {number} [page] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AssistantApi
      */
-    public apiV1AssistantsPublicGet(options?: RawAxiosRequestConfig) {
-        return AssistantApiFp(this.configuration).apiV1AssistantsPublicGet(options).then((request) => request(this.axios, this.basePath));
+    public apiV1AssistantsPublicGet(page?: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsPublicGet(page, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 取消收藏助理
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsPublicIdDelete(id: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsPublicIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 收藏助理
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsPublicIdPost(id: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsPublicIdPost(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -6221,6 +6626,107 @@ export class ToolApi extends BaseAPI {
      */
     public apiV1ToolsSyntaxPost(toolDiscoveryInput: SchemaToolDiscoveryInput, options?: RawAxiosRequestConfig) {
         return ToolApiFp(this.configuration).apiV1ToolsSyntaxPost(toolDiscoveryInput, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * UsageApi - axios parameter creator
+ * @export
+ */
+export const UsageApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary 获取站点 Usage
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1UsageGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/usage`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UsageApi - functional programming interface
+ * @export
+ */
+export const UsageApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UsageApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary 获取站点 Usage
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1UsageGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1UsageGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1UsageGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsageApi.apiV1UsageGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * UsageApi - factory interface
+ * @export
+ */
+export const UsageApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UsageApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary 获取站点 Usage
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1UsageGet(options?: RawAxiosRequestConfig): AxiosPromise<ApiV1UsageGet200Response> {
+            return localVarFp.apiV1UsageGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UsageApi - object-oriented interface
+ * @export
+ * @class UsageApi
+ * @extends {BaseAPI}
+ */
+export class UsageApi extends BaseAPI {
+    /**
+     * 
+     * @summary 获取站点 Usage
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsageApi
+     */
+    public apiV1UsageGet(options?: RawAxiosRequestConfig) {
+        return UsageApiFp(this.configuration).apiV1UsageGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
