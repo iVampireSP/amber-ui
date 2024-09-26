@@ -954,6 +954,12 @@ export interface EntityChat {
      * @type {string}
      * @memberof EntityChat
      */
+    'prompt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityChat
+     */
     'updated_at'?: string;
     /**
      * 
@@ -1665,6 +1671,12 @@ export interface SchemaChatCreateRequest {
      * @memberof SchemaChatCreateRequest
      */
     'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaChatCreateRequest
+     */
+    'prompt'?: string;
 }
 /**
  * 
@@ -1790,6 +1802,12 @@ export interface SchemaChatUpdateRequest {
      * @memberof SchemaChatUpdateRequest
      */
     'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaChatUpdateRequest
+     */
+    'prompt'?: string;
 }
 /**
  * 

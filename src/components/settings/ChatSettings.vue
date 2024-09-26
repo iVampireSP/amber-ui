@@ -4,7 +4,9 @@
       v-for="c in chatStore.chats"
       :key="c.id"
       :class="
-        c.id === chatStore.currentChat?.id ? ' bg-gray-100 dark:bg-gray-700' : ''
+        c.id === chatStore.currentChat?.id
+          ? ' bg-gray-100 dark:bg-gray-700'
+          : ''
       "
       @click="viewChat(c.id ?? 0)"
     >
@@ -68,6 +70,14 @@
                 :style="{ width: '33%' }"
                 v-model:value="currentChat.assistant_id"
                 :options="assistantSelects"
+              />
+            </n-form-item>
+
+            <n-form-item label="提示词（将禁用系统默认提示词）">
+              <n-input
+                type="textarea"
+                v-model:value="currentChat.prompt"
+                @keydown.enter.prevent
               />
             </n-form-item>
 
@@ -142,6 +152,7 @@ const editChatPost = async () => {
   await getApi().Chat.apiV1ChatsIdPut(currentChatId.value, {
     name: currentChat.value?.name ?? "",
     assistant_id: currentChat.value?.assistant_id,
+    prompt: currentChat.value?.prompt ?? "",
   });
   await getChats();
 };
