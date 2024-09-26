@@ -38,6 +38,15 @@
           </div>
         </n-gi>
         <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
+          <h3 class="text-2xl">👋 一起加入</h3>
+          <p class="mt-3">
+            我们提供了 WP Amber，此 WordPress 插件可以将 Amber
+            放到你的博客中，让您的访客通过助理来总结并解释文章等。
+          </p>
+          <n-image :src="grouppng" width="150" height="300" />
+        </n-gi>
+
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
           <h3 class="text-2xl">💬 对话优化引擎</h3>
 
           <p class="mt-3">
@@ -125,15 +134,6 @@
             Amber，以便随时调用🗂️。 Amber
             不会长期保存您的文档的源文件，我们不建议您上传具有机密性的文档。
           </p>
-        </n-gi>
-
-        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
-          <h3 class="text-2xl">👋 一起加入</h3>
-          <p class="mt-3">
-            我们提供了 WP Amber，此 WordPress 插件可以将 Amber
-            放到你的博客中，让您的访客通过助理来总结并解释文章等。
-          </p>
-          <n-image :src="grouppng" width="150" height="300" />
         </n-gi>
       </n-grid>
     </div>

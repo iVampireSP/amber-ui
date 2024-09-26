@@ -61,7 +61,7 @@
               <img
                 :src="leaflowpng"
                 class="w-8 cursor-pointer block select-none"
-                @click="backToHome"
+                @click="toggleHomeChat"
               />
             </div>
 
@@ -85,7 +85,7 @@
               <template #trigger>
                 <n-icon
                   class="text-2xl mr-4 cursor-pointer"
-                  @click="backToHome"
+                  @click="newChat"
                 >
                   <AddOutline />
                 </n-icon>
@@ -108,15 +108,57 @@
               <AssistantMenu />
             </n-popover>
 
+            <!-- 社区 -->
+            <n-popover
+              :placement="userPlacement"
+              class="w-full"
+              trigger="click"
+              style="padding: 0"
+              v-if="!isMobile"
+            >
+              <template #trigger>
+                <n-icon class="text-2xl mr-4 cursor-pointer">
+                  <PeopleCircleOutline />
+                </n-icon>
+              </template>
+              <n-list hoverable clickabl class="select-none cursor-pointer">
+                <template #header>
+                  <div>
+                    <span class="text-xl">社区</span>
+                  </div>
+                </template>
+                <n-list-item>
+                  <n-a target="_blank" :href="config.forum_url">社区主页</n-a>
+                </n-list-item>
+                <n-list-item>
+                  <n-a target="_blank" :href="config.forum_url + '/t/assistant'"
+                    >助理预设</n-a
+                  >
+                </n-list-item>
+
+                <n-list-item>
+                  <n-a target="_blank" :href="config.forum_url + '/t/tools'"
+                    >工具分享</n-a
+                  >
+                </n-list-item>
+                <n-list-item>
+                  <n-a target="_blank" :href="config.forum_url + '/t/prompts'"
+                    >助理提示词</n-a
+                  >
+                </n-list-item>
+              </n-list>
+            </n-popover>
+
             <!-- Bug 反馈 -->
             <n-popover
               :placement="userPlacement"
               class="w-full"
               trigger="click"
               style="padding: 0"
+              v-if="!isMobile"
             >
               <template #trigger>
-                  <n-icon class="text-2xl mr-4 cursor-pointer">
+                <n-icon class="text-2xl mr-4 cursor-pointer">
                   <BugOutline />
                 </n-icon>
               </template>
@@ -163,6 +205,7 @@ import {
   PersonOutline,
   AddOutline,
   BugOutline,
+  PeopleCircleOutline,
   // TrashOutline,
 } from "@vicons/ionicons5";
 import router from "@/router";
@@ -171,7 +214,7 @@ import router from "@/router";
 import leaflowpng from "@/assets/images/leaflow.png";
 import { useChatStore } from "@/stores/chat";
 import groupPng from "@/assets/images/group.png";
-
+import config from "@/config/config";
 
 const userStore = useUserStore();
 const chatStore = useChatStore();
@@ -194,7 +237,15 @@ if (isMobile.value) {
 //   await getApi().ChatMessage.apiV1ChatsIdClearPost(chatStore.currentChatId);
 // };
 
-const backToHome = () => {
+const toggleHomeChat = () => {
+  if (router.currentRoute.value.name == "/home/") {
+    router.push("/");
+  } else {
+    router.push("/home");
+  }
+};
+
+const newChat = () => {
   router.push("/");
 };
 
