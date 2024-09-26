@@ -31,9 +31,7 @@
               :native-scrollbar="false"
             >
               <LeftSettings v-if="userStore.logined"></LeftSettings>
-              <div v-else>
-                要使用 Amberlet，请先登录。
-              </div>
+              <div v-else>要使用 Amberlet，请先登录。</div>
             </n-drawer-content>
           </n-drawer>
           <div
@@ -109,6 +107,22 @@
               </template>
               <AssistantMenu />
             </n-popover>
+
+            <!-- Bug 反馈 -->
+            <n-popover
+              :placement="userPlacement"
+              class="w-full"
+              trigger="click"
+              style="padding: 0"
+            >
+              <template #trigger>
+                  <n-icon class="text-2xl mr-4 cursor-pointer">
+                  <BugOutline />
+                </n-icon>
+              </template>
+              <n-image :src="groupPng" width="250" height="500" />
+            </n-popover>
+
             <!-- 用户弹出 -->
             <n-popover
               :placement="userPlacement"
@@ -129,7 +143,9 @@
           </div>
 
           <div v-else class="mr-2">
-            <n-button @click="gotoLogin" strong secondary type="primary"> 登录 </n-button>
+            <n-button @click="gotoLogin" strong secondary type="primary">
+              登录
+            </n-button>
           </div>
         </n-grid-item>
       </n-grid>
@@ -146,6 +162,7 @@ import {
   MenuOutline,
   PersonOutline,
   AddOutline,
+  BugOutline,
   // TrashOutline,
 } from "@vicons/ionicons5";
 import router from "@/router";
@@ -153,6 +170,8 @@ import router from "@/router";
 // import getApi from "@/plugins/api";
 import leaflowpng from "@/assets/images/leaflow.png";
 import { useChatStore } from "@/stores/chat";
+import groupPng from "@/assets/images/group.png";
+
 
 const userStore = useUserStore();
 const chatStore = useChatStore();
@@ -179,9 +198,7 @@ const backToHome = () => {
   router.push("/");
 };
 
-
 const gotoLogin = () => {
   router.push("/auth/login");
 };
-
 </script>

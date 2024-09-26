@@ -141,18 +141,18 @@
 </template>
 
 <script setup lang="ts">
-import router from "../router";
-import { useUserStore } from "../stores/user";
+// import router from "../router";
+// import { useUserStore } from "../stores/user";
 import grouppng from "@/assets/images/group.png";
 import { SchemaSiteUsageResponse } from "@/api";
 import getApi from "@/plugins/api";
 
-const userStore = useUserStore();
+// const userStore = useUserStore();
 const siteUsage: Ref<SchemaSiteUsageResponse> = ref({});
 
-const login = () => {
-  router.push("/auth/login");
-};
+// const login = () => {
+//   router.push("/auth/login");
+// };
 
 onMounted(async () => {
   const r = (await getApi().Usage.apiV1UsageGet()).data.data;
