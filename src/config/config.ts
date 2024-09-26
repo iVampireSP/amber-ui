@@ -7,6 +7,7 @@ const config = {
   oauth_storage_key: "code_verifier",
   oauth_scope: "openid profile",
   backend: "http://localhost:8080",
+  forum_url: "https://forum.leaflow.cn",
 };
 
 // @ts-ignore ...
