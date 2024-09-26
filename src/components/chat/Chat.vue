@@ -1,8 +1,9 @@
 <template>
-  <div class="flex flex-col items-center justify-between pl-20 pr-20">
+  <div class="flex flex-col items-center justify-between">
     <div class="min-w-full w-4/5">
       <n-scrollbar
         style="max-height: calc(100vh - (var(--header-height) * 3.5))"
+        class=" pl-20 pr-20"
       >
         <div
           class="flex-grow mt-3 mb-1 text-5xl select-none"
