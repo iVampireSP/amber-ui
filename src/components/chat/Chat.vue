@@ -368,8 +368,15 @@ function sendText() {
     return;
   }
 
+  let mdContent = html2markdown(textContent)
+  // 清除所有的 html 标签，只保留纯文本
+  mdContent = mdContent.replace(/<[^>]*>/g, "");
+
+
   // 发送文本到服务器
-  sendMessage("user", html2markdown(textContent));
+  sendMessage("user", mdContent);
+
+
 
   // 清空输入框
   input.innerText = "";
