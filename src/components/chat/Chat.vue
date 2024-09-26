@@ -3,7 +3,7 @@
     <div class="min-w-full w-4/5">
       <n-scrollbar
         style="max-height: calc(100vh - (var(--header-height) * 3.5))"
-        class=" pl-20 pr-20"
+        class="pl-20 pr-20"
       >
         <div
           class="flex-grow mt-3 mb-1 text-5xl select-none"
@@ -29,116 +29,121 @@
       </n-scrollbar>
     </div>
 
-    <div class="w-full pr-2 pl-2 pt-2">
-      <div
-        class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
-        v-if="isMobile && chatStore.toolName != ''"
-      >
-        <n-gradient-text type="info">
-          正在执行 {{ chatStore.toolName }}
-        </n-gradient-text>
-      </div>
-      <div
-        ref="inputContainer"
-        class="mx-auto w-2xl max-w-md lg:max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
-      >
-        <div class="overflow-x-hidden h-full w-full flex items-center">
-          <n-scrollbar class="max-h-96">
-            <n-dropdown
-              :show="assistantStore.selectMenu"
-              :options="assistantMenuOptions"
-              placement="top-start"
-              @select="handleSelect"
-            >
-              <div class="absolute left-0"></div>
-            </n-dropdown>
-            <div
-              ref="inputText"
-              :class="{ 'has-placeholder': isPlaceholderVisible }"
-              contenteditable="true"
-              placeholder="请输入文本..."
-              class="input-text max-w-full outline-none text-lg text-pretty pl-2 min-h-6"
-              @keydown="onKeydown"
-              @input="updateInputHeight"
-              @compositionstart="handleCompositionStart"
-              @compositionend="handleCompositionEnd"
-            ></div>
-          </n-scrollbar>
+    <div class="w-full pr-2 pl-2 pt-2 relative">
+      <div class="fixed bottom-0 left-0 right-0">
+        <div
+          class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
+          v-if="isMobile && chatStore.toolName != ''"
+        >
+          <n-gradient-text type="info">
+            正在执行 {{ chatStore.toolName }}
+          </n-gradient-text>
         </div>
-        <n-spin :show="processing">
-          <div
-            ref="actionContainer"
-            class="flex [&>button]:ml-2 pr-4 justify-end"
-          >
-            <n-tooltip
-              trigger="hover"
-              v-if="chatId !== null && chatData.assistant_id !== null"
-            >
-              <template #trigger>
-                <n-button
-                  tertiary
-                  circle
-                  size="large"
-                  @click="showUploadModal = true"
-                >
-                  <template #icon>
-                    <n-icon><DocumentAttachOutline /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <span> 在做了在做了 </span>
-            </n-tooltip>
-
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button tertiary circle size="large">
-                  <template #icon>
-                    <n-icon><MicOutline /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <span> 在做了在做了 </span>
-            </n-tooltip>
-
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button
-                  tertiary
-                  circle
-                  size="large"
-                  v-show="chatMessages?.length"
-                  @click="clearChatHistory"
-                >
-                  <template #icon>
-                    <n-icon><TrashBinOutline /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <span> 清空历史 </span>
-            </n-tooltip>
-
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button
-                  tertiary
-                  circle
-                  size="large"
-                  v-show="showSendBtn"
-                  @click="sendText"
-                >
-                  <template #icon>
-                    <n-icon><SendOutline /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <span> 发送 </span>
-            </n-tooltip>
+        <div
+          ref="inputContainer"
+          class="mx-auto w-2xl max-w-md lg:max-w-2xl outline-none input-color input-bg rounded-full flex pl-5 pr-5 bg-white shadow-lg items-center p-4 pb-4 transition-all"
+        >
+          <div class="overflow-x-hidden h-full w-full flex items-center">
+            <n-scrollbar class="max-h-96">
+              <n-dropdown
+                :show="assistantStore.selectMenu"
+                :options="assistantMenuOptions"
+                placement="top-start"
+                @select="handleSelect"
+              >
+                <div class="absolute left-0"></div>
+              </n-dropdown>
+              <div
+                ref="inputText"
+                :class="{ 'has-placeholder': isPlaceholderVisible }"
+                contenteditable="true"
+                placeholder="请输入文本..."
+                class="input-text max-w-full outline-none text-lg text-pretty pl-2 min-h-6"
+                @keydown="onKeydown"
+                @input="updateInputHeight"
+                @compositionstart="handleCompositionStart"
+                @compositionend="handleCompositionEnd"
+              ></div>
+            </n-scrollbar>
           </div>
-        </n-spin>
+          <n-spin :show="processing">
+            <div
+              ref="actionContainer"
+              class="flex [&>button]:ml-2 pr-4 justify-end"
+            >
+              <n-tooltip
+                trigger="hover"
+                v-if="chatId !== null && chatData.assistant_id !== null"
+              >
+                <template #trigger>
+                  <n-button
+                    tertiary
+                    circle
+                    size="large"
+                    @click="showUploadModal = true"
+                  >
+                    <template #icon>
+                      <n-icon><DocumentAttachOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 在做了在做了 </span>
+              </n-tooltip>
+
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button tertiary circle size="large">
+                    <template #icon>
+                      <n-icon><MicOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 在做了在做了 </span>
+              </n-tooltip>
+
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    tertiary
+                    circle
+                    size="large"
+                    v-show="chatMessages?.length"
+                    @click="clearChatHistory"
+                  >
+                    <template #icon>
+                      <n-icon><TrashBinOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 清空历史 </span>
+              </n-tooltip>
+
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    tertiary
+                    circle
+                    size="large"
+                    v-show="showSendBtn"
+                    @click="sendText"
+                  >
+                    <template #icon>
+                      <n-icon><SendOutline /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <span> 发送 </span>
+              </n-tooltip>
+            </div>
+          </n-spin>
+        </div>
+        <n-text
+          depth="3"
+          class="text-center block mt-2 mb-2 text-sm select-none"
+        >
+          AI 也有可能犯错误，请在使用之前核查信息。
+        </n-text>
       </div>
-      <n-text depth="3" class="text-center block mt-2 mb-2 text-sm select-none">
-        AI 也有可能犯错误，请在使用之前核查信息。
-      </n-text>
     </div>
   </div>
 
