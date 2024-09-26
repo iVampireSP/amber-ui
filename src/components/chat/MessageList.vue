@@ -15,13 +15,13 @@
                 </n-divider>
               </div>
               <n-image
-                v-if="message.file && message.file.mime_type?.startsWith('image/')"
+                v-if="
+                  message.file && message.file.mime_type?.startsWith('image/')
+                "
                 width="100"
                 :src="fileBaseUrl + '/download/' + message.file.file_hash"
               />
-              <n-text italic depth="3" v-else>
-                你上传了一个文件
-              </n-text>
+              <n-text italic depth="3" v-else> 你上传了一个文件 </n-text>
             </div>
 
             <div class="relative h-full">
@@ -77,7 +77,7 @@
               round
               size="large"
               :src="leaflowPng"
-              class="min-w-10 min-h-10 p-1.5 absolute top-0 !bg-transparent "
+              class="min-w-10 min-h-10 p-1.5 absolute top-0 !bg-transparent"
             />
           </div>
 
@@ -129,39 +129,44 @@ import leaflowPng from "@/assets/images/leaflow.png";
 import markdownKatex from "@traptitech/markdown-it-katex";
 import markdownIt from "markdown-it";
 // highlightjs
-// import hljs from "highlight.js";
+import hljs from "highlight.js";
 import config from "@/config/config";
-import Shiki from "@shikijs/markdown-it";
 
 const mdIt = markdownIt();
-const mdInited = ref(false);
+const mdInited = ref(true);
 
-// set options
-// mdIt.options.highlight = function (str: string, lang: string) {
-//   if (!lang) {
-//     return "";
-//   }
-//   return hljs.highlight(str, { language: lang }).value;
-// };
+const unsupportedLanguages = ["assembly"];
+mdIt.options.highlight = function (str: string, lang: string) {
+  if (!lang || unsupportedLanguages.includes(lang)) {
+    return str;
+  }
 
-async function initMD() {
-  mdIt.use(
-    await Shiki({
-      themes: {
-        light: "vitesse-light",
-        dark: "vitesse-dark",
-      },
-    })
-  );
+  return hljs.highlight(str, { language: lang }).value;
+};
+mdIt.use(markdownKatex, {
+  throwOnError: false,
+  errorColor: "#cc0000",
+  output: "html",
+});
 
-  mdIt.use(markdownKatex, {
-    throwOnError: false,
-    errorColor: "#cc0000",
-    output: "html",
-  });
+// async function initMD() {
+//   mdIt.use(
+//     await Shiki({
+//       themes: {
+//         light: "vitesse-light",
+//         dark: "vitesse-dark",
+//       },
+//     })
+//   );
 
-  mdInited.value = true;
-}
+//   mdIt.use(markdownKatex, {
+//     throwOnError: false,
+//     errorColor: "#cc0000",
+//     output: "html",
+//   });
+
+//   mdInited.value = true;
+// }
 const userStore = useUserStore();
 
 const props = defineProps({
@@ -175,6 +180,6 @@ const chat_messages = toRef(props, "chat_messages") as Ref<EntityChatMessage[]>;
 const fileBaseUrl = config.backend + "/api/v1/files";
 
 onMounted(() => {
-  initMD();
+  // initMD();
 });
 </script>
