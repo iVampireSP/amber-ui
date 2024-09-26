@@ -76,10 +76,11 @@
           </div>
         </n-grid-item>
 
-        <n-grid-item class="flex items-center justify-end mr-1.5">
+        <n-grid-item  class="flex items-center justify-end mr-1.5">
           <!-- 右侧 -->
 
-          <div v-if="userStore.logined">
+          <div v-if="userStore.logined"
+          class="flex items-center">
             <!-- 新对话 -->
             <n-tooltip trigger="hover">
               <template #trigger>
