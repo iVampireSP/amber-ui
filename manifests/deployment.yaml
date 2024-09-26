@@ -17,7 +17,7 @@ spec:
         - name: leaf
       containers:
         - name: amber
-          image: leafdev.top/leaf/amber-ui:5f8ea72
+          image: leafdev.top/leaf/amber-ui:098149c
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
