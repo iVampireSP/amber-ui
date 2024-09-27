@@ -3,7 +3,7 @@
     <div class="min-w-full md:w-4/5">
       <n-scrollbar
         style="max-height: calc(100vh - (var(--header-height) * 3.5))"
-        class="pr-4 pl-4 md:pl-20 md:pr-20"
+        class="md:pl-20 md:pr-20"
       >
         <div
           class="flex-grow mt-3 mb-1 text-5xl select-none"

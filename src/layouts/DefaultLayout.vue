@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { NLayout } from "naive-ui";
-import { useUserStore } from "../stores/user";
-import Guest from "../pages/guest/index.vue";
-import router from "../router";
+// import { useUserStore } from "../stores/user";
+// import Guest from "../pages/guest/index.vue";
+// import router from "../router";
 import Header from "./Header.vue";
 import element from "@/config/element";
-import { useIsMobile } from "@/utils/composables";
+import { useIsMobile, useIsTablet } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
-const currentRoute = computed(() => router.currentRoute.value.name);
+// const currentRoute = computed(() => router.currentRoute.value.name);
 
-const userStore = useUserStore();
+// const userStore = useUserStore();
 const appStore = useAppStore();
 const route = useRoute();
 
@@ -66,6 +66,17 @@ const onScroll = (e: Event) => {
     style="margin-top: var(--header-height)"
     ref="mainContainer"
     :on-scroll="onScroll"
+    :content-style="
+      !isMobile
+        ? {
+            'padding-left': '32px',
+            'padding-right': '32px',
+          }
+        : {
+            'padding-left': '16px',
+            'padding-right': '16px',
+          }
+    "
   >
     <!-- <n-back-top v-if="!isMobile" :right="100" /> -->
 

@@ -31,5 +31,6 @@ declare module 'vue-router/auto-routes' {
     '/errors/Base': RouteRecordInfo<'/errors/Base', '/errors/Base', Record<never, never>, Record<never, never>>,
     '/Guest': RouteRecordInfo<'/Guest', '/Guest', Record<never, never>, Record<never, never>>,
     '/home/': RouteRecordInfo<'/home/', '/home', Record<never, never>, Record<never, never>>,
+    '/mask/': RouteRecordInfo<'/mask/', '/mask', Record<never, never>, Record<never, never>>,
   }
 }
