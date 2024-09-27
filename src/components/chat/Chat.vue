@@ -20,7 +20,9 @@
             </div>
           </div>
           <div class="mt-3">
-            <n-p>我们有一些预设提示词，您可以点击来一键输入。</n-p>
+            <n-text depth="3">
+              我们有一些预设提示词，您可以点击来一键输入。
+            </n-text>
             <n-scrollbar style="max-height: 400px">
               <n-grid cols="1 s:2 l:3" responsive="screen">
                 <n-gi v-for="p in prompts" class="rounded-lg p-2">
@@ -288,8 +290,8 @@ const updateInputContent = (content: string) => {
   // inputText.innerText = content;
   // const input = inputText.value;
   // console.log(inputText.value.innerText);
-  inputText.value.innerText = content
-  updateInputHeight()
+  inputText.value.innerText = content;
+  updateInputHeight();
 };
 
 function onKeydown(e: KeyboardEvent) {
