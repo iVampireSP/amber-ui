@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col items-center justify-between">
-    <div class="min-w-full w-4/5">
+    <div class="min-w-full md:w-4/5">
       <n-scrollbar
         style="max-height: calc(100vh - (var(--header-height) * 3.5))"
-        class="pl-20 pr-20"
+        class="pr-4 pl-4 md:pl-20 md:pr-20"
       >
         <div
           class="flex-grow mt-3 mb-1 text-5xl select-none"
@@ -29,8 +29,8 @@
       </n-scrollbar>
     </div>
 
-    <div class="w-full pr-2 pl-2 pt-2 relative">
-      <div class="fixed bottom-0 left-0 right-0">
+    <div class="w-full  pt-2 relative">
+      <div class="fixed bottom-0 left-0 right-0 pr-2 pl-2">
         <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
           v-if="isMobile && chatStore.toolName != ''"
