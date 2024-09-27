@@ -19,7 +19,7 @@
               <n-text depth="3"> 有什么我可以帮您的吗？ </n-text>
             </div>
           </div>
-          <div class="mt-3">
+          <div class="mt-3" v-if="!chatId">
             <n-text depth="3">
               我们有一些预设提示词，您可以点击来一键输入。
             </n-text>
@@ -462,7 +462,7 @@ async function sendMessage(
       postData.name = overrideTitle.value;
       overrideTitle.value = "";
     }
-    
+
     if (overrideSystemPrompt.value) {
       postData.prompt = " ";
     }
