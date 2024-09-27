@@ -6,16 +6,37 @@
         class="md:pl-20 md:pr-20"
       >
         <div
-          class="flex-grow mt-3 mb-1 text-5xl select-none"
+          class="flex-grow mt-3 mb-1 select-none"
           style="min-height: calc(100vh - (var(--header-height) * 4))"
           v-if="!chatMessages?.length"
         >
-          <n-gradient-text type="success" class="pr-3 pb-2 pt-2">
-            你好，{{ userStore.user.name }}
-          </n-gradient-text>
-          <br />
-          <div class="pr-3 mt-8 text-2xl">
-            <n-text depth="3"> 有什么我可以帮您的吗？ </n-text>
+          <div class="text-5xl">
+            <n-gradient-text type="success" class="pr-3 pb-2 pt-2">
+              你好，{{ userStore.user.name }}
+            </n-gradient-text>
+            <br />
+            <div class="pr-3 mt-8 text-2xl">
+              <n-text depth="3"> 有什么我可以帮您的吗？ </n-text>
+            </div>
+          </div>
+          <div class="mt-3">
+            <n-p>我们有一些预设提示词，您可以点击来一键输入。</n-p>
+            <n-scrollbar style="max-height: 400px">
+              <n-grid cols="1 s:2 l:3" responsive="screen">
+                <n-gi v-for="p in prompts" class="rounded-lg p-2">
+                  <n-card
+                    :title="p.act"
+                    hoverable
+                    class="overflow-hidden cursor-pointer"
+                    @click="updateInputContent(p.prompt)"
+                  >
+                    <n-ellipsis style="max-width: 280px" :tooltip="false">
+                      {{ p.prompt }}
+                    </n-ellipsis>
+                  </n-card>
+                </n-gi>
+              </n-grid>
+            </n-scrollbar>
           </div>
         </div>
 
@@ -29,7 +50,7 @@
       </n-scrollbar>
     </div>
 
-    <div class="w-full  pt-2 relative">
+    <div class="w-full pt-2 relative">
       <div class="fixed bottom-0 left-0 right-0 pr-2 pl-2">
         <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
@@ -202,6 +223,7 @@ import { useAppStore } from "@/stores/app";
 import { UploadCustomRequestOptions, useDialog, useMessage } from "naive-ui";
 import { useAssistantStore } from "@/stores/assistants";
 import html2markdown from "@notable/html2markdown";
+import awesomeChatGPTPrompts from "@/plugins/prompts/awesome-chatgpt-prompts-zh.json";
 
 // 获取组件传入的 chatId
 const chatId: Ref<string | number | undefined | null> = ref(null);
@@ -218,6 +240,11 @@ const props = defineProps({
     default: null,
   },
 });
+
+type Prompt = {
+  act: string;
+  prompt: string;
+};
 
 const isMobile = useIsMobile();
 const userStore = useUserStore();
@@ -240,6 +267,11 @@ const dialog = useDialog();
 const assistantStore = useAssistantStore();
 const message = useMessage();
 const showUploadModal = ref(false);
+
+const prompts: Ref<Prompt[]> = ref([]);
+
+prompts.value = awesomeChatGPTPrompts;
+
 const pasteUpload = (event: ClipboardEvent) => {
   // const items = event.clipboardData && event.clipboardData.items;
   // if (items && items.length) {
@@ -250,6 +282,14 @@ const pasteUpload = (event: ClipboardEvent) => {
   //     }
   //   }
   // }
+};
+
+const updateInputContent = (content: string) => {
+  // inputText.innerText = content;
+  // const input = inputText.value;
+  // console.log(inputText.value.innerText);
+  inputText.value.innerText = content
+  updateInputHeight()
 };
 
 function onKeydown(e: KeyboardEvent) {
@@ -368,15 +408,12 @@ function sendText() {
     return;
   }
 
-  let mdContent = html2markdown(textContent)
+  let mdContent = html2markdown(textContent);
   // 清除所有的 html 标签，只保留纯文本
   mdContent = mdContent.replace(/<[^>]*>/g, "");
 
-
   // 发送文本到服务器
   sendMessage("user", mdContent);
-
-
 
   // 清空输入框
   input.innerText = "";

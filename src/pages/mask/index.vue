@@ -1,7 +1,5 @@
 <template>
-    <div>
-        mask
-    </div>
+    <Mask />
 </template>
 
 <script lang="ts" setup>
