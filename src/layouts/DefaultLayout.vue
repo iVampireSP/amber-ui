@@ -5,7 +5,7 @@ import { NLayout } from "naive-ui";
 // import router from "../router";
 import Header from "./Header.vue";
 import element from "@/config/element";
-import { useIsMobile, useIsTablet } from "@/utils/composables";
+import { useIsMobile } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
 // const currentRoute = computed(() => router.currentRoute.value.name);
 
