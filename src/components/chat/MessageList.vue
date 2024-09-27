@@ -35,7 +35,7 @@
           </div>
         </n-flex>
       </div>
-      <div v-else-if="message.role === 'user' && message.content">
+      <div v-else-if="(message.role === 'user' || message.role === 'user_hide' || message.role === 'user_later')  && message.content">
         <!-- 用户消息 -->
         <n-flex justify="end">
           <div class="flex items-center flex-nowrap">
