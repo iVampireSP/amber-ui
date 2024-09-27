@@ -18,11 +18,15 @@
               siteUsage.month_tool_calls
             "
           >
-            <p class="mt-5">处理的 Token 和工具调用的情况</p>
+            <p class="mt-5">本月处理的 Token 和工具调用的情况</p>
             <n-statistic tabular-nums>
               <n-number-animation
                 ref="numberAnimationInstRef"
-                :from="0"
+                :from="
+                  siteUsage.month_tokens < 1000
+                    ? 0
+                    : siteUsage.month_tokens - 800
+                "
                 :to="siteUsage.month_tokens"
               />
               <template #suffix> Tokens </template>
@@ -30,7 +34,11 @@
             <n-statistic tabular-nums>
               <n-number-animation
                 ref="numberAnimationInstRef"
-                :from="0"
+                :from="
+                  siteUsage.month_tool_calls < 1000
+                    ? 0
+                    : siteUsage.month_tool_calls - 800
+                "
                 :to="siteUsage.month_tool_calls"
               />
               <template #suffix> Calls </template>
