@@ -30,7 +30,7 @@
                     :title="p.act"
                     hoverable
                     class="overflow-hidden cursor-pointer"
-                    @click="updateInputContent(p.prompt)"
+                    @click="overrideSystemPrompt = true;updateInputContent(p.prompt)"
                   >
                     <n-ellipsis style="max-width: 280px" :tooltip="false">
                       {{ p.prompt }}
@@ -270,6 +270,7 @@ const assistantStore = useAssistantStore();
 const message = useMessage();
 const showUploadModal = ref(false);
 
+const overrideSystemPrompt = ref(false)
 const prompts: Ref<Prompt[]> = ref([]);
 
 prompts.value = awesomeChatGPTPrompts;
@@ -451,6 +452,12 @@ async function sendMessage(
     const postData: SchemaChatCreateRequest = {
       name: text.slice(0, 10),
     };
+
+    if (overrideSystemPrompt.value) {
+      postData.prompt = " ";
+    }
+
+    overrideSystemPrompt.value = false
 
     // 如果没有指定，则使用目前选择的助理来创建聊天
     if (chatStore.currentAssistantId) {
