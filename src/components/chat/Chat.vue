@@ -11,11 +11,12 @@
           v-if="!chatMessages?.length"
         >
           <div class="text-5xl">
-            <n-gradient-text type="success" class="pr-3 pb-2 pt-2">
-              你好，{{ userStore.user.name }}
+            <n-gradient-text type="success" class="pr-3 pb-2 pt-2 max-w-96 lg:max-w-full overflow-ellipsis overflow-hidden whitespace-nowrap">
+              <!-- 你好，{{ userStore.user.name }} -->
+               你好
             </n-gradient-text>
             <br />
-            <div class="pr-3 mt-8 text-2xl">
+            <div class="pr-3 mt-1 text-2xl">
               <n-text depth="3"> 有什么我可以帮您的吗？ </n-text>
             </div>
           </div>
