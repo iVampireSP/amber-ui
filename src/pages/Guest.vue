@@ -143,6 +143,13 @@
             不会长期保存您的文档的源文件，我们不建议您上传具有机密性的文档。
           </p>
         </n-gi>
+        <n-gi class="mt-3 from-cyan-500 to-blue-500 rounded-lg p-4">
+          <h3 class="text-2xl">🔗 合作伙伴</h3>
+
+          <p class="mt-3">
+            <n-a target="_blank" href="https://www.himcbbs.com/">HiMCBBS 我的世界中文论坛</n-a>
+          </p>
+        </n-gi>
       </n-grid>
     </div>
   </div>
