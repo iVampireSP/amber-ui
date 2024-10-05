@@ -135,10 +135,11 @@ import config from "@/config/config";
 const mdIt = markdownIt();
 const mdInited = ref(true);
 
-const unsupportedLanguages = ["assembly"];
+const unsupportedLanguages = ["assembly", "blade"];
 mdIt.options.highlight = function (str: string, lang: string) {
   if (!lang || unsupportedLanguages.includes(lang)) {
-    return str;
+    // return str;
+    lang = "text"
   }
 
   return hljs.highlight(str, { language: lang }).value;

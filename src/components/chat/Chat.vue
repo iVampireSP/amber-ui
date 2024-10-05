@@ -254,7 +254,7 @@ type Prompt = {
 };
 
 const isMobile = useIsMobile();
-const userStore = useUserStore();
+// const userStore = useUserStore();
 const chatStore = useChatStore();
 const compositionStart = ref(false);
 const inputContainer: any = ref(null);
