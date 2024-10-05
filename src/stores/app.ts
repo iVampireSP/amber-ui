@@ -9,5 +9,9 @@ export const useAppStore = defineStore("app", {
     contentScrollPosition: 0,
     contentScrollOnBottom: false,
     contentScrollable: false,
+    headerCenterLogoPosition: {
+      x: 0,
+      y: 0,
+    }
   }),
 });

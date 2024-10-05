@@ -49,9 +49,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import hljs from 'highlight.js/lib/core'
-import ini from 'highlight.js/lib/languages/ini'
+import { computed } from "vue";
+import hljs from "highlight.js/lib/core";
+import ini from "highlight.js/lib/languages/ini";
 
 import {
   darkTheme,
@@ -63,14 +63,78 @@ import {
   NMessageProvider,
   NNotificationProvider,
   useOsTheme,
-  zhCN
-} from 'naive-ui'
+  zhCN,
+} from "naive-ui";
 // import Lottie from "./components/Lottie.vue";
-import DefaultLayout from './layouts/DefaultLayout.vue'
-import { useUserStore } from './stores/user'
+import DefaultLayout from "./layouts/DefaultLayout.vue";
+import { useUserStore } from "./stores/user";
+import { useAppStore } from "./stores/app";
 
-const osThemeRef = useOsTheme()
-const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
+const appStore = useAppStore();
+const osThemeRef = useOsTheme();
+
+let switched = false;
+
+const theme = computed(() => {
+  if (switched && document.startViewTransition) {
+    switch_appearance_with_transitions(osThemeRef.value);
+  }
+
+  switched = true;
+
+  if (osThemeRef.value === "dark") {
+    document.documentElement.setAttribute("theme", "dark");
+    return darkTheme;
+  } else {
+    document.documentElement.setAttribute("theme", "light");
+    return null;
+  }
+});
+
+// 这个函数是点击事件的回调函数，带有参数 event
+const switch_appearance_with_transitions = (toColor) => {
+  const transition = document.startViewTransition(() => {});
+
+  // 获取点击位置，作为圆心，根据页面大小计算半径
+  let x = appStore.headerCenterLogoPosition.x;
+  let y = appStore.headerCenterLogoPosition.y;
+
+  if (toColor === "dark") {
+    // 获取可视区域的宽高
+    const innerWidth = window.innerWidth;
+    const innerHeight = window.innerHeight;
+
+    x = innerWidth / 2;
+    y = innerHeight - 1;
+  }
+
+  console.log(x, y);
+  const endRadius = Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y)
+  );
+
+  // 等待伪元素创建完成：
+  transition.ready.then(() => {
+    // 新视图的根元素动画：构造一个圆形作为裁切，并且半径会从0开始放大到endRadius
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0 at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      {
+        duration: 500,
+        easing: "ease-in",
+        // 指定要附加动画的伪元素
+        pseudoElement: "::view-transition-new(root)",
+      }
+    );
+  });
+};
+
+// watch theme change
 
 // const load_step = ref(1)
 //
@@ -87,7 +151,7 @@ const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
 //   load_step.value = 2
 // }
 
-hljs.registerLanguage('ini', ini)
+hljs.registerLanguage("ini", ini);
 
 // 主题调整
 /**
@@ -109,13 +173,10 @@ const themeOverrides = {
   common: {
     fontFamily: "Noto Sans SC, sans-serif",
     fontFamilyMono: "JetBrains Mono, monospace",
-  }
-}
-
-
+  },
+};
 
 // UserStore
 const userStore = useUserStore();
 userStore.setupTimer();
-
 </script>

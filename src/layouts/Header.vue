@@ -37,6 +37,7 @@
           <div
             @click="showDrawer = true"
             class="cursor-pointer ml-3 flex justify-center items-center"
+            ref="leftMenu"
           >
             <n-icon size="24">
               <menu-outline />
@@ -61,6 +62,7 @@
               <img
                 :src="leaflowpng"
                 class="w-8 cursor-pointer block select-none"
+                ref="centerLogo"
                 @click="toggleHomeChat"
               />
             </div>
@@ -76,18 +78,14 @@
           </div>
         </n-grid-item>
 
-        <n-grid-item  class="flex items-center justify-end mr-1.5">
+        <n-grid-item class="flex items-center justify-end mr-1.5">
           <!-- 右侧 -->
 
-          <div v-if="userStore.logined"
-          class="flex items-center">
+          <div v-if="userStore.logined" class="flex items-center">
             <!-- 新对话 -->
             <n-tooltip trigger="hover">
               <template #trigger>
-                <n-icon
-                  class="text-2xl mr-4 cursor-pointer"
-                  @click="newChat"
-                >
+                <n-icon class="text-2xl mr-4 cursor-pointer" @click="newChat">
                   <AddOutline />
                 </n-icon>
               </template>
@@ -216,8 +214,10 @@ import leaflowpng from "@/assets/images/leaflow.png";
 import { useChatStore } from "@/stores/chat";
 import groupPng from "@/assets/images/group.png";
 import config from "@/config/config";
+import { useAppStore } from "@/stores/app";
 
 const userStore = useUserStore();
+const appStore = useAppStore();
 const chatStore = useChatStore();
 const isMobile = useIsMobile();
 const showDrawer = ref(false);
@@ -253,4 +253,40 @@ const newChat = () => {
 const gotoLogin = () => {
   router.push("/auth/login");
 };
+
+const leftMenu = ref();
+const centerLogo = ref();
+
+const setCirclePosition = () => {
+  if (isMobile.value) {
+    // 获取 leftMenu 的位置
+    const leftMenuRect = leftMenu.value.getBoundingClientRect();
+
+    // 计算元素的正中心
+    const centerX = leftMenuRect.x + leftMenuRect.width / 2;
+    const centerY = leftMenuRect.y + leftMenuRect.height / 2;
+
+    appStore.headerCenterLogoPosition.x = centerX;
+    appStore.headerCenterLogoPosition.y = centerY;
+  } else {
+    // 获取 centerLogo 的位置
+    const centerLogoRect = centerLogo.value.getBoundingClientRect();
+
+    // 计算元素的正中心
+    const centerX = centerLogoRect.x + centerLogoRect.width / 2;
+    const centerY = centerLogoRect.y + centerLogoRect.height / 2;
+    appStore.headerCenterLogoPosition.x = centerX;
+    appStore.headerCenterLogoPosition.y = centerY;
+  }
+};
+
+onMounted(() => {
+  setCirclePosition();
+});
+
+window.addEventListener("resize", setCirclePosition);
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setCirclePosition);
+});
 </script>

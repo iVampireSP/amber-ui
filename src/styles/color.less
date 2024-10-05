@@ -1,0 +1,82 @@
+// // light-dark-8deg-animation
+// @keyframes light-to-dark {
+//   from {
+//     clip-path: polygon(
+//       0 0,
+//       0 0,
+//       calc(tan(8deg) * -100vh) 100%,
+//       calc(tan(8deg) * -100vh) 100%
+//     );
+//   }
+
+//   to {
+//     clip-path: polygon(
+//       0 0,
+//       calc((tan(8deg) * 100vh) + 100%) 0,
+//       100% 100%,
+//       calc(tan(8deg) * -100vh) 100%
+//     );
+//   }
+// }
+
+// @keyframes dark-to-light {
+//   from {
+//     clip-path: polygon(
+//       calc((tan(8deg) * 100vh) + 100%) 0,
+//       calc((tan(8deg) * 100vh) + 100%) 0,
+//       100% 100%,
+//       100% 100%
+//     );
+//   }
+
+//   to {
+//     clip-path: polygon(
+//       0 0,
+//       calc((tan(8deg) * 100vh) + 100%) 0,
+//       100% 100%,
+//       calc(tan(8deg) * -100vh) 100%
+//     );
+//   }
+// }
+
+// :root::view-transition-group(root) {
+//   animation-duration: 1s;
+// }
+
+// :root::view-transition-new(root),
+// :root::view-transition-old(root) {
+//   mix-blend-mode: normal;
+// }
+
+// :root::view-transition-old(root),
+// :root[theme="dark"]::view-transition-old(root) {
+//   animation: none;
+// }
+
+// :root::view-transition-new(root) {
+//   animation-name: dark-to-light;
+// }
+
+// :root[theme="dark"]::view-transition-new(root) {
+//   animation-name: light-to-dark;
+// }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root[theme="dark"]::view-transition-old(root) {
+  z-index: 1;
+}
+:root[theme="light"]::view-transition-new(root) {
+  z-index: 999;
+}
+
+::view-transition-old(root) {
+  z-index: 999;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}

@@ -2,7 +2,8 @@ const meta = document.createElement("meta");
 meta.name = "naive-ui-style";
 document.head.appendChild(meta);
 
-import "./style.css";
+import "./styles/style.css";
+import "./styles/color.less";
 import "animate.css";
 import { registerPlugins } from "./plugins";
 import router from "./router";
