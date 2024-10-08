@@ -24,6 +24,8 @@ definitions:
         type: boolean
       temperature:
         type: number
+      total_token_usage:
+        type: integer
       updated_at:
         type: string
       user_id:
@@ -299,6 +301,8 @@ definitions:
         - system
         - system_hide
         - assistant
+        - system_override
+        - user_later
         type: string
     required:
     - assistant_key
@@ -430,7 +434,8 @@ definitions:
         - system
         - system_hide
         - assistant
-        - image
+        - system_override
+        - user_later
         type: string
       variables:
         additionalProperties:

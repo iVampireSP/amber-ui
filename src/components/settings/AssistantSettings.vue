@@ -111,11 +111,8 @@
                 </div>
 
                 <div>
-                  <n-switch
-                    v-model:value="currentAssistant.public"
-                  >
-                  </n-switch>
-                  公开分享助理
+                  <n-switch v-model:value="currentAssistant.public"> </n-switch>
+                  公开分享助理(弃用)
                 </div>
 
                 <div class="mt-3">
@@ -126,6 +123,10 @@
                     :min="0"
                     :max="1"
                   />
+                </div>
+
+                <div class="mt-3">
+                  Token 用量: {{ currentAssistant.total_token_usage }}
                 </div>
               </div>
             </n-form-item>

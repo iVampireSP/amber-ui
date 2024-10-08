@@ -798,6 +798,12 @@ export interface EntityAssistant {
     'temperature'?: number;
     /**
      * 
+     * @type {number}
+     * @memberof EntityAssistant
+     */
+    'total_token_usage'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof EntityAssistant
      */
@@ -1506,7 +1512,9 @@ export const SchemaAddPublicChatMessageRequestRoleEnum = {
     UserHide: 'user_hide',
     System: 'system',
     SystemHide: 'system_hide',
-    Assistant: 'assistant'
+    Assistant: 'assistant',
+    SystemOverride: 'system_override',
+    UserLater: 'user_later'
 } as const;
 
 export type SchemaAddPublicChatMessageRequestRoleEnum = typeof SchemaAddPublicChatMessageRequestRoleEnum[keyof typeof SchemaAddPublicChatMessageRequestRoleEnum];
@@ -1716,7 +1724,8 @@ export const SchemaChatMessageAddRequestRoleEnum = {
     System: 'system',
     SystemHide: 'system_hide',
     Assistant: 'assistant',
-    Image: 'image'
+    SystemOverride: 'system_override',
+    UserLater: 'user_later'
 } as const;
 
 export type SchemaChatMessageAddRequestRoleEnum = typeof SchemaChatMessageAddRequestRoleEnum[keyof typeof SchemaChatMessageAddRequestRoleEnum];
