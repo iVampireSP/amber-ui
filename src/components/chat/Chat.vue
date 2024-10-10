@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-between">
+  <div class="flex flex-col items-center justify-between overflow-hidden">
     <div class="min-w-full md:w-4/5">
       <n-scrollbar
         style="max-height: calc(100vh - (var(--header-height) * 3.5))"
@@ -11,9 +11,12 @@
           v-if="!chatMessages?.length"
         >
           <div class="text-5xl">
-            <n-gradient-text type="success" class="pr-3 pb-2 pt-2 max-w-96 lg:max-w-full overflow-ellipsis overflow-hidden whitespace-nowrap">
+            <n-gradient-text
+              type="success"
+              class="pr-3 pb-2 pt-2 max-w-96 lg:max-w-full overflow-ellipsis overflow-hidden whitespace-nowrap"
+            >
               <!-- 你好，{{ userStore.user.name }} -->
-               你好
+              你好
             </n-gradient-text>
             <br />
             <div class="pr-3 mt-1 text-2xl">
@@ -57,8 +60,8 @@
       </n-scrollbar>
     </div>
 
-    <div class="w-full pt-2 relative">
-      <div class="fixed bottom-0 left-0 right-0 pr-2 pl-2">
+    <div class="min-w-full pt-2 relative " style="max-height: 120px">
+      <div class="relative bottom-0 pr-2 pl-2 min-w-full" ref="textContainer">
         <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
           v-if="isMobile && chatStore.toolName != ''"
@@ -87,6 +90,8 @@
                 contenteditable="true"
                 placeholder="请输入文本..."
                 class="input-text max-w-full outline-none text-lg text-pretty pl-2 min-h-6"
+                @change="updateInputPosition"
+                @keyup="updateInputPosition"
                 @keydown="onKeydown"
                 @input="updateInputHeight"
                 @compositionstart="handleCompositionStart"
@@ -204,7 +209,6 @@
   </n-modal>
 </template>
 <script setup lang="ts">
-import { useUserStore } from "../../stores/user";
 import { onMounted, onUnmounted, Ref, ref } from "vue";
 import {
   SendOutline,
@@ -260,6 +264,7 @@ const compositionStart = ref(false);
 const inputContainer: any = ref(null);
 const inputText: any = ref(null);
 const actionContainer: any = ref(null);
+const textContainer: any = ref(null);
 const isPlaceholderVisible = ref(true);
 const triggerTimes = ref(0);
 const showSendBtn = ref(false);
@@ -301,7 +306,16 @@ const updateInputContent = (content: string) => {
   updateInputHeight();
 };
 
+const updateInputPosition = () => {
+  const container = inputContainer.value;
+  const text = textContainer.value;
+
+  // 设置 bottom
+  text.style.bottom = `${container.offsetHeight - 80}px`;
+};
+
 function onKeydown(e: KeyboardEvent) {
+  updateInputPosition();
   // 如果是 Esc
   if (e.code === "Escape") {
     assistantStore.selectMenu = false;
@@ -335,6 +349,8 @@ function updateInputHeight() {
   if (!inputText?.value || !inputContainer.value || !actionContainer.value) {
     return;
   }
+
+  updateInputPosition();
 
   const input = inputText.value;
   const container = inputContainer.value;
@@ -398,10 +414,14 @@ function updateInputHeight() {
 }
 
 function handleCompositionStart() {
+  updateInputPosition();
+
   compositionStart.value = true;
 }
 
 function handleCompositionEnd() {
+  updateInputPosition();
+
   compositionStart.value = false;
 }
 

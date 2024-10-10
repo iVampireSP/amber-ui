@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { NLayout } from "naive-ui";
-// import { useUserStore } from "../stores/user";
+import { useUserStore } from "../stores/user";
 // import Guest from "../pages/guest/index.vue";
 // import router from "../router";
 import Header from "./Header.vue";
 import element from "@/config/element";
 import { useIsMobile } from "@/utils/composables";
 import { useAppStore } from "@/stores/app";
+import ChatLayout from "@/components/chat/Layout.vue";
 // const currentRoute = computed(() => router.currentRoute.value.name);
 
-// const userStore = useUserStore();
+const userStore = useUserStore();
 const appStore = useAppStore();
 const route = useRoute();
 
@@ -82,7 +83,14 @@ const onScroll = (e: Event) => {
 
     <n-layout :native-scrollbar="isMobile">
       <div class="!pt-2">
-        <router-view :key="route.path"> </router-view>
+        <div v-if="userStore.logined">
+          <ChatLayout>
+            <router-view :key="route.path"> </router-view>
+          </ChatLayout>
+        </div>
+        <div v-else>
+          <router-view :key="route.path"> </router-view>
+        </div>
       </div>
 
       <!-- <Guest v-if="!userStore.logined && currentRoute != '/auth/login'" />

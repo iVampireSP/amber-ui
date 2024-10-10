@@ -1,11 +1,12 @@
 <template>
   <Chat v-if="userStore.logined" />
-  <Guest v-else />
+  <Home v-else />
 </template>
 
 <script setup lang="ts">
-import Guest from "@/pages/Guest.vue";
+import Home from "@/pages/home/index.vue";
 import { useUserStore } from "@/stores/user";
+import Chat from "@/pages/chat/Chat.vue";
 
 const userStore = useUserStore();
 </script>
