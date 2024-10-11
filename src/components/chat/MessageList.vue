@@ -137,6 +137,8 @@ const mdInited = ref(true);
 
 const unsupportedLanguages = ["assembly", "blade", "vue"];
 mdIt.options.highlight = function (str: string, lang: string) {
+  // TODO: 前面的区域以后再来探索吧
+  lang = "text"
   if (!lang || unsupportedLanguages.includes(lang)) {
     // return str;
     lang = "text"
