@@ -178,7 +178,7 @@
                   <n-text>
                     我们的 API 端点是：{{
                       config.backend
-                    }}/api/openai-compatible/v1 。密钥为下方的 API Key。
+                    }}/api/openai-compatible/v1 。密钥为下方的 API Key，OpenAI 格式不支持智能上下文（不支持近乎无限的上下文）
                   </n-text>
                 </div>
               </n-popover>
