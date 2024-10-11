@@ -135,7 +135,7 @@ import config from "@/config/config";
 const mdIt = markdownIt();
 const mdInited = ref(true);
 
-const unsupportedLanguages = ["assembly", "blade"];
+const unsupportedLanguages = ["assembly", "blade", "vue"];
 mdIt.options.highlight = function (str: string, lang: string) {
   if (!lang || unsupportedLanguages.includes(lang)) {
     // return str;
