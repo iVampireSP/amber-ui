@@ -94,6 +94,22 @@
                 </div>
 
                 <div>
+                  <n-switch
+                    v-model:value="currentAssistant.disable_internet_search"
+                  >
+                  </n-switch>
+                  禁用网络搜索
+                </div>
+
+                <div>
+                  <n-switch
+                    v-model:value="currentAssistant.disable_web_browsing"
+                  >
+                  </n-switch>
+                  禁用网页浏览
+                </div>
+
+                <div>
                   <n-switch v-model:value="currentAssistant.disable_memory">
                   </n-switch>
                   禁用记忆
@@ -110,10 +126,10 @@
                   允许助理 API 读取记忆
                 </div>
 
-                <div>
+                <!-- <div>
                   <n-switch v-model:value="currentAssistant.public"> </n-switch>
                   公开分享助理(弃用)
-                </div>
+                </div> -->
 
                 <div class="mt-3">
                   话语随机性 (Temperature)

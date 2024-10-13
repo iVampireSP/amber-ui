@@ -753,7 +753,19 @@ export interface EntityAssistant {
      * @type {boolean}
      * @memberof EntityAssistant
      */
+    'disable_internet_search'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityAssistant
+     */
     'disable_memory'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EntityAssistant
+     */
+    'disable_web_browsing'?: boolean;
     /**
      * 
      * @type {boolean}
@@ -1617,7 +1629,19 @@ export interface SchemaAssistantUpdateRequest {
      * @type {boolean}
      * @memberof SchemaAssistantUpdateRequest
      */
+    'disable_internet_search'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemaAssistantUpdateRequest
+     */
     'disable_memory'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemaAssistantUpdateRequest
+     */
+    'disable_web_browsing'?: boolean;
     /**
      * 
      * @type {boolean}
