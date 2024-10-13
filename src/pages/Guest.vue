@@ -152,7 +152,7 @@ const features = ref([
 const partners = ref([
   {
     name: 'HiMCBBS 我的世界中文论坛',
-    logo: 'https://www.himcbbs.com/data/assets/logo/wxmc_logo_text_blue.svg',
+    logo: 'https://www.himcbbs.com/data/assets/favicon/himcbbs-favicon-black-6x.png',
     link: 'https://www.himcbbs.com/',
     description: '中国最大的我的世界玩家社区，提供游戏资讯、模组下载和创意分享。'
   }
