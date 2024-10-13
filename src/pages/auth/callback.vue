@@ -23,6 +23,11 @@ axios.get(config.oauth_discovery_url).then((discovery) => {
 
   const code: any = router.currentRoute.value.query.code;
 
+  if (!code) {
+    // console.log("无法获取当前 url 中的 code")
+    return;
+  }
+
   // 从当前页面请求中获取 code
   const q = new URLSearchParams({
     client_id: config.oauth_client_id,
@@ -43,7 +48,7 @@ axios.get(config.oauth_discovery_url).then((discovery) => {
         r.data.id_token,
         r.data.access_token,
         r.data.refresh_token,
-        r.data.expires_in,
+        r.data.expires_in
       );
     })
     .catch((e) => {
