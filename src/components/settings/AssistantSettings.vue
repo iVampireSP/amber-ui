@@ -199,6 +199,7 @@
           </div>
 
           <div class="mt-3">
+            <n-p>我们更新了计费系统，在使用此功能之前，请前往 <n-a target="_blank" href="https://auth.leaflow.cn/balances">UserLand</n-a> 来添加余额。我们正在且长期会处于测试阶段，不会对您发起真实付费（也就是说完全免费！）</n-p>
             <n-list hoverable clickable v-if="assistantApiKeys.length">
               <n-list-item v-for="c in assistantApiKeys" :key="c.id">
                 <n-thing>
