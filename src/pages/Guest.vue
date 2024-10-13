@@ -4,16 +4,16 @@
       <div class="container">
         <!-- Spotlight 区域 -->
         <n-card class="spotlight" :bordered="false">
-          <div class="background-pattern"></div>
-          <div class="background-text">
-            Leaflow <span class="background-amber">Amber</span>
-          </div>
           <div class="spotlight-content">
-            <h1 class="title">Leaflow <span class="amber-text">Amber</span></h1>
+            <h1 class="title break-normal">
+              Leaflow <span class="amber-text">Amber</span>
+            </h1>
             <p class="subtitle">
               下一代智能体平台，为您的数字生活带来革命性变化
               <br class="mobile-break" />
-              <a href="#" class="cta-link">立即体验 🚀</a>
+              <a @click="gotoLogin" class="cta-link cursor-pointer"
+                >立即体验 🚀</a
+              >
             </p>
             <div
               class="stats"
@@ -85,17 +85,18 @@
         <!-- 功能特点展示 -->
         <div class="features-section">
           <h2 class="section-title">Amber 核心特性</h2>
-          <n-grid :cols="3" :x-gap="24" :y-gap="24" responsive="screen">
-            <n-gi
-              span="3 m:1"
-              v-for="(feature, index) in features"
-              :key="index"
-            >
+          <n-grid
+            cols="1 m:2 l:3 xl:3 2xl:3"
+            :x-gap="24"
+            :y-gap="24"
+            responsive="screen"
+          >
+            <n-gi v-for="(feature, index) in features" :key="index">
               <div
                 class="feature-card"
                 @click="toggleFeatureDescription(feature)"
               >
-                <div class="feature-content">
+                <div>
                   <div class="feature-icon">{{ feature.icon }}</div>
                   <div class="feature-title">{{ feature.title }}</div>
                   <transition name="fade-height" mode="out-in">
@@ -156,12 +157,16 @@ import {
 } from "naive-ui";
 import { SchemaSiteUsageResponse } from "@/api";
 import getApi from "@/plugins/api";
-import grouppng from "@/assets/images/group.png";
+import router from "@/router";
 
 const osTheme = useOsTheme();
 const theme = computed(() => (osTheme.value === "dark" ? darkTheme : null));
 
 const siteUsage = ref<SchemaSiteUsageResponse>({});
+
+const gotoLogin = () => {
+  router.push("/auth/login");
+};
 
 const features = ref([
   {
@@ -219,8 +224,7 @@ const partners = ref([
     name: "HiMCBBS 我的世界中文论坛",
     logo: "https://www.himcbbs.com/data/assets/logo/wxmc_logo_text_blue.svg",
     link: "https://www.himcbbs.com/",
-    description:
-      "中国最大的我的世界玩家社区，提供游戏资讯、模组下载和创意分享。",
+    description: "中国我的世界玩家社区，提供游戏资讯、模组下载和创意分享。",
   },
   // 可以在这里添加更多合作伙伴
 ]);
@@ -266,7 +270,6 @@ body {
     'theme ? "rgba(0, 0, 0, 0.5)" : "rgba(78, 187, 192, 0.1)"'
   );
   backdrop-filter: blur(10px);
-  height: 70vh;
   min-height: 500px;
   display: flex;
   align-items: center;

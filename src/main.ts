@@ -5,21 +5,23 @@ document.head.appendChild(meta);
 import "./styles/style.css";
 import "./styles/color.less";
 import "animate.css";
-import { registerPlugins } from "./plugins";
+
+import { createApp } from 'vue'
+import App from './App.vue'
+
+import naive from 'naive-ui'
+
 import router from "./router";
+import { registerPlugins } from "./plugins";
 
+const app = createApp(App)
 
-import App from "./App.vue";
-import { createApp } from "vue";
-
-const app = createApp(App);
-
+app.use(naive)
 
 registerPlugins(app);
+
 app.use(router);
 
-
-// @ts-ignore ...
 if (process.env.NODE_ENV === "production") {
   setTimeout(() => {
     const appContainer = document.getElementById("app");
@@ -28,7 +30,6 @@ if (process.env.NODE_ENV === "production") {
     }
     setTimeout(() => {
       const defaultLoader = document.getElementById("default-loader");
-      // remove
       defaultLoader?.remove();
     }, 300);
 
@@ -36,7 +37,9 @@ if (process.env.NODE_ENV === "production") {
       app.mount("#app");
     }, 300);
     setTimeout(() => {
-      appContainer!.style.opacity = "1";
+      if (appContainer) {
+        appContainer.style.opacity = "1";
+      }
     }, 300);
   }, 200);
 } else {
