@@ -753,12 +753,6 @@ export interface EntityAssistant {
      * @type {boolean}
      * @memberof EntityAssistant
      */
-    'disable_internet_search'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityAssistant
-     */
     'disable_memory'?: boolean;
     /**
      * 
@@ -1624,12 +1618,6 @@ export interface SchemaAssistantUpdateRequest {
      * @memberof SchemaAssistantUpdateRequest
      */
     'disable_default_prompt'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SchemaAssistantUpdateRequest
-     */
-    'disable_internet_search'?: boolean;
     /**
      * 
      * @type {boolean}

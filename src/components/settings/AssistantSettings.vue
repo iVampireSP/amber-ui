@@ -95,18 +95,10 @@
 
                 <div>
                   <n-switch
-                    v-model:value="currentAssistant.disable_internet_search"
-                  >
-                  </n-switch>
-                  禁用网络搜索
-                </div>
-
-                <div>
-                  <n-switch
                     v-model:value="currentAssistant.disable_web_browsing"
                   >
                   </n-switch>
-                  禁用网页浏览
+                  禁用联网
                 </div>
 
                 <div>
