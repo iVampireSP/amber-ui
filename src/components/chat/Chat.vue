@@ -683,14 +683,14 @@ function streamChat(streamId: String, redirect = false) {
             } else {
               chatStore.toolName = "正在搜索 " + url;
             }
-          } else if (data.tool_call_message.function_name === "calculator") {
+          } else if (data.tool_call_message.function_name === "builtin_calculator") {
             chatStore.toolName = "正在计算";
           } else if (
-            data.tool_call_message.function_name === "generate_image"
+            data.tool_call_message.function_name === "builtin_generate_image"
           ) {
             chatStore.toolName = "生成图片中";
           } else if (
-            data.tool_call_message.function_name === "describe_image"
+            data.tool_call_message.function_name === "builtin_describe_image"
           ) {
             chatStore.toolName = "正在理解图片";
           }
