@@ -6,21 +6,18 @@ import "./styles/style.css";
 import "./styles/color.less";
 import "animate.css";
 
-import { createApp } from 'vue'
-import App from './App.vue'
-
-import naive from 'naive-ui'
+import { createApp } from "vue";
+import App from "./App.vue";
 
 import router from "./router";
 import { registerPlugins } from "./plugins";
 
-const app = createApp(App)
-
-app.use(naive)
+const app = createApp(App);
 
 registerPlugins(app);
 
 app.use(router);
+
 
 if (process.env.NODE_ENV === "production") {
   setTimeout(() => {

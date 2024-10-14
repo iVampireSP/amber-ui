@@ -11,7 +11,6 @@
     "gen": "openapi-generator-cli generate -i ./api/swagger.yaml -g typescript-axios -o ./src/api"
   },
   "dependencies": {
-    "@kangc/v-md-editor": "^2.3.18",
     "@notable/html2markdown": "^2.0.3",
     "@traptitech/markdown-it-katex": "^3.6.0",
     "animate.css": "^4.1.1",
@@ -20,9 +19,11 @@
     "js-base64": "^3.7.7",
     "katex": "^0.16.11",
     "lottie-web": "^5.12.2",
+    "markdown-it": "^14.1.0",
     "pinia": "^2.2.2",
     "pinia-plugin-persistedstate": "^4.0.0",
-    "vooks": "^0.2.12"
+    "vooks": "^0.2.12",
+    "vue-i18n": "10"
   },
   "devDependencies": {
     "@babel/types": "^7.18.10",

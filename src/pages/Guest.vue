@@ -9,10 +9,10 @@
               Leaflow <span class="amber-text">Amber</span>
             </h1>
             <p class="subtitle">
-              下一代智能体平台，为您的数字生活带来革命性变化
+              <span>{{ $t('guest.subtitle') }}</span>
               <br class="mobile-break" />
               <a @click="gotoLogin" class="cta-link cursor-pointer"
-                >立即体验 🚀</a
+                >{{ $t('guest.try-now') }}</a
               >
             </p>
             <div
@@ -32,7 +32,7 @@
                   />
                   <template #suffix> Tokens </template>
                 </n-statistic>
-                <div class="stat-label">本月处理 Tokens</div>
+                <div class="stat-label">{{ $t('guest.tokens_current_month') }}</div>
               </div>
               <div class="stat-item">
                 <n-statistic tabular-nums>
@@ -47,7 +47,7 @@
                   />
                   <template #suffix> Calls </template>
                 </n-statistic>
-                <div class="stat-label">本月工具调用</div>
+                <div class="stat-label">{{ $t('guest.tool_calls_current_month') }}</div>
               </div>
             </div>
             <div class="button-group">
@@ -58,8 +58,7 @@
                 href="https://github.com/ivampiresp/wp-amber"
                 target="_blank"
               >
-                WordPress 插件
-              </n-button>
+                {{ $t('guest.wordpress_plugin') }} </n-button>
               <n-button
                 class="transparent-button spotlight-button"
                 ghost
