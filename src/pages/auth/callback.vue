@@ -52,8 +52,9 @@ axios.get(config.oauth_discovery_url).then((discovery) => {
       );
     })
     .catch((e) => {
-      console.log(e);
-      alert("登录失败");
+      console.error(e);
+      
+      // alert("登录失败");
     })
     .finally(() => {
       // 跳转到 /
