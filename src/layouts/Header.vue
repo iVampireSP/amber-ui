@@ -69,7 +69,7 @@
 
             <div v-else-if="chatStore.toolName != ''">
               <n-gradient-text type="info">
-                正在执行 {{ chatStore.toolName }}
+                {{ chatStore.toolName }}
               </n-gradient-text>
             </div>
             <div v-else>

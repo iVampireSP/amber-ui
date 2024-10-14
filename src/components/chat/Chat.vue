@@ -60,7 +60,7 @@
       </n-scrollbar>
     </div>
 
-    <div class="min-w-full pt-2 relative " style="max-height: 120px">
+    <div class="min-w-full pt-2 relative" style="max-height: 120px">
       <div class="relative bottom-0 pr-2 pl-2 min-w-full" ref="textContainer">
         <div
           class="mx-auto w-2xl max-w-2xl text-center mb-3 animate__animated animate__pulse text-lg"
@@ -674,11 +674,36 @@ function streamChat(streamId: String, redirect = false) {
         });
         break;
       case "tool_calling":
+        if (data.tool_call_message.function_name.startsWith("builtin_")) {
+          if (data.tool_call_message.function_name === "builtin_browser") {
+            let url = data.tool_call_message.args.query_or_url;
+            // 如果是 URL
+            if (url.startsWith("http")) {
+              chatStore.toolName = "正在浏览 " + url;
+            } else {
+              chatStore.toolName = "正在搜索 " + url;
+            }
+          } else if (data.tool_call_message.function_name === "calculator") {
+            chatStore.toolName = "正在计算";
+          } else if (
+            data.tool_call_message.function_name === "generate_image"
+          ) {
+            chatStore.toolName = "生成图片中";
+          } else if (
+            data.tool_call_message.function_name === "describe_image"
+          ) {
+            chatStore.toolName = "正在理解图片";
+          }
+        } else {
+          chatStore.toolName =
+            "正在执行 " + 
+            data.tool_call_message.tool_name +
+            " 中的 " +
+            data.tool_call_message.function_name;
+        }
+
         // toolCalling.value = true;
-        chatStore.toolName =
-          data.tool_call_message.tool_name +
-          " 中的 " +
-          data.tool_call_message.function_name;
+
         // toolName.value =
         //   data.tool_call_message.tool_name +
         //   " 中的 " +
