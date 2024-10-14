@@ -5,5 +5,5 @@ import en from "./en.json";
 export default {
   "zh-CN": zhCN,
   "zh-TW": zhTW,
-  en: en,
+  "en": en,
 };
