@@ -17,6 +17,7 @@ declare module 'vue' {
     LeftSettings: typeof import('./components/settings/LeftSettings.vue')['default']
     LibrarySettings: typeof import('./components/settings/LibrarySettings.vue')['default']
     Lottie: typeof import('./components/Lottie.vue')['default']
+    Markdown: typeof import('./components/markdown/index.vue')['default']
     Mask: typeof import('./components/Mask.vue')['default']
     MemorySettings: typeof import('./components/settings/MemorySettings.vue')['default']
     Menu: typeof import('./components/Menu.vue')['default']

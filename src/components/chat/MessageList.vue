@@ -35,7 +35,14 @@
           </div>
         </n-flex>
       </div>
-      <div v-else-if="(message.role === 'user' || message.role === 'user_hide' || message.role === 'user_later')  && message.content">
+      <div
+        v-else-if="
+          (message.role === 'user' ||
+            message.role === 'user_hide' ||
+            message.role === 'user_later') &&
+          message.content
+        "
+      >
         <!-- 用户消息 -->
         <n-flex justify="end">
           <div class="flex items-center flex-nowrap">
@@ -51,11 +58,14 @@
                   {{ userStore.user.name }}
                 </n-divider>
               </div>
-              <div
+              <!-- <div
                 v-if="mdInited"
                 class="break-all break-words markdown-body"
                 v-html="mdIt.render(message.content)"
-              ></div>
+              ></div> -->
+              <div>
+                <Markdown :typing="false" :content="message.content" />
+              </div>
             </div>
 
             <div class="relative h-full">
@@ -103,11 +113,10 @@
                   {{ message.assistant?.name }}
                 </n-divider>
               </div>
-              <div
-                v-if="mdInited"
-                class="break-all break-words markdown-body"
-                v-html="mdIt.render(message.content)"
-              ></div>
+
+              <div>
+                <Markdown :typing="false" :content="message.content" />
+              </div>
             </div>
             <!-- <div v-html="mdIt.render(message.content)"></div> -->
 
@@ -126,50 +135,9 @@ import { Ref } from "vue";
 import { EntityChatMessage } from "@/api";
 import { useUserStore } from "@/stores/user";
 import leaflowPng from "@/assets/images/leaflow.png";
-import markdownKatex from "@traptitech/markdown-it-katex";
-import markdownIt from "markdown-it";
-// highlightjs
-import hljs from "highlight.js";
+import Markdown from "@/components/markdown/index.vue";
 import config from "@/config/config";
 
-const mdIt = markdownIt();
-const mdInited = ref(true);
-
-const unsupportedLanguages = ["assembly", "blade", "vue"];
-mdIt.options.highlight = function (str: string, lang: string) {
-  // TODO: 前面的区域以后再来探索吧
-  lang = "text"
-  if (!lang || unsupportedLanguages.includes(lang)) {
-    // return str;
-    lang = "text"
-  }
-
-  return hljs.highlight(str, { language: lang }).value;
-};
-mdIt.use(markdownKatex, {
-  throwOnError: false,
-  errorColor: "#cc0000",
-  output: "html",
-});
-
-// async function initMD() {
-//   mdIt.use(
-//     await Shiki({
-//       themes: {
-//         light: "vitesse-light",
-//         dark: "vitesse-dark",
-//       },
-//     })
-//   );
-
-//   mdIt.use(markdownKatex, {
-//     throwOnError: false,
-//     errorColor: "#cc0000",
-//     output: "html",
-//   });
-
-//   mdInited.value = true;
-// }
 const userStore = useUserStore();
 
 const props = defineProps({
@@ -182,7 +150,4 @@ const props = defineProps({
 const chat_messages = toRef(props, "chat_messages") as Ref<EntityChatMessage[]>;
 const fileBaseUrl = config.backend + "/api/v1/files";
 
-onMounted(() => {
-  // initMD();
-});
 </script>
