@@ -175,6 +175,8 @@
           class="text-center block mt-2 mb-2 text-sm select-none"
         >
           AI 也有可能犯错误，请在使用之前核查信息。
+          <br />
+          测试版本，不代表最终品质。
         </n-text>
       </div>
     </div>

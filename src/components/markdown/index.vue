@@ -146,15 +146,13 @@ watch(
         immediate: true
     }
 )
-// const {copy} = useCopy()
-
 const handleClick = async (e: any) => {
     console.log(e.target)
     const target: HTMLElement = e.target
     if (target.className === 'code-copy-btn') {
         const text = e.target.parentElement.nextElementSibling.textContent
-        // await copy(text)
-        // copy
+        // copy text to clipboard
+        await navigator.clipboard.writeText(text)
     }
     if (target.className === 'markdown-custom-link') {
         emit('click-custom-link', target.textContent!)
