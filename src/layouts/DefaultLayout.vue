@@ -83,7 +83,7 @@ const onScroll = (e: Event) => {
 
     <n-layout :native-scrollbar="isMobile">
       <div class="!pt-2">
-        <div v-if="userStore.logined">
+        <div v-if="userStore.logined && !userStore.isExpired()">
           <ChatLayout>
             <router-view :key="route.path"> </router-view>
           </ChatLayout>

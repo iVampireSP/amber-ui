@@ -42,10 +42,15 @@ export const useUserStore = defineStore("user", {
       this.logined = true;
     },
     checkAndRefresh() {
-      if (this.logined) {
-        if (this.expired_at - Date.now() < 60000) {
-          this.refresh();
-        }
+      // 检测是否过期
+      if (this.expired_at - Date.now() < 0) {
+        this.refresh();
+      } else if (
+        this.logined &&
+        this.expired_at - Date.now() > 600 &&
+        this.expired_at - Date.now() < 1000
+      ) {
+        this.refresh();
       }
     },
     setupTimer() {
@@ -80,6 +85,7 @@ export const useUserStore = defineStore("user", {
           if (error.response.status === 401) {
             console.log("Refresh token failed");
           }
+
           // logout
           this.logout();
           clearInterval(timer);
@@ -93,6 +99,9 @@ export const useUserStore = defineStore("user", {
     },
     getIdToken() {
       return this.id_token;
+    },
+    isExpired() {
+      return this.expired_at - Date.now() < 0;
     },
   },
 });
