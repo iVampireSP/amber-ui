@@ -36,7 +36,7 @@
             </n-thing>
           </n-list-item>
         </n-list>
-        <div v-else>
+        <div v-else class="mt-8">
           <n-result
             status="404"
             title="你还没有对话"
@@ -99,6 +99,9 @@ const deleteChat = async (chatId: number) => {
     onPositiveClick: async () => {
       await getApi().Chat.apiV1ChatsIdDelete(chatId);
       await getChats();
+      if (parseInt(router.currentRoute.value.params.id) === chatId) {
+        router.push("/")
+      }
     },
   });
 };

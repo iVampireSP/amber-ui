@@ -27,8 +27,8 @@
             <n-text depth="3">
               我们有一些预设提示词，您可以点击来一键输入。
             </n-text>
-            <n-scrollbar style="max-height: 400px">
-              <n-grid cols="1 s:2 l:3" responsive="screen">
+            <n-scrollbar style="max-height: 400px" class="mt-3">
+              <n-grid cols="1 m:2 l:3" responsive="screen">
                 <n-gi v-for="p in prompts" class="rounded-lg p-2">
                   <n-card
                     :title="p.act"
@@ -175,8 +175,6 @@
           class="text-center block mt-2 mb-2 text-sm select-none"
         >
           AI 也有可能犯错误，请在使用之前核查信息。
-          <br />
-          测试版本，不代表最终品质。
         </n-text>
       </div>
     </div>
