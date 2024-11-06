@@ -5,6 +5,7 @@ import error401 from "@/pages/errors/401.vue";
 import error404 from "@/pages/errors/404.vue";
 import error400 from "@/pages/errors/400.vue";
 import error500 from "@/pages/errors/500.vue";
+import { useUserStore } from "@/stores/user";
 
 const osThemeRef = useOsTheme();
 
@@ -19,12 +20,18 @@ const { dialog, loadingBar } = createDiscreteApi(
 );
 
 const request = {
-  onFulfilled: (config: any) => {
+  onFulfilled: async (config: any) => {
     if (config.headers === undefined) {
       config.headers = {};
     }
 
     loadingBar.start();
+
+    const userStore = useUserStore();
+
+    if (userStore.logined) {
+      userStore.checkAndRefresh();
+    }
 
     return Promise.resolve(config);
   },
