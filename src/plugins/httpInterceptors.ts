@@ -27,11 +27,11 @@ const request = {
 
     loadingBar.start();
 
-    const userStore = useUserStore();
+    // const userStore = useUserStore();
 
-    if (userStore.logined) {
-      userStore.checkAndRefresh();
-    }
+    // if (userStore.logined) {
+    //   userStore.checkAndRefresh();
+    // }
 
     return Promise.resolve(config);
   },
