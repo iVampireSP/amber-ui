@@ -150,6 +150,68 @@ export interface ApiV1AssistantsIdKeysPost200Response {
 /**
  * 
  * @export
+ * @interface ApiV1AssistantsIdScenePromptsGet200Response
+ */
+export interface ApiV1AssistantsIdScenePromptsGet200Response {
+    /**
+     * 
+     * @type {Array<EntityScenePrompt>}
+     * @memberof ApiV1AssistantsIdScenePromptsGet200Response
+     */
+    'data'?: Array<EntityScenePrompt>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsIdScenePromptsGet200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsIdScenePromptsGet200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1AssistantsIdScenePromptsGet200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ApiV1AssistantsIdScenePromptsPost200Response
+ */
+export interface ApiV1AssistantsIdScenePromptsPost200Response {
+    /**
+     * 
+     * @type {EntityScenePrompt}
+     * @memberof ApiV1AssistantsIdScenePromptsPost200Response
+     */
+    'data'?: EntityScenePrompt;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsIdScenePromptsPost200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1AssistantsIdScenePromptsPost200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1AssistantsIdScenePromptsPost200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface ApiV1AssistantsIdToolsGet200Response
  */
 export interface ApiV1AssistantsIdToolsGet200Response {
@@ -473,6 +535,37 @@ export interface ApiV1ChatsIdMessagesGet200Response {
      * 
      * @type {boolean}
      * @memberof ApiV1ChatsIdMessagesGet200Response
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ApiV1ChatsIdMessagesPaginateGet200Response
+ */
+export interface ApiV1ChatsIdMessagesPaginateGet200Response {
+    /**
+     * 
+     * @type {PagePagedResultEntityChatMessageList}
+     * @memberof ApiV1ChatsIdMessagesPaginateGet200Response
+     */
+    'data'?: PagePagedResultEntityChatMessageList;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1ChatsIdMessagesPaginateGet200Response
+     */
+    'error'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiV1ChatsIdMessagesPaginateGet200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ApiV1ChatsIdMessagesPaginateGet200Response
      */
     'success'?: boolean;
 }
@@ -1386,6 +1479,55 @@ export interface EntityMemory {
 /**
  * 
  * @export
+ * @interface EntityScenePrompt
+ */
+export interface EntityScenePrompt {
+    /**
+     * 
+     * @type {EntityAssistant}
+     * @memberof EntityScenePrompt
+     */
+    'assistant'?: EntityAssistant;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityScenePrompt
+     */
+    'assistant_id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityScenePrompt
+     */
+    'created_at'?: string;
+    /**
+     * Id        schema.EntityId `gorm:\"primarykey\" json:\"id,string\"`
+     * @type {number}
+     * @memberof EntityScenePrompt
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityScenePrompt
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityScenePrompt
+     */
+    'prompt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityScenePrompt
+     */
+    'updated_at'?: string;
+}
+/**
+ * 
+ * @export
  * @interface EntityTool
  */
 export interface EntityTool {
@@ -1447,9 +1589,58 @@ export interface EntityTool {
 /**
  * 
  * @export
+ * @interface PagePagedResultEntityChatMessageList
+ */
+export interface PagePagedResultEntityChatMessageList {
+    /**
+     * 
+     * @type {number}
+     * @memberof PagePagedResultEntityChatMessageList
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {Array<EntityChatMessageList>}
+     * @memberof PagePagedResultEntityChatMessageList
+     */
+    'data'?: Array<EntityChatMessageList>;
+    /**
+     * 当前页码
+     * @type {number}
+     * @memberof PagePagedResultEntityChatMessageList
+     */
+    'page'?: number;
+    /**
+     * 每页大小
+     * @type {number}
+     * @memberof PagePagedResultEntityChatMessageList
+     */
+    'page_size'?: number;
+    /**
+     * 数据总条数
+     * @type {number}
+     * @memberof PagePagedResultEntityChatMessageList
+     */
+    'total_count'?: number;
+    /**
+     * 总页数
+     * @type {number}
+     * @memberof PagePagedResultEntityChatMessageList
+     */
+    'total_pages'?: number;
+}
+/**
+ * 
+ * @export
  * @interface PagePagedResultSchemaAssistantPublic
  */
 export interface PagePagedResultSchemaAssistantPublic {
+    /**
+     * 
+     * @type {number}
+     * @memberof PagePagedResultSchemaAssistantPublic
+     */
+    'count'?: number;
     /**
      * 
      * @type {Array<SchemaAssistantPublic>}
@@ -1829,6 +2020,25 @@ export interface SchemaChatUpdateRequest {
      * @memberof SchemaChatUpdateRequest
      */
     'prompt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface SchemaCreateAssistantScenePromptRequest
+ */
+export interface SchemaCreateAssistantScenePromptRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaCreateAssistantScenePromptRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemaCreateAssistantScenePromptRequest
+     */
+    'prompt': string;
 }
 /**
  * 
@@ -2783,6 +2993,127 @@ export const AssistantApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary 列出当前助理的场景 Prompt
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdScenePromptsGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsIdScenePromptsGet', 'id', id)
+            const localVarPath = `/api/v1/assistants/{id}/scene_prompts`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 创建场景 Prompt
+         * @param {number} id 
+         * @param {SchemaCreateAssistantScenePromptRequest} createAssistantScenePromptRequest CreateAssistantScenePromptRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdScenePromptsPost: async (id: number, createAssistantScenePromptRequest: SchemaCreateAssistantScenePromptRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsIdScenePromptsPost', 'id', id)
+            // verify required parameter 'createAssistantScenePromptRequest' is not null or undefined
+            assertParamExists('apiV1AssistantsIdScenePromptsPost', 'createAssistantScenePromptRequest', createAssistantScenePromptRequest)
+            const localVarPath = `/api/v1/assistants/{id}/scene_prompts`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createAssistantScenePromptRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 删除场景 Prompt
+         * @param {number} id 
+         * @param {number} sceneId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdScenePromptsSceneIdDelete: async (id: number, sceneId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1AssistantsIdScenePromptsSceneIdDelete', 'id', id)
+            // verify required parameter 'sceneId' is not null or undefined
+            assertParamExists('apiV1AssistantsIdScenePromptsSceneIdDelete', 'sceneId', sceneId)
+            const localVarPath = `/api/v1/assistants/{id}/scene_prompts/{scene_id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"scene_id"}}`, encodeURIComponent(String(sceneId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 获取 Assistant 所绑定的 Tool
          * @param {number} id Assistant ID
          * @param {*} [options] Override http request option.
@@ -3195,6 +3526,47 @@ export const AssistantApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 列出当前助理的场景 Prompt
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsIdScenePromptsGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsIdScenePromptsGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdScenePromptsGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdScenePromptsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary 创建场景 Prompt
+         * @param {number} id 
+         * @param {SchemaCreateAssistantScenePromptRequest} createAssistantScenePromptRequest CreateAssistantScenePromptRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsIdScenePromptsPost(id: number, createAssistantScenePromptRequest: SchemaCreateAssistantScenePromptRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1AssistantsIdScenePromptsPost200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdScenePromptsPost(id, createAssistantScenePromptRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdScenePromptsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary 删除场景 Prompt
+         * @param {number} id 
+         * @param {number} sceneId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1AssistantsIdScenePromptsSceneIdDelete(id: number, sceneId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1AssistantsIdScenePromptsSceneIdDelete(id, sceneId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssistantApi.apiV1AssistantsIdScenePromptsSceneIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary 获取 Assistant 所绑定的 Tool
          * @param {number} id Assistant ID
          * @param {*} [options] Override http request option.
@@ -3400,6 +3772,38 @@ export const AssistantApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary 列出当前助理的场景 Prompt
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdScenePromptsGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsIdScenePromptsGet200Response> {
+            return localVarFp.apiV1AssistantsIdScenePromptsGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 创建场景 Prompt
+         * @param {number} id 
+         * @param {SchemaCreateAssistantScenePromptRequest} createAssistantScenePromptRequest CreateAssistantScenePromptRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdScenePromptsPost(id: number, createAssistantScenePromptRequest: SchemaCreateAssistantScenePromptRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1AssistantsIdScenePromptsPost200Response> {
+            return localVarFp.apiV1AssistantsIdScenePromptsPost(id, createAssistantScenePromptRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 删除场景 Prompt
+         * @param {number} id 
+         * @param {number} sceneId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1AssistantsIdScenePromptsSceneIdDelete(id: number, sceneId: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiV1AssistantsIdScenePromptsSceneIdDelete(id, sceneId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取 Assistant 所绑定的 Tool
          * @param {number} id Assistant ID
          * @param {*} [options] Override http request option.
@@ -3600,6 +4004,44 @@ export class AssistantApi extends BaseAPI {
      */
     public apiV1AssistantsIdPut(id: number, assistantUpdateRequest: SchemaAssistantUpdateRequest, options?: RawAxiosRequestConfig) {
         return AssistantApiFp(this.configuration).apiV1AssistantsIdPut(id, assistantUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 列出当前助理的场景 Prompt
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsIdScenePromptsGet(id: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdScenePromptsGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 创建场景 Prompt
+     * @param {number} id 
+     * @param {SchemaCreateAssistantScenePromptRequest} createAssistantScenePromptRequest CreateAssistantScenePromptRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsIdScenePromptsPost(id: number, createAssistantScenePromptRequest: SchemaCreateAssistantScenePromptRequest, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdScenePromptsPost(id, createAssistantScenePromptRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 删除场景 Prompt
+     * @param {number} id 
+     * @param {number} sceneId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssistantApi
+     */
+    public apiV1AssistantsIdScenePromptsSceneIdDelete(id: number, sceneId: number, options?: RawAxiosRequestConfig) {
+        return AssistantApiFp(this.configuration).apiV1AssistantsIdScenePromptsSceneIdDelete(id, sceneId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4308,6 +4750,48 @@ export const ChatMessageApiAxiosParamCreator = function (configuration?: Configu
             };
         },
         /**
+         * 获取一个对话的所有聊天记录
+         * @summary 分页获取聊天记录
+         * @param {number} id 
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1ChatsIdMessagesPaginateGet: async (id: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1ChatsIdMessagesPaginateGet', 'id', id)
+            const localVarPath = `/api/v1/chats/{id}/messages/paginate`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication ApiKeyAuth required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 添加一条消息
          * @summary 添加聊天记录
          * @param {number} id 
@@ -4440,6 +4924,20 @@ export const ChatMessageApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 获取一个对话的所有聊天记录
+         * @summary 分页获取聊天记录
+         * @param {number} id 
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1ChatsIdMessagesPaginateGet(id: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiV1ChatsIdMessagesPaginateGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ChatsIdMessagesPaginateGet(id, page, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ChatMessageApi.apiV1ChatsIdMessagesPaginateGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 添加一条消息
          * @summary 添加聊天记录
          * @param {number} id 
@@ -4509,6 +5007,17 @@ export const ChatMessageApiFactory = function (configuration?: Configuration, ba
             return localVarFp.apiV1ChatsIdMessagesGet(id, options).then((request) => request(axios, basePath));
         },
         /**
+         * 获取一个对话的所有聊天记录
+         * @summary 分页获取聊天记录
+         * @param {number} id 
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1ChatsIdMessagesPaginateGet(id: number, page?: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiV1ChatsIdMessagesPaginateGet200Response> {
+            return localVarFp.apiV1ChatsIdMessagesPaginateGet(id, page, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 添加一条消息
          * @summary 添加聊天记录
          * @param {number} id 
@@ -4575,6 +5084,19 @@ export class ChatMessageApi extends BaseAPI {
      */
     public apiV1ChatsIdMessagesGet(id: number, options?: RawAxiosRequestConfig) {
         return ChatMessageApiFp(this.configuration).apiV1ChatsIdMessagesGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 获取一个对话的所有聊天记录
+     * @summary 分页获取聊天记录
+     * @param {number} id 
+     * @param {number} [page] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChatMessageApi
+     */
+    public apiV1ChatsIdMessagesPaginateGet(id: number, page?: number, options?: RawAxiosRequestConfig) {
+        return ChatMessageApiFp(this.configuration).apiV1ChatsIdMessagesPaginateGet(id, page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

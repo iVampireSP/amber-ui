@@ -168,6 +168,82 @@
           </div>
         </div>
 
+        <n-divider v-if="!scenePrompts.length" />
+        <div v-else class="mt-10"></div>
+        <div>
+          <div class="flex justify-between align-middle items-center">
+            <div>
+              <n-h3 class="inline">场景提示词</n-h3>
+              <n-popover trigger="hover">
+                <template #trigger>
+                  <n-icon size="16"><HelpCircleOutline /></n-icon>
+                </template>
+                <div>
+                  <n-text
+                    >Amber 可以根据不同的上下文场景来自动附加系统提示词</n-text
+                  >
+                </div>
+              </n-popover>
+            </div>
+            <div>
+              <n-button
+                tertiary
+                @click="showCreateScenePromptForm = !showCreateScenePromptForm"
+              >
+                新场景提示词
+              </n-button>
+            </div>
+          </div>
+          <div v-show="showCreateScenePromptForm" class="mt-3">
+            <n-card title="新场景提示词" role="dialog">
+              <n-input
+                v-model:value="newScenePrompt.label"
+                type="text"
+                placeholder="标签"
+              />
+              <n-input
+                class="mt-3"
+                v-model:value="newScenePrompt.prompt"
+                type="textarea"
+                placeholder="提示词"
+              />
+
+              <div class="text-right mt-3">
+                <n-button type="primary" @click="createAssistantScenePrompt"
+                  >创建</n-button
+                >
+              </div>
+            </n-card>
+          </div>
+          <div class="mt-3">
+            <n-list hoverable clickable v-if="scenePrompts.length" class="mt-3">
+              <n-list-item v-for="c in scenePrompts" :key="c.id">
+                <n-thing :title="c.label">
+                  <div class="flex justify-between items-center">
+                    <div>{{ c.prompt }}</div>
+                    <div>
+                      <n-popconfirm
+                        @positive-click="deleteAssistantScenePrompt(c.id ?? 0)"
+                      >
+                        <template #trigger>
+                          <n-button quaternary circle type="warning">
+                            <template #icon>
+                              <n-icon size="16" class="cursor-pointer">
+                                <TrashBinOutline />
+                              </n-icon>
+                            </template>
+                          </n-button>
+                        </template>
+                        <div>删除后，这条规则将不再生效</div>
+                      </n-popconfirm>
+                    </div>
+                  </div>
+                </n-thing>
+              </n-list-item>
+            </n-list>
+          </div>
+        </div>
+
         <n-divider v-if="!userTools.length" />
         <div v-else class="mt-10"></div>
         <div>
@@ -186,7 +262,8 @@
                   <n-text>
                     我们的 API 端点是：{{
                       config.backend
-                    }}/api/openai-compatible/v1 。密钥为下方的 API Key，OpenAI 格式不支持智能上下文（不支持近乎无限的上下文）
+                    }}/api/openai-compatible/v1 。密钥为下方的 API Key，OpenAI
+                    格式不支持智能上下文（不支持近乎无限的上下文）
                   </n-text>
                 </div>
               </n-popover>
@@ -202,12 +279,20 @@
                 等做一个请求限制），来防止 API Key 滥用。
                 <br />
                 当然，如果您在自己的私有应用中使用，可以忽略此建议。
+                <br />
+                !! 注意: Amber Assistant Public API 不需要在前面加 sk- !!
               </div>
             </n-popconfirm>
           </div>
 
           <div class="mt-3">
-            <n-p>我们更新了计费系统，在使用此功能之前，请前往 <n-a target="_blank" href="https://auth.leaflow.cn/balances">UserLand</n-a> 来添加余额。我们正在且长期会处于测试阶段，不会对您发起真实付费（也就是说完全免费！）</n-p>
+            <n-p
+              >我们更新了计费系统，在使用此功能之前，请前往
+              <n-a target="_blank" href="https://auth.leaflow.cn/balances"
+                >UserLand</n-a
+              >
+              来添加余额。我们正在且长期会处于测试阶段，不会对您发起真实付费（也就是说完全免费！）</n-p
+            >
             <n-list hoverable clickable v-if="assistantApiKeys.length">
               <n-list-item v-for="c in assistantApiKeys" :key="c.id">
                 <n-thing>
@@ -291,6 +376,7 @@ import {
   EntityAssistantKey,
   EntityAssistantTool,
   EntityLibrary,
+  EntityScenePrompt,
   EntityTool,
 } from "@/api";
 import { useIsMobile } from "@/utils/composables";
@@ -309,6 +395,13 @@ const assistants: Ref<EntityAssistant[]> = ref([]);
 const librarySelects: any = ref([]);
 const libraries: Ref<EntityLibrary[]> = ref([]);
 const assistantApiKeys: Ref<EntityAssistantKey[]> = ref([]);
+const showCreateScenePromptForm = ref(false);
+const scenePrompts: Ref<EntityScenePrompt[]> = ref([]);
+
+const newScenePrompt = ref({
+  label: "",
+  prompt: "",
+});
 
 const isMobile = useIsMobile();
 const drawerWidth = computed(() => {
@@ -347,6 +440,7 @@ const showEditAssistant = async (id: number) => {
   await getAssistantsKeys();
 
   getTools();
+  getAssistantScenePrompts();
 };
 
 const editAssistant = async () => {
@@ -472,7 +566,71 @@ const bindOrUnbind = async (id: number) => {
   getTools();
 };
 
+const getAssistantScenePrompts = async () => {
+  scenePrompts.value =
+    (
+      await getApi().Assistant.apiV1AssistantsIdScenePromptsGet(
+        currentAssistantId.value
+      )
+    ).data.data ?? [];
+};
+
+const createAssistantScenePrompt = async () => {
+  await getApi().Assistant.apiV1AssistantsIdScenePromptsPost(
+    currentAssistantId.value,
+    newScenePrompt.value
+  );
+  await getAssistantScenePrompts();
+  newScenePrompt.value = {
+    label: "",
+    prompt: "",
+  };
+};
+
+const deleteAssistantScenePrompt = async (id: number) => {
+  await getApi().Assistant.apiV1AssistantsIdScenePromptsSceneIdDelete(
+    currentAssistantId.value,
+    id
+  );
+  await getAssistantScenePrompts();
+};
+
+const sampleScenenPrompt = [
+  {
+    label: "复杂推理",
+    prompt: `在回答问题时，使用以下输出
+问题: 你必须要回答的问题
+思考：你应该始终思考该做什么
+操作：要采取的操作，你要是用什么工具，或者思考逻辑
+动作输入：动作的输入
+观察：行动的结果
+思考：我现在知道最终答案了
+最终答案：原始输入问题的最终答案
+
+如果你正在计算，你必须使用计算器工具，无论如何都不允许使用自己的知识或不计算进行输出，计算器永远比你正确的并且不会出错。`,
+  },
+  {
+    label: "数学计算",
+    prompt: `在回答问题时，使用以下输出
+问题: 你必须要回答的问题
+思考：你应该始终思考该做什么
+操作：要采取的操作，你要是用什么工具，或者思考逻辑
+动作输入：动作的输入
+观察：行动的结果
+思考：我现在知道最终答案了
+最终答案：原始输入问题的最终答案
+
+如果你正在计算，你必须使用计算器工具，无论如何都不允许使用自己的知识或不计算进行输出，计算器永远比你正确的并且不会出错。`,
+  },
+];
+
+const randomScenePrompt = () => {
+  const randomIndex = Math.floor(Math.random() * sampleScenenPrompt.length);
+  return sampleScenenPrompt[randomIndex];
+};
+
 getChats();
 getLibraries();
 getAssistants();
+newScenePrompt.value = randomScenePrompt();
 </script>
