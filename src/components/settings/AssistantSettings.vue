@@ -380,7 +380,7 @@ import {
   EntityTool,
 } from "@/api";
 import { useIsMobile } from "@/utils/composables";
-import { AxiosError } from "axios";
+import { Axios, AxiosError } from "axios";
 import config from "@/config/config";
 
 const dialog = useDialog();
@@ -576,15 +576,27 @@ const getAssistantScenePrompts = async () => {
 };
 
 const createAssistantScenePrompt = async () => {
-  await getApi().Assistant.apiV1AssistantsIdScenePromptsPost(
-    currentAssistantId.value,
-    newScenePrompt.value
-  );
-  await getAssistantScenePrompts();
-  newScenePrompt.value = {
-    label: "",
-    prompt: "",
-  };
+  getApi()
+    .Assistant.apiV1AssistantsIdScenePromptsPost(
+      currentAssistantId.value,
+      newScenePrompt.value
+    )
+    .then(() => {
+      getAssistantScenePrompts();
+      newScenePrompt.value = {
+        label: "",
+        prompt: "",
+      };
+    })
+    .catch((e: AxiosError) => {
+      console.log(e);
+      dialog.error({
+        title: "创建失败",
+        // @ts-ignore
+        content: e.response?.data?.error ?? e.response?.data?.message,
+        positiveText: "好",
+      });
+    });
 };
 
 const deleteAssistantScenePrompt = async (id: number) => {
